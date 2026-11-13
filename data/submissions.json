@@ -1580,5 +1580,299 @@
       ],
       "summary": "Commendable performance! You showed real engineering mindset across vision, NLP, and data cleaning."
     }
+  },
+  {
+    "id": "sub_1794594265146_woyh8",
+    "student": {
+      "id": "test_std_1794594258",
+      "name": "Hamza Ali",
+      "email": "hamza.ali@example.com",
+      "rollNumber": "BQ-TEST-99",
+      "section": "Grade 8A",
+      "startTime": 1794590658799
+    },
+    "submittedAt": "13/11/2026, 11:24:25 pm",
+    "timeSpentSeconds": 3606,
+    "sectionScores": {
+      "sectionA": 5,
+      "sectionB": 10,
+      "sectionC": 13.5,
+      "sectionD": 0
+    },
+    "totalScore": 28.5,
+    "percentage": 28.5,
+    "grade": "F",
+    "evaluatedBy": "groq-ai",
+    "modelUsed": "openai/gpt-oss-120b",
+    "mcqResults": [
+      {
+        "id": 1,
+        "studentAnswer": "A",
+        "correctAnswer": "A",
+        "isCorrect": true,
+        "explanation": "In traditional coding, Rules + Data = Answers. In Machine Learning, Examples + Answers = Rules (the model)."
+      },
+      {
+        "id": 2,
+        "studentAnswer": "A",
+        "correctAnswer": "A",
+        "isCorrect": true,
+        "explanation": "ANI (Narrow AI) excels in a single specialized domain, unlike theoretical human-level AGI or future ASI."
+      },
+      {
+        "id": 3,
+        "studentAnswer": "A",
+        "correctAnswer": "A",
+        "isCorrect": true,
+        "explanation": "Training is an iterative loop: Guess, Check against label, Measure loss/error, and Adjust internal weights."
+      },
+      {
+        "id": 4,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "Without a 'Nothing' or background class, the model is mathematically forced to distribute confidence between known classes."
+      },
+      {
+        "id": 5,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "Unsupervised learning groups or clusters similar unlabelled data without pre-existing answer keys (labels)."
+      },
+      {
+        "id": 6,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "Good data must be Varied (diverse angles, hands, lighting) and Balanced, rather than repetitive."
+      },
+      {
+        "id": 7,
+        "studentAnswer": "",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Overfitting (ratta) happens when a model memorizes specific training photos instead of generalizable features."
+      },
+      {
+        "id": 8,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "LLMs are statistical next-word prediction models trained on massive text corpora."
+      },
+      {
+        "id": 9,
+        "studentAnswer": "",
+        "correctAnswer": "C",
+        "isCorrect": false,
+        "explanation": "A hallucination is when an AI fabricates plausible-sounding but factually false information."
+      },
+      {
+        "id": 10,
+        "studentAnswer": "",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "The prompt recipe defines Who (persona/audience), What (objective), Details (constraints), and Length."
+      },
+      {
+        "id": 11,
+        "studentAnswer": "",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Digits only represent a mathematical 'Number' if arithmetic operations (sum, average) make semantic sense."
+      },
+      {
+        "id": 12,
+        "studentAnswer": "",
+        "correctAnswer": "C",
+        "isCorrect": false,
+        "explanation": "Computers match characters literally; differences in letter case or spelling are treated as separate categories."
+      },
+      {
+        "id": 13,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "A visible blank is honest. Never fabricate data, and document any missing values in your cleaning log."
+      },
+      {
+        "id": 14,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "Truncating the vertical axis exaggerates minor numerical variations and visually distorts the true proportion."
+      },
+      {
+        "id": 15,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "Tokens are the fundamental sub-word chunks into which text is segmented for language models."
+      },
+      {
+        "id": 16,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "Tokenizer vocabularies are heavily biased toward English, causing non-English words to fragment into smaller sub-tokens."
+      },
+      {
+        "id": 17,
+        "studentAnswer": "",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Sarcasm uses superficial praise words to convey complaints, tricking simple keyword-based sentiment systems."
+      },
+      {
+        "id": 18,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "Digital images are numerical arrays where each pixel is represented by brightness intensity values (0-255)."
+      },
+      {
+        "id": 19,
+        "studentAnswer": "",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "A Miss (false negative) sends an untreated diseased patient home, with potentially fatal consequences."
+      },
+      {
+        "id": 20,
+        "studentAnswer": "",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Classification assigns a single category label to the whole image; Detection locates and labels multiple objects with bounding boxes."
+      }
+    ],
+    "subjectiveFeedback": {
+      "q1_a": {
+        "marksAwarded": 2,
+        "maxMarks": 2,
+        "feedback": "Clear and correct distinction between supervised and unsupervised learning."
+      },
+      "q1_b_sup": {
+        "marksAwarded": 1.5,
+        "maxMarks": 1.5,
+        "feedback": "Easypaisa fraud detection is a valid Pakistani supervised example."
+      },
+      "q1_b_unsup": {
+        "marksAwarded": 1.5,
+        "maxMarks": 1.5,
+        "feedback": "Daraz clustering correctly illustrates an unsupervised use‑case."
+      },
+      "q2_a": {
+        "marksAwarded": 2,
+        "maxMarks": 2,
+        "feedback": "Identified the exact cause of “Ratta” – identical angle, desk and lighting."
+      },
+      "q2_b": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "All four required Urdu terms (Kaafi, Mutawazin, Mutanawwo, Durust) are present."
+      },
+      "part_a_chain": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Correctly mapped ears‑STT, brain‑LLM/NLP, mouth‑TTS."
+      },
+      "part_a_error": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Accurately described how noise breaks STT first, leading to wrong output."
+      },
+      "part_b_sarcasm": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Explained sarcasm’s positive‑word masking and resulting mis‑labeling."
+      },
+      "part_b_slang": {
+        "marksAwarded": 1.5,
+        "maxMarks": 3,
+        "feedback": "Mentioned missing slang vocabulary but did not explain the negative mis‑classification."
+      },
+      "part_c_strangers": {
+        "marksAwarded": 0,
+        "maxMarks": 3,
+        "feedback": "Answer addresses privacy, not the model’s memorization issue."
+      },
+      "part_c_doctor_ethics": {
+        "marksAwarded": 0,
+        "maxMarks": 5,
+        "feedback": "Did not discuss accuracy implications or doctor’s final decision."
+      },
+      "m1_classes": {
+        "marksAwarded": 0,
+        "maxMarks": 3,
+        "feedback": "Provided vehicle classes instead of the required food and safety classes."
+      },
+      "m1_variations": {
+        "marksAwarded": 0,
+        "maxMarks": 4,
+        "feedback": "Variations relate to traffic lighting, not realistic food‑image variations."
+      },
+      "m1_privacy": {
+        "marksAwarded": 0,
+        "maxMarks": 3,
+        "feedback": "Privacy suggestion is unrelated to the canteen counter scenario."
+      },
+      "m2_table_types": {
+        "marksAwarded": 0,
+        "maxMarks": 8,
+        "feedback": "Did not list five proper column headers with data types."
+      },
+      "m2_privacy_removal": {
+        "marksAwarded": 0,
+        "maxMarks": 2,
+        "feedback": "Focused on vehicle owner PII, not on removing student names/phones from sales reports."
+      },
+      "m3_cleaning_fixes": {
+        "marksAwarded": 0,
+        "maxMarks": 10,
+        "feedback": "General cleaning ideas; did not follow the specific row‑by‑row fixes required."
+      },
+      "m4_buttons": {
+        "marksAwarded": 0,
+        "maxMarks": 3,
+        "feedback": "Only one button described and it is unrelated to the canteen interface."
+      },
+      "m4_prompt": {
+        "marksAwarded": 0,
+        "maxMarks": 5,
+        "feedback": "Prompt does not match the required structure for a canteen ordering assistant."
+      },
+      "m4_safety": {
+        "marksAwarded": 0,
+        "maxMarks": 2,
+        "feedback": "Safety fallback described is traffic‑signal related, not an allergy emergency."
+      },
+      "m5_accuracy_math": {
+        "marksAwarded": 0,
+        "maxMarks": 3,
+        "feedback": "Incorrect calculation; expected 85% from 17/20."
+      },
+      "m5_insight": {
+        "marksAwarded": 0,
+        "maxMarks": 4,
+        "feedback": "Only a single observation given; missing What, So What, Now What structure."
+      },
+      "m5_model_card": {
+        "marksAwarded": 0,
+        "maxMarks": 3,
+        "feedback": "Provided an incomplete model card and unrelated to the food‑ordering project."
+      }
+    },
+    "generalFeedback": {
+      "strengths": [
+        "Excellent grasp of core AI concepts in Section B.",
+        "Clear explanation of the data chain and sarcasm handling."
+      ],
+      "improvements": [
+        "Align answers to the specific canteen‑focused practical requirements.",
+        "Provide detailed, structured responses for each rubric point."
+      ],
+      "summary": "You demonstrated solid theoretical understanding, especially in supervised vs unsupervised learning and the AI processing chain. To boost your score, focus on answering the practical project questions exactly as described, using the required food‑service context."
+    }
   }
 ]

@@ -103,7 +103,10 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
   let discoveredModels: string[] = [];
   try {
     const catalogRes = await fetch("https://api.groq.com/openai/v1/models", {
-      headers: { "Authorization": `Bearer ${apiKey}` },
+      headers: { 
+        "Authorization": `Bearer ${apiKey}`,
+        "User-Agent": "BQ-Platform/1.0 (Bano Qabil Examination System)"
+      },
     });
     if (catalogRes.ok) {
       const catalogData = await catalogRes.json();
@@ -118,10 +121,11 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
   // 2. Priority model candidates
   const PREFERRED_MODELS = [
     process.env.GROQ_MODEL,
-    "llama-3.3-70b-versatile",
-    "llama-3.1-8b-instant",
     "openai/gpt-oss-120b",
     "openai/gpt-oss-20b",
+    "qwen/qwen3.8-27b",
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
   ].filter(Boolean) as string[];
 
   // 3. Assemble active models to try
@@ -159,6 +163,7 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
         headers: {
           "Authorization": `Bearer ${apiKey}`,
           "Content-Type": "application/json",
+          "User-Agent": "BQ-Platform/1.0 (Bano Qabil Examination System)",
         },
         body: JSON.stringify({
           model: model,

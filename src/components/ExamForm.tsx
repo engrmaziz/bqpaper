@@ -57,23 +57,38 @@ export default function ExamForm({
       {/* Official Bano Qabil Examination Paper Header */}
       <div className="bq-card p-6 bg-white border border-[#d4e7dc] shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="relative w-16 h-16 flex-shrink-0 bg-[#f4f8f5] p-1.5 rounded-2xl border border-[#d4e7dc] flex items-center justify-center">
-            <Image
-              src="/bano-qabil.png"
-              alt="Bano Qabil Official Logo"
-              width={64}
-              height={64}
-              className="object-contain"
-              priority
-            />
+          <div className="flex items-center -space-x-3">
+            <div className="relative w-16 h-16 flex-shrink-0 bg-[#f4f8f5] p-1.5 rounded-2xl border border-[#d4e7dc] flex items-center justify-center shadow-xs z-10">
+              <Image
+                src="/bano-qabil.png"
+                alt="Bano Qabil Official Logo"
+                width={64}
+                height={64}
+                className="object-contain"
+                priority
+              />
+            </div>
+            <div className="relative w-16 h-16 flex-shrink-0 bg-[#edf5f0] p-0.5 rounded-2xl border-2 border-[#015b30] flex items-center justify-center overflow-hidden shadow-xs ring-2 ring-[#7cb342]/40">
+              <Image
+                src="/hafiz.png"
+                alt="Patron Hafiz Naeem ur Rehman"
+                width={60}
+                height={60}
+                className="object-cover rounded-xl w-full h-full"
+                priority
+              />
+            </div>
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#015b30]/10 text-[#015b30] border border-[#015b30]/30">
                 Official Midterm Paper
               </span>
-              <span className="text-xs text-[#008b74] font-semibold italic hidden sm:inline">
-                بنو قابل • اپنی دنیا آپ پیدا کر
+              <span className="text-xs text-[#015b30] font-bold hidden sm:inline">
+                Patron: <strong>Hafiz Naeem ur Rehman</strong>
+              </span>
+              <span className="text-xs text-[#008b74] font-semibold italic hidden md:inline">
+                • بنو قابل • اپنی دنیا آپ پیدا کر
               </span>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-[#015b30] mt-0.5">

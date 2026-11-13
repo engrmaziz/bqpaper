@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { StudentInfo } from "@/types/exam";
 import { EXAM_INFO } from "@/data/examData";
-import { User, Mail, Hash, BookOpen, Clock, Award, ShieldAlert, ArrowRight, CheckCircle2 } from "lucide-react";
+import { User, Mail, Hash, BookOpen, Clock, Award, ShieldAlert, ArrowRight, CheckCircle2, Sparkles, Quote } from "lucide-react";
 
 interface StudentRegistrationProps {
   onStartExam: (student: StudentInfo) => void;
@@ -46,29 +46,63 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 sm:py-12">
-      {/* Official Hero Banner */}
-      <div className="text-center space-y-4 mb-10 bq-card p-8 sm:p-10 relative overflow-hidden bg-white border border-[#d4e7dc]">
+      {/* Official Hero Banner with Bano Qabil Logo & Patron Hafiz Naeem ur Rehman */}
+      <div className="text-center space-y-5 mb-10 bq-card p-6 sm:p-10 relative overflow-hidden bg-white border border-[#d4e7dc]">
         {/* Decorative Top Accent Bar */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#015b30] via-[#008b74] to-[#7cb342]" />
 
-        {/* Bano Qabil Official Logo */}
-        <div className="flex justify-center mb-2">
-          <div className="relative w-28 h-28 sm:w-32 sm:h-32 p-2 bg-[#f4f8f5] rounded-3xl border border-[#d4e7dc] shadow-sm flex items-center justify-center">
-            <Image
-              src="/bano-qabil.png"
-              alt="Bano Qabil Pakistan"
-              width={120}
-              height={120}
-              className="object-contain"
-              priority
-            />
+        {/* Dual Portraits: Bano Qabil Official Logo + Patron Hafiz Naeem ur Rehman */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 pt-2">
+          {/* Logo Card */}
+          <div className="relative group text-center">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 p-2 bg-[#f4f8f5] rounded-3xl border-2 border-[#015b30]/20 shadow-sm flex items-center justify-center transition-transform group-hover:scale-105">
+              <Image
+                src="/bano-qabil.png"
+                alt="Bano Qabil Pakistan"
+                width={100}
+                height={100}
+                className="object-contain"
+                priority
+              />
+            </div>
+            <span className="text-[11px] font-bold text-[#015b30] mt-1.5 block uppercase tracking-wider">
+              Bano Qabil Pakistan
+            </span>
+          </div>
+
+          {/* Plus / Connector */}
+          <div className="hidden sm:flex flex-col items-center">
+            <span className="w-8 h-8 rounded-full bg-[#edf5f0] border border-[#a3cbb5] text-[#015b30] flex items-center justify-center text-xs font-bold">
+              ★
+            </span>
+          </div>
+
+          {/* Patron Hafiz Naeem ur Rehman Card */}
+          <div className="relative group text-center">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 p-1 bg-[#edf5f0] rounded-3xl border-2 border-[#015b30] shadow-md flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105 ring-4 ring-[#7cb342]/30">
+              <Image
+                src="/hafiz.png"
+                alt="Patron Hafiz Naeem ur Rehman"
+                width={112}
+                height={112}
+                className="object-cover rounded-2xl w-full h-full"
+                priority
+              />
+            </div>
+            <span className="text-[11px] font-extrabold text-[#015b30] mt-1.5 block">
+              Hafiz Naeem ur Rehman
+            </span>
+            <span className="text-[10px] text-[#008b74] font-semibold block uppercase tracking-wider">
+              Patron-in-Chief
+            </span>
           </div>
         </div>
 
+        {/* Vision Pill */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#edf5f0] border border-[#a3cbb5] text-[#015b30] text-xs font-bold tracking-wide">
-          <span className="w-2 h-2 rounded-full bg-[#7cb342]" />
-          <span>BANO QABIL • ESSENTIALS OF AI LAB</span>
-          <span className="text-[#008b74] font-semibold italic text-[11px]">| اپنی دنیا آپ پیدا کر</span>
+          <Sparkles className="w-3.5 h-3.5 text-[#c29b38]" />
+          <span>UNDER THE VISIONARY PATRONAGE OF HAFIZ NAEEM UR REHMAN</span>
+          <span className="text-[#008b74] font-semibold italic text-[11px] hidden md:inline">| اپنی دنیا آپ پیدا کر</span>
         </div>
 
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#015b30]">
@@ -79,9 +113,23 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
           {EXAM_INFO.subtitle}
         </p>
 
+        {/* Inspiring Patron Quote Card */}
+        <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-[#edf5f0]/80 border border-[#c8e0d2] text-center space-y-1.5">
+          <div className="flex items-center justify-center gap-1.5 text-[#015b30] font-bold text-xs">
+            <Quote className="w-3.5 h-3.5 text-[#008b74]" />
+            <span>Patron&apos;s Message to Pakistani Youth</span>
+          </div>
+          <p className="text-xs sm:text-sm text-[#014223] font-semibold italic leading-relaxed">
+            &ldquo;ہماری جدوجہد ہے کہ پاکستان کا ہر باصلاحیت بیٹا اور بیٹی جدید ترین آرٹیفیشل انٹیلیجنس اور آئی ٹی کا ماہر بن کر ملک و قوم کا نام روشن کرے۔&rdquo;
+          </p>
+          <p className="text-[11px] text-[#516d5e]">
+            — <strong>حافظ نعیم الرحمن</strong> (بانی و سرپرستِ اعلیٰ، بنو قابل تحریک)
+          </p>
+        </div>
+
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs text-[#516d5e]">
           <span className="px-3 py-1 rounded-lg bg-[#edf5f0] border border-[#d4e7dc]">
-            Patron: <strong className="text-[#015b30]">{EXAM_INFO.patron}</strong>
+            Patron-in-Chief: <strong className="text-[#015b30]">{EXAM_INFO.patron}</strong>
           </span>
           <span className="px-3 py-1 rounded-lg bg-[#edf5f0] border border-[#d4e7dc]">
             Instructors: <strong className="text-[#008b74]">{EXAM_INFO.instructors}</strong>
@@ -113,161 +161,151 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc]">
                 <div>
                   <p className="font-bold text-[#0d2317]">Section B: Short Questions</p>
-                  <p className="text-[#516d5e]">Supervised vs Unsupervised, Data Pillars</p>
+                  <p className="text-[#516d5e]">2 Conceptual Problems (5 mks each)</p>
                 </div>
                 <span className="font-bold text-[#015b30] text-sm">10 Marks</span>
               </div>
 
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc]">
                 <div>
-                  <p className="font-bold text-[#0d2317]">Section C: Long Question</p>
-                  <p className="text-[#516d5e]">Voice Assistant Chain, Sentiment &amp; Vision Ethics</p>
+                  <p className="font-bold text-[#0d2317]">Section C: Long Scenario Q</p>
+                  <p className="text-[#516d5e]">Voice Assistant &amp; Ethics</p>
                 </div>
                 <span className="font-bold text-[#015b30] text-sm">20 Marks</span>
               </div>
 
-              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#edf5f0] border border-[#008b74]/30 shadow-xs">
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#edf5f0] border border-[#a3cbb5]">
                 <div>
-                  <p className="font-bold text-[#008b74]">Section D: Practical Project</p>
-                  <p className="text-[#516d5e]">The Smart Canteen AI (5 Milestones)</p>
+                  <p className="font-bold text-[#015b30]">Section D: Practical Project</p>
+                  <p className="text-[#516d5e]">Karachi Traffic Vision (5 Milestones)</p>
                 </div>
-                <span className="font-bold text-[#008b74] text-sm">50 Marks</span>
+                <span className="font-bold text-[#015b30] text-sm">50 Marks</span>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#edf5f0] flex items-center justify-between text-xs font-bold text-[#0d2317]">
-              <span className="flex items-center gap-1.5 text-[#015b30]">
-                <Clock className="w-4 h-4 text-[#7cb342]" /> Total Time: 80 Minutes
+            <div className="pt-2 border-t border-[#edf5f0] flex items-center justify-between text-xs text-[#516d5e]">
+              <span className="flex items-center gap-1.5 font-semibold">
+                <Clock className="w-4 h-4 text-[#008b74]" /> 80 Minutes
               </span>
-              <span className="text-[#015b30] text-sm font-extrabold">Total: 100 Marks</span>
+              <span className="font-bold text-[#015b30]">Total: 100 Marks</span>
             </div>
           </div>
 
-          <div className="bq-card p-5 bg-[#edf5f0] border border-[#a3cbb5] text-xs text-[#516d5e] space-y-2.5">
-            <p className="text-[#015b30] font-bold flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-[#008b74]" />
-              Exam Guidelines for Grade 8
+          <div className="bq-card p-6 space-y-3 bg-[#edf5f0] border border-[#a3cbb5]">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#015b30] flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-[#008b74]" />
+              Automated Groq AI Assessment
+            </h4>
+            <p className="text-xs text-[#516d5e] leading-relaxed">
+              Upon submission, your subjective responses and practical design will be automatically evaluated in seconds against the official Bano Qabil syllabus rubric.
             </p>
-            <ul className="space-y-1.5 text-[12px] text-[#0d2317]">
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#7cb342] flex-shrink-0 mt-0.5" />
-                <span><strong>No memorization (Ratta):</strong> All questions test real conceptual understanding.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#7cb342] flex-shrink-0 mt-0.5" />
-                <span><strong>Timer:</strong> 80 minutes continuous countdown with auto-submit at 00:00.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#7cb342] flex-shrink-0 mt-0.5" />
-                <span><strong>Instant Marking:</strong> AI grades subjective answers and produces your scorecard immediately.</span>
-              </li>
-            </ul>
           </div>
         </div>
 
         {/* Right Column: Registration Form */}
         <div className="lg:col-span-7">
-          <div className="bq-card p-6 sm:p-8 bg-white border border-[#a3cbb5] shadow-md">
-            <div className="flex items-center gap-3 mb-6 border-b border-[#edf5f0] pb-4">
-              <div className="w-10 h-10 rounded-2xl bg-[#edf5f0] border border-[#d4e7dc] flex items-center justify-center text-[#015b30] font-bold">
-                <User className="w-5 h-5 text-[#015b30]" />
+          <div className="bq-card p-6 sm:p-8 space-y-6 bg-white border border-[#d4e7dc] shadow-sm">
+            <div>
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-[#015b30]">Student Candidate Verification</h3>
+                <span className="text-[11px] font-bold text-[#008b74] px-2.5 py-0.5 rounded-full bg-[#edf5f0] border border-[#d4e7dc]">
+                  Midterm 2026
+                </span>
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-[#015b30]">Student Examination Portal</h2>
-                <p className="text-xs text-[#516d5e]">
-                  Enter your official enrollment credentials to begin your paper.
-                </p>
-              </div>
+              <p className="text-xs text-[#516d5e] mt-1">
+                Please enter your registered Bano Qabil student credentials to begin the exam.
+              </p>
             </div>
 
             {error && (
-              <div className="mb-4 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">
-                ⚠️ {error}
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-red-600 flex-shrink-0" />
+                <span>{error}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-[#015b30] uppercase tracking-wider mb-1.5">
-                  Full Student Name *
+                <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
+                  Full Name (as registered in Bano Qabil)
                 </label>
                 <div className="relative">
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Muhammad Bilal"
                     value={name}
-                    onChange={(e) => { setName(e.target.value); setError(""); }}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium"
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Muhammad Bilal"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#7d9b89] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-sans"
                   />
-                  <User className="absolute left-3.5 top-3.5 w-4 h-4 text-[#516d5e]" />
+                  <User className="absolute left-3 top-3 w-4 h-4 text-[#7d9b89]" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#015b30] uppercase tracking-wider mb-1.5">
-                  Email Address *
+                <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
+                  Email Address
                 </label>
                 <div className="relative">
                   <input
                     type="email"
                     required
-                    placeholder="e.g. bilal.ahmed@example.com"
                     value={email}
-                    onChange={(e) => { setEmail(e.target.value); setError(""); }}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium"
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e.g. student@banoqabil.pk"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#7d9b89] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-sans"
                   />
-                  <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-[#516d5e]" />
+                  <Mail className="absolute left-3 top-3 w-4 h-4 text-[#7d9b89]" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-[#015b30] uppercase tracking-wider mb-1.5">
-                    Roll Number *
+                  <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
+                    Roll Number
                   </label>
                   <div className="relative">
                     <input
                       type="text"
                       required
-                      placeholder="e.g. BQ-845"
                       value={rollNumber}
-                      onChange={(e) => { setRollNumber(e.target.value); setError(""); }}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white uppercase font-mono font-bold transition-all"
+                      onChange={(e) => setRollNumber(e.target.value)}
+                      placeholder="e.g. BQ-801"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#7d9b89] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-mono"
                     />
-                    <Hash className="absolute left-3.5 top-3.5 w-4 h-4 text-[#516d5e]" />
+                    <Hash className="absolute left-3 top-3 w-4 h-4 text-[#7d9b89]" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-[#015b30] uppercase tracking-wider mb-1.5">
-                    Class &amp; Section *
+                  <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
+                    Batch / Section
                   </label>
-                  <div className="relative">
-                    <select
-                      value={section}
-                      onChange={(e) => setSection(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium appearance-none cursor-pointer"
-                    >
-                      <option value="Grade 8A">Grade 8A</option>
-                      <option value="Grade 8B">Grade 8B</option>
-                      <option value="Grade 8C">Grade 8C</option>
-                      <option value="Grade 8D">Grade 8D</option>
-                    </select>
-                    <BookOpen className="absolute left-3.5 top-3.5 w-4 h-4 text-[#516d5e]" />
-                  </div>
+                  <select
+                    value={section}
+                    onChange={(e) => setSection(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-sans"
+                  >
+                    <option value="Grade 8A">Grade 8A (Morning Lab)</option>
+                    <option value="Grade 8B">Grade 8B (Afternoon Lab)</option>
+                    <option value="Grade 8C">Grade 8C (Weekend Batch)</option>
+                  </select>
                 </div>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-3">
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2.5 py-3.5 px-6 rounded-xl bg-[#015b30] hover:bg-[#014223] text-white font-bold text-sm tracking-wide shadow-md active:scale-[0.99] transition-all cursor-pointer"
+                  className="w-full py-3.5 px-6 rounded-xl bg-[#015b30] hover:bg-[#014223] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer group"
                 >
-                  <span>Begin Midterm Examination (80 Mins)</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                  <span>Start Midterm Examination</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#7cb342]" />
                 </button>
               </div>
+
+              <p className="text-[11px] text-center text-[#516d5e] pt-1">
+                By starting, the 80-minute timer will activate automatically. Powered by Bano Qabil AI Lab.
+              </p>
             </form>
           </div>
         </div>

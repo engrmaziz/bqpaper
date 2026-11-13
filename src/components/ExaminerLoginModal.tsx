@@ -73,16 +73,27 @@ export default function ExaminerLoginModal({
           <X className="w-5 h-5" />
         </button>
 
-        {/* Header with Official Logo */}
+        {/* Header with Official Logo & Patron Portrait */}
         <div className="flex items-center gap-3.5 mb-6 pt-2">
-          <div className="relative w-14 h-14 rounded-2xl bg-[#f4f8f5] border border-[#d4e7dc] p-1.5 flex items-center justify-center shadow-xs">
-            <Image
-              src="/bano-qabil.png"
-              alt="Bano Qabil Official Logo"
-              width={48}
-              height={48}
-              className="object-contain"
-            />
+          <div className="flex items-center -space-x-2.5">
+            <div className="relative w-14 h-14 rounded-2xl bg-[#f4f8f5] border border-[#d4e7dc] p-1.5 flex items-center justify-center shadow-xs z-10">
+              <Image
+                src="/bano-qabil.png"
+                alt="Bano Qabil Official Logo"
+                width={48}
+                height={48}
+                className="object-contain"
+              />
+            </div>
+            <div className="relative w-14 h-14 rounded-2xl bg-[#edf5f0] border-2 border-[#015b30] p-0.5 flex items-center justify-center shadow-xs overflow-hidden ring-2 ring-[#7cb342]/40">
+              <Image
+                src="/hafiz.png"
+                alt="Patron Hafiz Naeem ur Rehman"
+                width={48}
+                height={48}
+                className="object-cover rounded-xl w-full h-full"
+              />
+            </div>
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -91,7 +102,7 @@ export default function ExaminerLoginModal({
                 RESTRICTED
               </span>
             </div>
-            <p className="text-xs text-[#516d5e]">Class Marksheet &amp; Evaluation Access</p>
+            <p className="text-xs text-[#516d5e]">Patron: <strong>Hafiz Naeem ur Rehman</strong> • io@maziz.me</p>
           </div>
         </div>
 

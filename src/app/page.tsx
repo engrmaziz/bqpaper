@@ -219,36 +219,70 @@ export default function Home() {
         onSuccess={handleExaminerLoginSuccess}
       />
 
-      {/* Official Bano Qabil Footer */}
-      <footer className="border-t border-[#d4e7dc] bg-white py-6 px-4 text-xs text-[#516d5e]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8 flex-shrink-0 bg-[#f4f8f5] p-1 rounded-lg border border-[#d4e7dc] flex items-center justify-center">
-              <Image
-                src="/bano-qabil.png"
-                alt="Bano Qabil Logo"
-                width={28}
-                height={28}
-                className="object-contain"
-              />
+      {/* Official Bano Qabil Footer with Patron Tribute */}
+      <footer className="border-t border-[#d4e7dc] bg-white py-8 px-4 text-xs text-[#516d5e]">
+        <div className="max-w-7xl mx-auto space-y-6">
+          {/* Patron Tribute Banner */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#edf5f0]/90 border border-[#c8e0d2] flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-[#015b30] shadow-sm flex-shrink-0 ring-2 ring-[#7cb342]/40">
+                <Image
+                  src="/hafiz.png"
+                  alt="Patron Hafiz Naeem ur Rehman"
+                  width={56}
+                  height={56}
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#008b74] block">
+                  Visionary Patron-in-Chief
+                </span>
+                <strong className="text-sm font-extrabold text-[#015b30]">
+                  Hafiz Naeem ur Rehman
+                </strong>
+                <p className="text-[11px] text-[#516d5e]">
+                  Leading Pakistan&apos;s largest youth-empowerment IT &amp; AI revolution • 100% Free Education
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="font-bold text-[#015b30]">
-                © 2026 Bano Qabil Pakistan • Essentials of AI (BQ-009)
-              </p>
-              <p className="text-[11px] text-[#008b74] italic">
-                اپنی دنیا آپ پیدا کر — Empowering Youth through Artificial Intelligence
-              </p>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-[#008b74] font-bold italic px-3 py-1 rounded-xl bg-white border border-[#d4e7dc]">
+                اپنی دنیا آپ پیدا کر
+              </span>
             </div>
           </div>
 
-          <p className="text-[11px] text-center sm:text-left">
-            Patron: <strong className="text-[#015b30]">Hafiz Naeem ur Rehman</strong> • Instructors: <span className="text-[#008b74] font-semibold">Musharraf Aziz</span> &amp; <span className="text-[#008b74] font-semibold">Sir Usman Yaseen</span>
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-[#edf5f0]">
+            <div className="flex items-center gap-3">
+              <div className="relative w-8 h-8 flex-shrink-0 bg-[#f4f8f5] p-1 rounded-lg border border-[#d4e7dc] flex items-center justify-center">
+                <Image
+                  src="/bano-qabil.png"
+                  alt="Bano Qabil Logo"
+                  width={28}
+                  height={28}
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <p className="font-bold text-[#015b30]">
+                  © 2026 Bano Qabil Pakistan • Essentials of AI (BQ-009)
+                </p>
+                <p className="text-[11px] text-[#008b74] italic">
+                  Empowering Youth through Artificial Intelligence
+                </p>
+              </div>
+            </div>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#edf5f0] border border-[#d4e7dc]">
-            <span className="w-2 h-2 rounded-full bg-[#7cb342] animate-pulse" />
-            <span className="text-[11px] text-[#015b30] font-semibold">Vercel Deployable • Supabase &amp; Groq AI</span>
+            <p className="text-[11px] text-center sm:text-left">
+              Patron: <strong className="text-[#015b30]">Hafiz Naeem ur Rehman</strong> • Instructors: <span className="text-[#008b74] font-semibold">Musharraf Aziz</span> &amp; <span className="text-[#008b74] font-semibold">Sir Usman Yaseen</span>
+            </p>
+
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#edf5f0] border border-[#d4e7dc]">
+              <span className="w-2 h-2 rounded-full bg-[#7cb342] animate-pulse" />
+              <span className="text-[11px] text-[#015b30] font-semibold">Vercel Deployable • Supabase &amp; Groq AI</span>
+            </div>
           </div>
         </div>
       </footer>

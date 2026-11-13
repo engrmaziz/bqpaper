@@ -100,15 +100,27 @@ export default function TeacherDashboard({
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-1">
           <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-[#f4f8f5] p-2 rounded-2xl border border-[#d4e7dc] flex items-center justify-center shadow-xs">
-              <Image
-                src="/bano-qabil.png"
-                alt="Bano Qabil Official Logo"
-                width={70}
-                height={70}
-                className="object-contain"
-                priority
-              />
+            <div className="flex items-center -space-x-3">
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-[#f4f8f5] p-2 rounded-2xl border border-[#d4e7dc] flex items-center justify-center shadow-xs z-10">
+                <Image
+                  src="/bano-qabil.png"
+                  alt="Bano Qabil Official Logo"
+                  width={70}
+                  height={70}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 bg-[#edf5f0] p-1 rounded-2xl border-2 border-[#015b30] flex items-center justify-center overflow-hidden shadow-xs ring-2 ring-[#7cb342]/40">
+                <Image
+                  src="/hafiz.png"
+                  alt="Patron Hafiz Naeem ur Rehman"
+                  width={70}
+                  height={70}
+                  className="object-cover rounded-xl w-full h-full"
+                  priority
+                />
+              </div>
             </div>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
@@ -116,8 +128,11 @@ export default function TeacherDashboard({
                   <ShieldCheck className="w-3 h-3 text-[#015b30]" />
                   EXAMINER PORTAL
                 </span>
+                <span className="text-xs text-[#015b30] font-bold">
+                  Patron: <strong>Hafiz Naeem ur Rehman</strong>
+                </span>
                 <span className="text-xs text-[#516d5e]">
-                  Authorized Examiner: <strong className="text-[#015b30]">io@maziz.me</strong>
+                  • Examiner: <strong className="text-[#015b30]">io@maziz.me</strong>
                 </span>
                 <span className="text-xs text-[#008b74] font-semibold italic hidden sm:inline">
                   | بنو قابل • اپنی دنیا آپ پیدا کر

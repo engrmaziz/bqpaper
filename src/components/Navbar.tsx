@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { Clock, ShieldCheck, Lock, Award, BookOpen } from "lucide-react";
+import { Clock, ShieldCheck, Lock, Award, BookOpen, Sparkles } from "lucide-react";
 
 interface NavbarProps {
   currentView: "register" | "exam" | "result" | "admin";
@@ -30,40 +30,65 @@ export default function Navbar({
   const isTimeCritical = timeRemaining !== undefined && timeRemaining < 600;
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#d4e7dc] shadow-sm">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#d4e7dc] shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Brand / Logo */}
-        <div 
-          onClick={() => onNavigate(currentView === "admin" ? "register" : currentView)}
-          className="flex items-center gap-3.5 cursor-pointer group"
-        >
-          <div className="relative w-12 h-12 flex-shrink-0 transition-transform group-hover:scale-105">
-            <Image
-              src="/bano-qabil.png"
-              alt="Bano Qabil Official Logo"
-              width={48}
-              height={48}
-              className="object-contain"
-              priority
-            />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold tracking-wide text-lg sm:text-xl text-[#015b30]">
-                Bano Qabil
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#008b74]/10 text-[#008b74] border border-[#008b74]/30">
-                AI Lab
-              </span>
-              <span className="hidden sm:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7cb342]/15 text-[#4e7d1d] border border-[#7cb342]/40">
-                ★ Grade 8
-              </span>
+        {/* Brand / Logo + Patron Hype Badge */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div 
+            onClick={() => onNavigate(currentView === "admin" ? "register" : currentView)}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
+            <div className="relative w-12 h-12 flex-shrink-0 transition-transform group-hover:scale-105">
+              <Image
+                src="/bano-qabil.png"
+                alt="Bano Qabil Official Logo"
+                width={48}
+                height={48}
+                className="object-contain"
+                priority
+              />
             </div>
-            <p className="text-xs text-[#516d5e] flex items-center gap-1.5">
-              <span>Essentials of AI (BQ-009)</span>
-              <span className="text-[#a3cbb5]">•</span>
-              <span className="text-[#008b74] font-semibold italic">اپنی دنیا آپ پیدا کر</span>
-            </p>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold tracking-wide text-lg sm:text-xl text-[#015b30]">
+                  Bano Qabil
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#008b74]/10 text-[#008b74] border border-[#008b74]/30">
+                  AI Lab
+                </span>
+                <span className="hidden sm:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7cb342]/15 text-[#4e7d1d] border border-[#7cb342]/40">
+                  ★ Grade 8
+                </span>
+              </div>
+              <p className="text-xs text-[#516d5e] flex items-center gap-1.5">
+                <span>Essentials of AI (BQ-009)</span>
+                <span className="text-[#a3cbb5]">•</span>
+                <span className="text-[#008b74] font-semibold italic">اپنی دنیا آپ پیدا کر</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Patron Hafiz Naeem ur Rehman Header Pill */}
+          <div className="hidden lg:flex items-center gap-2.5 pl-4 border-l border-[#d4e7dc]">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#015b30] shadow-sm flex-shrink-0 ring-2 ring-[#7cb342]/40">
+              <Image
+                src="/hafiz.png"
+                alt="Patron Hafiz Naeem ur Rehman"
+                width={40}
+                height={40}
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="leading-tight">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-[#008b74] block">
+                Patron-in-Chief
+              </span>
+              <strong className="text-xs text-[#015b30] font-extrabold flex items-center gap-1">
+                Hafiz Naeem ur Rehman
+                <Sparkles className="w-3 h-3 text-[#c29b38]" />
+              </strong>
+            </div>
           </div>
         </div>
 
@@ -108,10 +133,13 @@ export default function Navbar({
             <button
               onClick={onOpenExaminerLogin}
               title="Restricted Access: Only io@maziz.me can access the full mark sheet"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#edf5f0] border border-[#d4e7dc] text-[#516d5e] hover:text-[#015b30] hover:border-[#015b30]/40 hover:bg-[#e4f0e8] transition-all cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#d4e7dc] hover:border-[#015b30] text-[#015b30] text-xs font-bold shadow-2xs hover:bg-[#edf5f0] transition-all cursor-pointer"
             >
               <Lock className="w-3.5 h-3.5 text-[#008b74]" />
-              <span>Examiner Portal</span>
+              <span className="hidden sm:inline">Teacher Marksheet</span>
+              <span className="text-[10px] font-bold text-[#c29b38] bg-[#c29b38]/10 px-1.5 py-0.2 rounded">
+                RESTRICTED
+              </span>
             </button>
           )}
         </div>

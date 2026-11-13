@@ -83,22 +83,34 @@ export default function ResultView({
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#015b30] via-[#008b74] to-[#7cb342]" />
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-2">
-          {/* Logo & Student Info */}
+          {/* Logo & Student Info with Patron Portrait */}
           <div className="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
-            <div className="relative w-20 h-20 flex-shrink-0 bg-[#f4f8f5] p-2 rounded-2xl border border-[#d4e7dc] flex items-center justify-center shadow-xs">
-              <Image
-                src="/bano-qabil.png"
-                alt="Bano Qabil Official Logo"
-                width={72}
-                height={72}
-                className="object-contain"
-                priority
-              />
+            <div className="flex items-center -space-x-3">
+              <div className="relative w-20 h-20 flex-shrink-0 bg-[#f4f8f5] p-2 rounded-2xl border border-[#d4e7dc] flex items-center justify-center shadow-xs z-10">
+                <Image
+                  src="/bano-qabil.png"
+                  alt="Bano Qabil Official Logo"
+                  width={72}
+                  height={72}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <div className="relative w-20 h-20 flex-shrink-0 bg-[#edf5f0] p-1 rounded-2xl border-2 border-[#015b30] flex items-center justify-center overflow-hidden shadow-xs ring-2 ring-[#7cb342]/40">
+                <Image
+                  src="/hafiz.png"
+                  alt="Patron Hafiz Naeem ur Rehman"
+                  width={72}
+                  height={72}
+                  className="object-cover rounded-xl w-full h-full"
+                  priority
+                />
+              </div>
             </div>
             <div className="space-y-1">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5] text-[#015b30] text-xs font-bold">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#008b74]" />
-                <span>OFFICIAL EXAMINATION SCORECARD</span>
+                <span>OFFICIAL BANO QABIL SCORECARD • PATRON: HAFIZ NAEEM UR REHMAN</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-[#015b30]">
                 Midterm Paper Assessment
