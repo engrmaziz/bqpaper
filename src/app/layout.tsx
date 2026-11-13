@@ -5,9 +5,16 @@ export const metadata: Metadata = {
   title: "Bano Qabil • Essentials of AI Midterm Examination & AI Lab",
   description: "Official Bano Qabil Online Examination Platform with Instant AI Assessment & Marksheet. Powered by Bano Qabil AI Lab.",
   icons: {
-    icon: "/bano-qabil.png",
-    shortcut: "/bano-qabil.png",
-    apple: "/bano-qabil.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+      { url: "/bano-qabil.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/apple-icon.png" },
+      { url: "/bano-qabil.png" },
+    ],
   },
 };
 
