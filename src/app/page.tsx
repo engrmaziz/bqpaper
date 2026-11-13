@@ -63,9 +63,21 @@ export default function Home() {
     setLanguage((prev) => (prev === "en" ? "ur" : "en"));
   };
 
-  // Load Examiner session from session storage
+  // 1. Restore completed exam or examiner session on initial load
   useEffect(() => {
     try {
+      // Check if student has already completed their exam on this device
+      const savedResult = localStorage.getItem("bq_last_submitted_result");
+      if (savedResult) {
+        const parsed = JSON.parse(savedResult);
+        if (parsed && parsed.id && parsed.student) {
+          setResult(parsed);
+          setStudent(parsed.student);
+          setCurrentView("result");
+        }
+      }
+
+      // Check examiner token
       const savedToken = sessionStorage.getItem("bq_examiner_token");
       const savedEmail = sessionStorage.getItem("bq_examiner_email");
       if (savedToken && savedEmail === "io@maziz.me") {
@@ -73,7 +85,7 @@ export default function Home() {
         setExaminerEmail(savedEmail);
       }
     } catch {
-      // SessionStorage error catch
+      // Safe catch
     }
   }, []);
 
@@ -98,6 +110,11 @@ export default function Home() {
   };
 
   const handleNavigate = (view: "register" | "exam" | "result" | "admin") => {
+    // If student has already completed the exam, strictly prevent returning to register or exam (No Retakes)
+    if (result && (view === "register" || view === "exam")) {
+      return;
+    }
+
     if (view === "admin") {
       if (!examinerToken) {
         setIsExaminerLoginOpen(true);
@@ -136,11 +153,24 @@ export default function Home() {
     setAnswers(INITIAL_ANSWERS);
     setTimeRemaining(TOTAL_EXAM_SECONDS);
     setCurrentView("exam");
+    try {
+      localStorage.setItem("bq_draft_student", JSON.stringify(newStudent));
+    } catch {}
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleUpdateAnswers: React.Dispatch<React.SetStateAction<StudentAnswers>> = (action) => {
+    setAnswers((prev) => {
+      const next = typeof action === "function" ? action(prev) : action;
+      try {
+        localStorage.setItem("bq_draft_answers", JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  };
+
   const handleAutoSubmit = () => {
-    alert("Time is up! Submitting your examination answers to Groq AI for assessment.");
+    alert("Time is up! Submitting your examination answers for assessment.");
     handleSubmitExam();
   };
 
@@ -159,16 +189,29 @@ export default function Home() {
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
+        const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.error || "Evaluation failed.");
       }
 
       const evalResult: AssessmentResult = await res.json();
       setResult(evalResult);
       setCurrentView("result");
+
+      // Strictly enforce Single Attempt Policy: Lock submission & cache result permanently
+      try {
+        localStorage.setItem(`bq_completed_${student.rollNumber.trim().toUpperCase()}`, "true");
+        localStorage.setItem("bq_last_submitted_result", JSON.stringify(evalResult));
+        localStorage.removeItem("bq_draft_answers");
+        localStorage.removeItem("bq_draft_student");
+      } catch {}
+
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err: any) {
-      alert(`Submission error: ${err.message}`);
+      alert(
+        language === "ur"
+          ? `پرچہ جمع کرانے میں رابطہ تعطل: ${err.message}۔ آپ کے تمام جوابات اس ڈیوائس پر محفوظ ہیں۔ برائے مہربانی دوبارہ جمع کرانے کا بٹن دبائیں۔`
+          : `Submission error: ${err.message}. Your answers are fully preserved on this machine. Please click submit again.`
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -196,7 +239,7 @@ export default function Home() {
           <ExamForm
             student={student}
             answers={answers}
-            onUpdateAnswers={setAnswers}
+            onUpdateAnswers={handleUpdateAnswers}
             onSubmitExam={handleSubmitExam}
             isSubmitting={isSubmitting}
             language={language}
@@ -206,7 +249,6 @@ export default function Home() {
         {currentView === "result" && result && (
           <ResultView
             result={result}
-            onRetake={() => setCurrentView("register")}
             onViewMarksheet={() => handleNavigate("admin")}
             isExaminer={!!examinerToken}
             language={language}
@@ -215,7 +257,10 @@ export default function Home() {
 
         {currentView === "admin" && (
           <TeacherDashboard 
-            onBackToExam={() => setCurrentView("register")} 
+            onBackToExam={() => {
+              if (result) setCurrentView("result");
+              else setCurrentView("register");
+            }} 
             examinerToken={examinerToken}
             onLogout={handleExaminerLogout}
           />
@@ -244,50 +289,50 @@ export default function Home() {
                   className="object-cover"
                 />
               </div>
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#008b74] block">
-                  Visionary Patron-in-Chief
+              <div className="leading-snug">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[#008b74] block">
+                  {language === "ur" ? "سرپرستِ اعلیٰ بنو قابل پاکستان" : "Patron-in-Chief • Bano Qabil Movement"}
                 </span>
-                <strong className="text-sm font-extrabold text-[#015b30]">
-                  Hafiz Naeem ur Rehman
+                <strong className="text-sm text-[#015b30] font-extrabold block">
+                  {language === "ur" ? "حافظ نعیم الرحمن" : "Hafiz Naeem ur Rehman"}
                 </strong>
                 <p className="text-[11px] text-[#516d5e]">
-                  Leading Pakistan&apos;s largest youth-empowerment IT &amp; AI revolution • 100% Free Education
+                  {language === "ur" 
+                    ? "ملک کے ہر باصلاحیت نوجوان کو جدید آئی ٹی اور مصنوعی ذہانت کے مفت کورسز فراہم کرنے کا عظیم وژن۔"
+                    : "Championing free, world-class Artificial Intelligence & IT education for Pakistan's youth."}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="font-nastaliq text-sm sm:text-base text-[#015b30] font-bold px-3.5 py-1 rounded-xl bg-white border border-[#d4e7dc] shadow-xs">
-                اپنی دنیا آپ پیدا کر
+              <span className="px-3 py-1.5 rounded-xl bg-white border border-[#d4e7dc] text-[11px] font-bold text-[#015b30] shadow-xs">
+                {language === "ur" ? "تعلیم سب کے لیے" : "Free Education for All"}
+              </span>
+              <span className="px-3 py-1.5 rounded-xl bg-[#015b30] text-white text-[11px] font-bold shadow-xs">
+                {language === "ur" ? "100% میرٹ پر داخلے" : "100% Merit Based"}
               </span>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-[#edf5f0]">
-            <div className="flex items-center gap-3">
-              <div className="relative w-8 h-8 flex-shrink-0 bg-[#f4f8f5] p-1 rounded-lg border border-[#d4e7dc] flex items-center justify-center">
-                <Image
-                  src="/bano-qabil.png"
-                  alt="Bano Qabil Logo"
-                  width={28}
-                  height={28}
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <p className="font-bold text-[#015b30]">
-                  © 2026 Bano Qabil Pakistan • Essentials of AI (BQ-009)
-                </p>
-                <p className="text-[11px] text-[#008b74] italic">
-                  Empowering Youth through Artificial Intelligence
-                </p>
-              </div>
+          {/* Bottom Copyright & Links */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 text-[11px]">
+            <div className="flex items-center gap-2">
+              <Image
+                src="/bano-qabil.png"
+                alt="Bano Qabil Logo"
+                width={20}
+                height={20}
+                className="object-contain"
+              />
+              <p>
+                © 2026 <strong>Bano Qabil Pakistan</strong>. Essentials of AI Examination Platform.
+              </p>
             </div>
-
-            <p className="text-[11px] text-center sm:text-left">
-              Patron-in-Chief: <strong className="text-[#015b30]">Hafiz Naeem ur Rehman</strong> • Instructors: <span className="text-[#008b74] font-semibold">Musharraf Aziz</span> &amp; <span className="text-[#008b74] font-semibold">Sir Usman Yaseen</span>
-            </p>
+            <div className="flex items-center gap-4">
+              <span>Examiner: <strong>io@maziz.me</strong></span>
+              <span className="text-[#a3cbb5]">•</span>
+              <span>All Rights Reserved</span>
+            </div>
           </div>
         </div>
       </footer>

@@ -99,7 +99,7 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
 
   const userPayload = JSON.stringify(answers, null, 2);
 
-  // 1. Live dynamic discovery: Query Groq's official /v1/models endpoint to find currently active models
+  // 1. Live dynamic discovery: Query Groq's official /v1/models endpoint with strict 2.5s timeout
   let discoveredModels: string[] = [];
   try {
     const catalogRes = await fetch("https://api.groq.com/openai/v1/models", {
@@ -107,6 +107,7 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
         "Authorization": `Bearer ${apiKey}`,
         "User-Agent": "BQ-Platform/1.0 (Bano Qabil Examination System)"
       },
+      signal: AbortSignal.timeout(2500),
     });
     if (catalogRes.ok) {
       const catalogData = await catalogRes.json();
@@ -115,17 +116,17 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
       }
     }
   } catch (err) {
-    console.warn("Dynamic Groq model catalog query skipped:", err);
+    console.warn("Dynamic Groq model catalog query skipped or timed out:", err);
   }
 
   // 2. Priority model candidates
   const PREFERRED_MODELS = [
     process.env.GROQ_MODEL,
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
     "openai/gpt-oss-120b",
     "openai/gpt-oss-20b",
     "qwen/qwen3.8-27b",
-    "llama-3.3-70b-versatile",
-    "llama-3.1-8b-instant",
   ].filter(Boolean) as string[];
 
   // 3. Assemble active models to try
@@ -156,7 +157,10 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
     modelsToTry.push(...PREFERRED_MODELS);
   }
 
-  for (const model of modelsToTry) {
+  // Cap to top 2 models maximum to strictly avoid Vercel serverless timeouts
+  const candidates = modelsToTry.slice(0, 2);
+
+  for (const model of candidates) {
     try {
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
@@ -174,6 +178,7 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
           temperature: 0.1,
           response_format: { type: "json_object" },
         }),
+        signal: AbortSignal.timeout(3500),
       });
 
       if (!response.ok) {
@@ -211,7 +216,7 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
 }
 
 // Robust Heuristic Fallback Engine
-function runFallbackEvaluationEngine(answers: StudentAnswers): EvaluationOutput {
+export function runFallbackEvaluationEngine(answers: StudentAnswers): EvaluationOutput {
   const fb: Record<string, QuestionFeedback> = {};
   const sq = answers?.shortQuestions || ({} as any);
   const lq = answers?.longQuestion || ({} as any);

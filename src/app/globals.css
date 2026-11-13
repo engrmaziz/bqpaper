@@ -97,3 +97,95 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #015b30;
 }
+
+/* =========================================================================
+   Print Stylesheet for Official Bano Qabil Examination Result Card
+   ========================================================================= */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 10mm 12mm;
+  }
+
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0d2317 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Elements to strictly hide in print */
+  header,
+  footer,
+  .no-print,
+  button,
+  canvas {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .screen-only {
+    display: none !important;
+  }
+
+  /* Ensure cards and tables do not break awkwardly across pages */
+  .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .print-page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+
+  /* Borders and backgrounds in print */
+  .bq-print-card {
+    border: 1.5px solid #015b30 !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    background: #ffffff !important;
+  }
+
+  .bq-print-table th {
+    background-color: #edf5f0 !important;
+    color: #015b30 !important;
+    border: 1px solid #d4e7dc !important;
+    padding: 6px 10px !important;
+  }
+
+  .bq-print-table td {
+    border: 1px solid #d4e7dc !important;
+    padding: 6px 10px !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
+

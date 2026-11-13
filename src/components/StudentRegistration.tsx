@@ -19,11 +19,12 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
   const [rollNumber, setRollNumber] = useState("");
   const [section, setSection] = useState("Grade 8A");
   const [error, setError] = useState("");
+  const [isChecking, setIsChecking] = useState(false);
 
   const t = TRANSLATIONS[language].registration;
   const examInfo = language === "ur" ? EXAM_INFO_UR : EXAM_INFO;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
       setError(language === "ur" ? "برائے مہربانی اپنا مکمل نام درج کریں۔" : "Please enter your full name.");
@@ -38,11 +39,51 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
       return;
     }
 
+    const normRoll = rollNumber.trim().toUpperCase();
+    const normEmail = email.trim().toLowerCase();
+
+    // 1. Client-side LocalStorage Check (Single Attempt Rule)
+    try {
+      if (localStorage.getItem(`bq_completed_${normRoll}`) === "true") {
+        setError(
+          language === "ur"
+            ? `امتحانی ریکارڈ: رول نمبر ${normRoll} کا پرچہ پہلے ہی اس براؤزر پر جمع ہو چکا ہے۔ دوبارہ پرچہ دینے کی اجازت نہیں ہے۔`
+            : `Examination Record: Roll Number ${normRoll} has already submitted their paper. Single attempt policy strictly enforced.`
+        );
+        return;
+      }
+    } catch {}
+
+    // 2. Server-side Supabase Database Check
+    setIsChecking(true);
+    setError("");
+    try {
+      const res = await fetch(
+        `/api/submissions/check?rollNumber=${encodeURIComponent(normRoll)}&email=${encodeURIComponent(normEmail)}`
+      );
+      if (res.ok) {
+        const checkData = await res.json();
+        if (checkData.exists) {
+          setError(
+            language === "ur"
+              ? `امتحانی ریکارڈ: رول نمبر ${normRoll} کا پرچہ پہلے ہی ${checkData.submittedAt || "جمع"} ہو چکا ہے۔ بنو قابل قواعد کے مطابق دوبارہ امتحان دینے کی اجازت نہیں ہے۔`
+              : `Examination Record: Roll Number ${normRoll} already submitted their exam on ${checkData.submittedAt || "earlier"}. Multiple attempts are prohibited.`
+          );
+          setIsChecking(false);
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn("Pre-submission verification check bypassed:", err);
+    } finally {
+      setIsChecking(false);
+    }
+
     const student: StudentInfo = {
       id: `std_${Date.now()}`,
       name: name.trim(),
-      email: email.trim().toLowerCase(),
-      rollNumber: rollNumber.trim().toUpperCase(),
+      email: normEmail,
+      rollNumber: normRoll,
       section,
       startTime: Date.now(),
     };
@@ -299,13 +340,23 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
                 </div>
               </div>
 
-              <div className="pt-3">
+              <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                <span>
+                  {language === "ur"
+                    ? "اہم نوٹس: امتحان صرف ایک بار دیا جا سکتا ہے۔ پرچہ جمع ہونے کے بعد دوبارہ موقع نہیں ملے گا۔"
+                    : "Strict Single Attempt Policy: Once submitted, the paper is locked and retakes are not allowed."}
+                </span>
+              </div>
+
+              <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3.5 px-6 rounded-xl bg-[#015b30] hover:bg-[#014223] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer group"
+                  disabled={isChecking}
+                  className="w-full py-3.5 px-6 rounded-xl bg-[#015b30] hover:bg-[#014223] disabled:bg-[#516d5e] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer group"
                 >
-                  <span>{t.startExamBtn}</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#7cb342]" />
+                  <span>{isChecking ? (language === "ur" ? "تصدیق ہو رہی ہے..." : "Verifying Candidate Record...") : t.startExamBtn}</span>
+                  {!isChecking && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#7cb342]" />}
                 </button>
               </div>
 

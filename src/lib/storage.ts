@@ -121,6 +121,78 @@ function ensureFileStore() {
   }
 }
 
+export async function checkStudentAlreadySubmitted(
+  rollNumber: string,
+  email?: string
+): Promise<{ exists: boolean; submission?: AssessmentResult }> {
+  const normRoll = (rollNumber || "").trim().toUpperCase();
+  const normEmail = (email || "").trim().toLowerCase();
+
+  // 1. Check Supabase
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    try {
+      let query = supabase.from("student_submissions").select("*");
+      if (normRoll && normEmail) {
+        query = query.or(`roll_number.eq.${normRoll},student_email.eq.${normEmail}`);
+      } else if (normRoll) {
+        query = query.eq("roll_number", normRoll);
+      } else if (normEmail) {
+        query = query.eq("student_email", normEmail);
+      }
+
+      const { data, error } = await query.limit(1);
+      if (!error && Array.isArray(data) && data.length > 0) {
+        const row = data[0];
+        return {
+          exists: true,
+          submission: {
+            id: row.id,
+            student: row.student_raw || {
+              id: row.id,
+              name: row.student_name,
+              email: row.student_email,
+              rollNumber: row.roll_number,
+              section: row.section,
+              startTime: Date.now(),
+            },
+            submittedAt:
+              row.submitted_at ||
+              new Date(row.created_at).toLocaleString("en-PK", { timeZone: "Asia/Karachi" }),
+            timeSpentSeconds: row.time_spent_seconds || 0,
+            sectionScores:
+              row.section_scores || { sectionA: 0, sectionB: 0, sectionC: 0, sectionD: 0 },
+            totalScore: Number(row.total_score) || 0,
+            percentage: Number(row.percentage) || 0,
+            grade: row.grade || "F",
+            evaluatedBy: row.evaluated_by || "fallback-rubric",
+            modelUsed: row.model_used || "deterministic-rubric-engine",
+            mcqResults: row.mcq_results || [],
+            subjectiveFeedback: row.subjective_feedback || {},
+            generalFeedback:
+              row.general_feedback || { strengths: [], improvements: [], summary: "" },
+          },
+        };
+      }
+    } catch (e) {
+      console.warn("Supabase check error:", e);
+    }
+  }
+
+  // 2. Check in-memory store
+  const found = inMemorySubmissions.find(
+    (s) =>
+      (normRoll && s.student.rollNumber?.trim().toUpperCase() === normRoll) ||
+      (normEmail && s.student.email?.trim().toLowerCase() === normEmail)
+  );
+
+  if (found) {
+    return { exists: true, submission: found };
+  }
+
+  return { exists: false };
+}
+
 export async function getAllSubmissions(): Promise<AssessmentResult[]> {
   // 1. Try querying Supabase (Persistent cloud database)
   const supabase = getSupabaseClient();

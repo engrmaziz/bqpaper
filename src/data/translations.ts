@@ -80,6 +80,10 @@ export interface TranslationDict {
     aiSummaryTitle: string;
     keyStrengths: string;
     areasToImprove: string;
+    recommendations: string;
+    generalSummary: string;
+    yourAns: string;
+    correctAns: string;
     printResult: string;
     retake: string;
     viewMarksheet: string;
@@ -189,7 +193,11 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
       aiSummaryTitle: "Automated AI Evaluation Notes",
       keyStrengths: "Key Conceptual Strengths",
       areasToImprove: "Suggestions for Improvement",
-      printResult: "Print Scorecard",
+      recommendations: "Suggestions & Recommendations",
+      generalSummary: "AI Assessment Summary",
+      yourAns: "Your Answer",
+      correctAns: "Correct Answer",
+      printResult: "Print Official Marksheet",
       retake: "Take Retake / New Candidate",
       viewMarksheet: "View Full Marksheet (Examiner Only)",
     },
@@ -296,7 +304,11 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
       aiSummaryTitle: "گروک AI کی خودکار تجزیاتی رپورٹ",
       keyStrengths: "نمایاں خوبیاں اور مضبوط تصورات",
       areasToImprove: "بہتری کے لیے رہنمائی و تجاویز",
-      printResult: "اسکور کارڈ پرنٹ کریں",
+      recommendations: "بہتری کے لیے رہنمائی و تجاویز",
+      generalSummary: "گروک AI کی خودکار تجزیاتی رپورٹ",
+      yourAns: "آپ کا منتخب کردہ جواب",
+      correctAns: "درست جواب",
+      printResult: "آفیشل مارک شیٹ پرنٹ کریں",
       retake: "نئے امیدوار کی رجسٹریشن",
       viewMarksheet: "مکمل کلاس مارک شیٹ (صرف نگران کے لیے)",
     },
