@@ -36,7 +36,7 @@ export default function Navbar({
     <header className="sticky top-0 z-50 glass-panel border-b border-[#1a2744] bg-[#050a14]/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand / Logo */}
-        <div 
+        <div
           onClick={() => onNavigate(currentView === "admin" ? "register" : currentView)}
           className="flex items-center gap-3 cursor-pointer group"
         >
@@ -58,11 +58,10 @@ export default function Navbar({
 
         {/* Mid-Bar Timer (Only when in Exam view) */}
         {currentView === "exam" && timeRemaining !== undefined && (
-          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-sm font-mono font-semibold transition-all ${
-            isTimeCritical 
-              ? "bg-red-500/10 border-red-500/40 text-red-400 animate-pulse" 
+          <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-sm font-mono font-semibold transition-all ${isTimeCritical
+              ? "bg-red-500/10 border-red-500/40 text-red-400 animate-pulse"
               : "bg-[#0a1224] border-[#00d4ff]/30 text-[#00d4ff] cyan-glow"
-          }`}>
+            }`}>
             <Clock className={`w-4 h-4 ${isTimeCritical ? "text-red-400" : "text-[#00d4ff]"}`} />
             <span>{formatTime(timeRemaining)}</span>
             <span className="text-[10px] text-[#8ba0b5] hidden sm:inline">REMAINING</span>
@@ -82,11 +81,10 @@ export default function Navbar({
           <button
             onClick={onOpenSettings}
             title={hasCustomGroqKey ? "Groq API Key Active" : "Configure Groq API Key"}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
-              hasCustomGroqKey
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${hasCustomGroqKey
                 ? "bg-[#0e8f86]/20 border-[#00d4ff]/40 text-[#7df9ff]"
                 : "bg-[#0a1224] border-[#1a2744] text-[#8ba0b5] hover:text-[#e8eef7] hover:border-[#00d4ff]/30"
-            }`}
+              }`}
           >
             <Key className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Groq AI</span>
@@ -101,11 +99,10 @@ export default function Navbar({
           {isExaminer ? (
             <button
               onClick={() => onNavigate(currentView === "admin" ? "register" : "admin")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                currentView === "admin"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${currentView === "admin"
                   ? "bg-[#00d4ff] text-[#050a14] font-bold shadow-[0_0_15px_rgba(0,212,255,0.4)]"
                   : "bg-[#0a1224] border border-[#00d4ff]/40 text-[#00d4ff] hover:bg-[#00d4ff]/10"
-              }`}
+                }`}
             >
               <ShieldCheck className="w-3.5 h-3.5 text-[#00d4ff]" />
               <span>{currentView === "admin" ? "Back to Exam" : "io@maziz.me (Marksheet)"}</span>
