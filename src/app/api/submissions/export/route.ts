@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const list = getAllSubmissions();
+    const list = await getAllSubmissions();
 
     // CSV Headers
     const headers = [

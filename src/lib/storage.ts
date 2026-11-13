@@ -1,4 +1,5 @@
-import { AssessmentResult } from "@/types/exam";
+import { AssessmentResult, StudentAnswers } from "@/types/exam";
+import { getSupabaseClient } from "@/lib/supabase";
 import fs from "fs";
 import path from "path";
 
@@ -120,14 +121,61 @@ function ensureFileStore() {
   }
 }
 
-export function getAllSubmissions(): AssessmentResult[] {
+export async function getAllSubmissions(): Promise<AssessmentResult[]> {
+  // 1. Try querying Supabase (Persistent cloud database)
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("student_submissions")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && Array.isArray(data) && data.length > 0) {
+        const mappedList: AssessmentResult[] = data.map((row: any) => ({
+          id: row.id,
+          student: row.student_raw || {
+            id: row.id,
+            name: row.student_name,
+            email: row.student_email,
+            rollNumber: row.roll_number,
+            section: row.section,
+            startTime: Date.now(),
+          },
+          submittedAt: row.submitted_at || new Date(row.created_at).toLocaleString("en-PK", { timeZone: "Asia/Karachi" }),
+          timeSpentSeconds: row.time_spent_seconds || 0,
+          sectionScores: row.section_scores || { sectionA: 0, sectionB: 0, sectionC: 0, sectionD: 0 },
+          totalScore: Number(row.total_score) || 0,
+          percentage: Number(row.percentage) || 0,
+          grade: row.grade || "F",
+          evaluatedBy: row.evaluated_by || "fallback-rubric",
+          modelUsed: row.model_used || "deterministic-rubric-engine",
+          mcqResults: row.mcq_results || [],
+          subjectiveFeedback: row.subjective_feedback || {},
+          generalFeedback: row.general_feedback || { strengths: [], improvements: [], summary: "" },
+        }));
+
+        // Merge with in-memory to ensure zero data discrepancy
+        const mergedMap = new Map<string, AssessmentResult>();
+        mappedList.forEach((s) => mergedMap.set(s.id, s));
+        inMemorySubmissions.forEach((s) => {
+          if (!mergedMap.has(s.id)) mergedMap.set(s.id, s);
+        });
+
+        return Array.from(mergedMap.values());
+      }
+    } catch (err) {
+      console.warn("Supabase fetch warning:", err);
+    }
+  }
+
+  // 2. Fallback to local file store
   try {
     ensureFileStore();
     if (fs.existsSync(DATA_FILE)) {
       const data = fs.readFileSync(DATA_FILE, "utf-8");
       const list = JSON.parse(data);
       if (Array.isArray(list) && list.length > 0) {
-        // Merge with in-memory to prevent lost updates across lambda instances
         const mergedMap = new Map<string, AssessmentResult>();
         list.forEach((s) => mergedMap.set(s.id, s));
         inMemorySubmissions.forEach((s) => mergedMap.set(s.id, s));
@@ -137,13 +185,15 @@ export function getAllSubmissions(): AssessmentResult[] {
   } catch {
     // Fallback to in-memory
   }
+
   return inMemorySubmissions;
 }
 
-export function saveSubmission(submission: AssessmentResult): void {
-  // Prepend to in-memory
-  inMemorySubmissions = [submission, ...inMemorySubmissions.filter(s => s.id !== submission.id)];
-  
+export async function saveSubmission(submission: AssessmentResult, rawAnswers?: StudentAnswers): Promise<void> {
+  // 1. Prepend to in-memory
+  inMemorySubmissions = [submission, ...inMemorySubmissions.filter((s) => s.id !== submission.id)];
+
+  // 2. Save to local/tmp file system
   try {
     ensureFileStore();
     let currentList: AssessmentResult[] = [];
@@ -159,6 +209,45 @@ export function saveSubmission(submission: AssessmentResult): void {
     const combined = Array.from(mergedMap.values());
     fs.writeFileSync(DATA_FILE, JSON.stringify(combined, null, 2), "utf-8");
   } catch {
-    // Ignore error in serverless read-only environment
+    // Ignore in read-only environment
+  }
+
+  // 3. Save to Supabase (Full student answers & grading permanently stored)
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    try {
+      const record = {
+        id: submission.id,
+        student_name: submission.student.name,
+        student_email: submission.student.email,
+        roll_number: submission.student.rollNumber,
+        section: submission.student.section,
+        student_raw: submission.student,
+        answers: rawAnswers || null,
+        section_scores: submission.sectionScores,
+        total_score: submission.totalScore,
+        percentage: submission.percentage,
+        grade: submission.grade,
+        evaluated_by: submission.evaluatedBy,
+        model_used: submission.modelUsed,
+        mcq_results: submission.mcqResults,
+        subjective_feedback: submission.subjectiveFeedback,
+        general_feedback: submission.generalFeedback,
+        time_spent_seconds: submission.timeSpentSeconds,
+        submitted_at: submission.submittedAt,
+      };
+
+      const { error } = await supabase
+        .from("student_submissions")
+        .upsert(record, { onConflict: "id" });
+
+      if (error) {
+        console.warn("Supabase save warning:", error.message);
+      } else {
+        console.log(`[Supabase] Successfully saved full paper for ${submission.student.name} (${submission.student.rollNumber})`);
+      }
+    } catch (err) {
+      console.warn("Supabase persistence error:", err);
+    }
   }
 }

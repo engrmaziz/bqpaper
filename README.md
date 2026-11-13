@@ -99,6 +99,21 @@ A modern, full-stack, AI-powered online examination platform designed for 8th-gr
 
 ---
 
+## 🗄️ Supabase Free Tier Integration (Permanent Backup)
+
+To ensure **every student's answer paper and score is permanently saved in PostgreSQL (even if AI or serverless restarts)**:
+
+1. Create a free project at [supabase.com](https://supabase.com).
+2. Go to **SQL Editor** -> **New Query**, paste and run the contents of [`supabase_schema.sql`](./supabase_schema.sql).
+3. In your Vercel Project Settings (or `.env.local`), add:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
+   ```
+4. Submissions are now mirrored in real-time to your Supabase `student_submissions` table, preserving the full answer record of every student.
+
+---
+
 ## 🧪 Verification & Automated Test Suite
 Run the automated test suite anytime to verify all endpoints:
 ```bash

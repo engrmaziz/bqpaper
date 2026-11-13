@@ -1285,5 +1285,300 @@
       ],
       "summary": "Commendable performance! You showed real engineering mindset across vision, NLP, and data cleaning."
     }
+  },
+  {
+    "id": "sub_1794591782821_d7q0t",
+    "student": {
+      "id": "std_101",
+      "name": "Muhammad Ahmed Khan",
+      "email": "ahmed.8b@school.edu.pk",
+      "rollNumber": "BQ-89914",
+      "section": "Grade 8-B",
+      "startTime": 1794588182816
+    },
+    "submittedAt": "13/11/2026, 10:43:02 pm",
+    "timeSpentSeconds": 3600,
+    "sectionScores": {
+      "sectionA": 6,
+      "sectionB": 10,
+      "sectionC": 20,
+      "sectionD": 46.8
+    },
+    "totalScore": 82.8,
+    "percentage": 82.8,
+    "grade": "A",
+    "evaluatedBy": "fallback-rubric",
+    "modelUsed": "deterministic-rubric-engine",
+    "mcqResults": [
+      {
+        "id": 1,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "In traditional coding, Rules + Data = Answers. In Machine Learning, Examples + Answers = Rules (the model)."
+      },
+      {
+        "id": 2,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "ANI (Narrow AI) excels in a single specialized domain, unlike theoretical human-level AGI or future ASI."
+      },
+      {
+        "id": 3,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Training is an iterative loop: Guess, Check against label, Measure loss/error, and Adjust internal weights."
+      },
+      {
+        "id": 4,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "Without a 'Nothing' or background class, the model is mathematically forced to distribute confidence between known classes."
+      },
+      {
+        "id": 5,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "Unsupervised learning groups or clusters similar unlabelled data without pre-existing answer keys (labels)."
+      },
+      {
+        "id": 6,
+        "studentAnswer": "C",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "Good data must be Varied (diverse angles, hands, lighting) and Balanced, rather than repetitive."
+      },
+      {
+        "id": 7,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Overfitting (ratta) happens when a model memorizes specific training photos instead of generalizable features."
+      },
+      {
+        "id": 8,
+        "studentAnswer": "C",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "LLMs are statistical next-word prediction models trained on massive text corpora."
+      },
+      {
+        "id": 9,
+        "studentAnswer": "B",
+        "correctAnswer": "C",
+        "isCorrect": false,
+        "explanation": "A hallucination is when an AI fabricates plausible-sounding but factually false information."
+      },
+      {
+        "id": 10,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "The prompt recipe defines Who (persona/audience), What (objective), Details (constraints), and Length."
+      },
+      {
+        "id": 11,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Digits only represent a mathematical 'Number' if arithmetic operations (sum, average) make semantic sense."
+      },
+      {
+        "id": 12,
+        "studentAnswer": "B",
+        "correctAnswer": "C",
+        "isCorrect": false,
+        "explanation": "Computers match characters literally; differences in letter case or spelling are treated as separate categories."
+      },
+      {
+        "id": 13,
+        "studentAnswer": "C",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "A visible blank is honest. Never fabricate data, and document any missing values in your cleaning log."
+      },
+      {
+        "id": 14,
+        "studentAnswer": "C",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "explanation": "Truncating the vertical axis exaggerates minor numerical variations and visually distorts the true proportion."
+      },
+      {
+        "id": 15,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "Tokens are the fundamental sub-word chunks into which text is segmented for language models."
+      },
+      {
+        "id": 16,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "Tokenizer vocabularies are heavily biased toward English, causing non-English words to fragment into smaller sub-tokens."
+      },
+      {
+        "id": 17,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Sarcasm uses superficial praise words to convey complaints, tricking simple keyword-based sentiment systems."
+      },
+      {
+        "id": 18,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "Digital images are numerical arrays where each pixel is represented by brightness intensity values (0-255)."
+      },
+      {
+        "id": 19,
+        "studentAnswer": "B",
+        "correctAnswer": "B",
+        "isCorrect": true,
+        "explanation": "A Miss (false negative) sends an untreated diseased patient home, with potentially fatal consequences."
+      },
+      {
+        "id": 20,
+        "studentAnswer": "B",
+        "correctAnswer": "A",
+        "isCorrect": false,
+        "explanation": "Classification assigns a single category label to the whole image; Detection locates and labels multiple objects with bounding boxes."
+      }
+    ],
+    "subjectiveFeedback": {
+      "q1_a": {
+        "marksAwarded": 2,
+        "maxMarks": 2,
+        "feedback": "Spot-on! Clearly distinguished labels in supervised learning from automatic clustering in unsupervised learning."
+      },
+      "q1_b_sup": {
+        "marksAwarded": 1.5,
+        "maxMarks": 1.5,
+        "feedback": "Excellent real-world supervised learning example with clear ground truth."
+      },
+      "q1_b_unsup": {
+        "marksAwarded": 1.5,
+        "maxMarks": 1.5,
+        "feedback": "Great example of grouping or clustering without predefined labels."
+      },
+      "q2_a": {
+        "marksAwarded": 2,
+        "maxMarks": 2,
+        "feedback": "Accurately identified that lack of variety and background memorization causes overfitting."
+      },
+      "q2_b": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "All four pillars of good data correctly identified!"
+      },
+      "part_a_chain": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Complete and accurate technical mapping: STT -> LLM -> TTS."
+      },
+      "part_a_error": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Superb understanding of error propagation across chained AI components."
+      },
+      "part_b_sarcasm": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Clear explanation of why literal word-counting fails on sarcastic comments."
+      },
+      "part_b_slang": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Brilliant distinction between literal vocabulary meaning and local vernacular slang."
+      },
+      "part_c_strangers": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Correctly identified data leakage and distribution shift when testing with strangers."
+      },
+      "part_c_doctor_ethics": {
+        "marksAwarded": 5,
+        "maxMarks": 5,
+        "feedback": "Comprehensive ethical analysis of False Alarms vs. Misses in clinical AI."
+      },
+      "m1_classes": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Both food classes and the critical 'Nothing' class included!"
+      },
+      "m1_variations": {
+        "marksAwarded": 4,
+        "maxMarks": 4,
+        "feedback": "Realistic, practical photo variations that ensure robust classification."
+      },
+      "m1_privacy": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Excellent privacy rule: pointing strictly at food trays and protecting student faces."
+      },
+      "m2_table_types": {
+        "marksAwarded": 8,
+        "maxMarks": 8,
+        "feedback": "Table architecture is clean, structured, and properly typed."
+      },
+      "m2_privacy_removal": {
+        "marksAwarded": 1,
+        "maxMarks": 2,
+        "feedback": "Explain that council reports only require sales numbers, not personal student identities."
+      },
+      "m3_cleaning_fixes": {
+        "marksAwarded": 10,
+        "maxMarks": 10,
+        "feedback": "Exceptional data cleaning troubleshooting across duplicates, text formats, and bogus values."
+      },
+      "m4_buttons": {
+        "marksAwarded": 2,
+        "maxMarks": 3,
+        "feedback": "Include Menu, Timings, and an option to reach a human."
+      },
+      "m4_prompt": {
+        "marksAwarded": 3.8,
+        "maxMarks": 5,
+        "feedback": "Check all 4 recipe parts: Who (role), What (task), Details (prices, Roman Urdu), Length (2 lines)."
+      },
+      "m4_safety": {
+        "marksAwarded": 2,
+        "maxMarks": 2,
+        "feedback": "Crucial safety guardrail directing medical/allergy concerns to human staff."
+      },
+      "m5_accuracy_math": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Accurate math: (17 / 20) * 100 = 85%."
+      },
+      "m5_insight": {
+        "marksAwarded": 4,
+        "maxMarks": 4,
+        "feedback": "Actionable insight following the What -> So What -> Now What schema!"
+      },
+      "m5_model_card": {
+        "marksAwarded": 3,
+        "maxMarks": 3,
+        "feedback": "Transparent Model Card with honest limitation disclosure."
+      }
+    },
+    "generalFeedback": {
+      "strengths": [
+        "Strong conceptual clarity on supervised vs. unsupervised paradigms.",
+        "Demonstrated solid ethical intuition regarding healthcare AI and student privacy.",
+        "Accurately tackled data cleaning anomalies and practical prompt engineering."
+      ],
+      "improvements": [
+        "Be even more specific with data variation rules (lighting and angle diversity).",
+        "Keep practicing 4-part prompt constraints to eliminate hallucinated pricing."
+      ],
+      "summary": "Commendable performance! You showed real engineering mindset across vision, NLP, and data cleaning."
+    }
   }
 ]

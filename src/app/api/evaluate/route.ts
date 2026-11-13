@@ -78,8 +78,8 @@ export async function POST(req: NextRequest) {
       generalFeedback: subjectiveEval.generalFeedback,
     };
 
-    // Save submission for teacher dashboard & marksheet
-    saveSubmission(assessmentResult);
+    // Save full student paper & answers for teacher dashboard, marksheet & Supabase
+    await saveSubmission(assessmentResult, answers);
 
     return NextResponse.json(assessmentResult);
   } catch (error: any) {

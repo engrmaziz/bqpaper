@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const list = getAllSubmissions();
+    const list = await getAllSubmissions();
     return NextResponse.json(
       { submissions: list },
       {

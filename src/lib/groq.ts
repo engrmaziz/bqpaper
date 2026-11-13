@@ -99,9 +99,24 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
 
   const userPayload = JSON.stringify(answers, null, 2);
 
-  // List of active candidate models on Groq in priority order:
-  // If one model is rate-limited or decommissioned, automatically fallback to the next available model
-  const CANDIDATE_MODELS = [
+  // 1. Live dynamic discovery: Query Groq's official /v1/models endpoint to find currently active models
+  let discoveredModels: string[] = [];
+  try {
+    const catalogRes = await fetch("https://api.groq.com/openai/v1/models", {
+      headers: { "Authorization": `Bearer ${apiKey}` },
+    });
+    if (catalogRes.ok) {
+      const catalogData = await catalogRes.json();
+      if (Array.isArray(catalogData?.data)) {
+        discoveredModels = catalogData.data.map((m: any) => m.id);
+      }
+    }
+  } catch (err) {
+    console.warn("Dynamic Groq model catalog query skipped:", err);
+  }
+
+  // 2. Priority model candidates
+  const PREFERRED_MODELS = [
     process.env.GROQ_MODEL,
     "llama-3.3-70b-versatile",
     "llama-3.1-8b-instant",
@@ -109,7 +124,35 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
     "openai/gpt-oss-20b",
   ].filter(Boolean) as string[];
 
-  for (const model of CANDIDATE_MODELS) {
+  // 3. Assemble active models to try
+  const modelsToTry: string[] = [];
+  if (discoveredModels.length > 0) {
+    // Priority preferred models that exist on this account
+    for (const pref of PREFERRED_MODELS) {
+      if (discoveredModels.includes(pref) && !modelsToTry.includes(pref)) {
+        modelsToTry.push(pref);
+      }
+    }
+    // Any other available chat models (llama, gpt, qwen, mixtral)
+    for (const id of discoveredModels) {
+      const lower = id.toLowerCase();
+      if (
+        (lower.includes("llama") || lower.includes("gpt") || lower.includes("qwen") || lower.includes("mixtral")) &&
+        !lower.includes("whisper") &&
+        !lower.includes("guard") &&
+        !modelsToTry.includes(id)
+      ) {
+        modelsToTry.push(id);
+      }
+    }
+  }
+
+  // Fallback to static preferred list if discovery was empty
+  if (modelsToTry.length === 0) {
+    modelsToTry.push(...PREFERRED_MODELS);
+  }
+
+  for (const model of modelsToTry) {
     try {
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
