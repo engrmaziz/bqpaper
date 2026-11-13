@@ -9,10 +9,9 @@ export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { student, answers, customGroqKey } = body as {
+    const { student, answers } = body as {
       student: StudentInfo;
       answers: StudentAnswers;
-      customGroqKey?: string;
     };
 
     if (!student || !student.name || !student.email || !answers) {
@@ -38,7 +37,7 @@ export async function POST(req: NextRequest) {
     });
 
     // 2. Evaluate Sections B, C, D with Groq AI (or Fallback Engine)
-    const subjectiveEval = await evaluateSubjectiveAnswersWithGroq(answers, customGroqKey);
+    const subjectiveEval = await evaluateSubjectiveAnswersWithGroq(answers);
 
     const sectionA = mcqScore;
     const sectionB = subjectiveEval.sectionScores.sectionB;

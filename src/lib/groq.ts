@@ -21,9 +21,9 @@ export async function evaluateSubjectiveAnswersWithGroq(
   answers: StudentAnswers,
   customApiKey?: string
 ): Promise<EvaluationOutput> {
-  const apiKey = customApiKey || process.env.GROQ_API_KEY;
+  const apiKey = (process.env.GROQ_API_KEY || customApiKey || "").trim();
 
-  if (apiKey && apiKey.trim().length > 10) {
+  if (apiKey && apiKey.length > 10) {
     try {
       const groqResult = await callGroqAPI(answers, apiKey.trim());
       if (groqResult) {
@@ -99,47 +99,67 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
 
   const userPayload = JSON.stringify(answers, null, 2);
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: `Grade these student answers according to the rubric:\n${userPayload}` },
-      ],
-      temperature: 0.1,
-      response_format: { type: "json_object" },
-    }),
-  });
+  // List of active candidate models on Groq in priority order:
+  // If one model is rate-limited or decommissioned, automatically fallback to the next available model
+  const CANDIDATE_MODELS = [
+    process.env.GROQ_MODEL,
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+  ].filter(Boolean) as string[];
 
-  if (!response.ok) {
-    throw new Error(`Groq API returned HTTP ${response.status}: ${await response.text()}`);
+  for (const model of CANDIDATE_MODELS) {
+    try {
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `Grade these student answers according to the rubric:\n${userPayload}` },
+          ],
+          temperature: 0.1,
+          response_format: { type: "json_object" },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.warn(`Groq model ${model} failed (HTTP ${response.status}): ${errorText}. Trying next candidate model...`);
+        continue;
+      }
+
+      const data = await response.json();
+      const rawContent = data.choices?.[0]?.message?.content;
+      if (!rawContent) continue;
+
+      const parsed = JSON.parse(rawContent);
+      return {
+        sectionScores: {
+          sectionB: Math.min(10, Math.max(0, Number(parsed.sectionScores?.sectionB) || 0)),
+          sectionC: Math.min(20, Math.max(0, Number(parsed.sectionScores?.sectionC) || 0)),
+          sectionD: Math.min(50, Math.max(0, Number(parsed.sectionScores?.sectionD) || 0)),
+        },
+        subjectiveFeedback: parsed.subjectiveFeedback || {},
+        generalFeedback: {
+          strengths: parsed.generalFeedback?.strengths || ["Demonstrated good fundamental grasp of AI concepts."],
+          improvements: parsed.generalFeedback?.improvements || ["Review technical terms and precision in prompt recipes."],
+          summary: parsed.generalFeedback?.summary || "Good effort overall. Keep applying AI to practical problems!",
+        },
+        evaluatedBy: "groq-ai",
+        modelUsed: model,
+      };
+    } catch (err) {
+      console.warn(`Error attempting Groq model ${model}:`, err);
+    }
   }
 
-  const data = await response.json();
-  const rawContent = data.choices?.[0]?.message?.content;
-  if (!rawContent) return null;
-
-  const parsed = JSON.parse(rawContent);
-  return {
-    sectionScores: {
-      sectionB: Math.min(10, Math.max(0, Number(parsed.sectionScores?.sectionB) || 0)),
-      sectionC: Math.min(20, Math.max(0, Number(parsed.sectionScores?.sectionC) || 0)),
-      sectionD: Math.min(50, Math.max(0, Number(parsed.sectionScores?.sectionD) || 0)),
-    },
-    subjectiveFeedback: parsed.subjectiveFeedback || {},
-    generalFeedback: {
-      strengths: parsed.generalFeedback?.strengths || ["Demonstrated good fundamental grasp of AI concepts."],
-      improvements: parsed.generalFeedback?.improvements || ["Review technical terms and precision in prompt recipes."],
-      summary: parsed.generalFeedback?.summary || "Good effort overall. Keep applying AI to practical problems!",
-    },
-    evaluatedBy: "groq-ai",
-    modelUsed: "llama-3.3-70b-versatile",
-  };
+  return null;
 }
 
 // Robust Heuristic Fallback Engine

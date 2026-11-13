@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-import { Key, GraduationCap, Clock, Award, ShieldAlert, ShieldCheck, Lock } from "lucide-react";
+import { GraduationCap, Clock, Award, ShieldAlert, ShieldCheck, Lock } from "lucide-react";
 
 interface NavbarProps {
   currentView: "register" | "exam" | "result" | "admin";
   onNavigate: (view: "register" | "exam" | "result" | "admin") => void;
   timeRemaining?: number;
   studentName?: string;
-  onOpenSettings: () => void;
-  hasCustomGroqKey: boolean;
   isExaminer?: boolean;
   onOpenExaminerLogin: () => void;
 }
@@ -19,8 +17,6 @@ export default function Navbar({
   onNavigate,
   timeRemaining,
   studentName,
-  onOpenSettings,
-  hasCustomGroqKey,
   isExaminer = false,
   onOpenExaminerLogin,
 }: NavbarProps) {
@@ -76,24 +72,6 @@ export default function Navbar({
               <span>Student: <strong className="text-[#e8eef7]">{studentName}</strong></span>
             </div>
           )}
-
-          {/* Groq API Status Button */}
-          <button
-            onClick={onOpenSettings}
-            title={hasCustomGroqKey ? "Groq API Key Active" : "Configure Groq API Key"}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${hasCustomGroqKey
-                ? "bg-[#0e8f86]/20 border-[#00d4ff]/40 text-[#7df9ff]"
-                : "bg-[#0a1224] border-[#1a2744] text-[#8ba0b5] hover:text-[#e8eef7] hover:border-[#00d4ff]/30"
-              }`}
-          >
-            <Key className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Groq AI</span>
-            {hasCustomGroqKey ? (
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00d4ff] shadow-[0_0_8px_#00d4ff]" />
-            ) : (
-              <span className="text-[10px] text-[#e8b86d]">Config</span>
-            )}
-          </button>
 
           {/* Marksheet / Admin View Toggle (Role-Protected for io@maziz.me) */}
           {isExaminer ? (

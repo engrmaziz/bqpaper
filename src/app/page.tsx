@@ -7,7 +7,6 @@ import StudentRegistration from "@/components/StudentRegistration";
 import ExamForm from "@/components/ExamForm";
 import ResultView from "@/components/ResultView";
 import TeacherDashboard from "@/components/TeacherDashboard";
-import SettingsModal from "@/components/SettingsModal";
 import ExaminerLoginModal from "@/components/ExaminerLoginModal";
 
 const TOTAL_EXAM_SECONDS = 80 * 60; // 1 Hour 20 Minutes = 4800 seconds
@@ -52,22 +51,14 @@ export default function Home() {
   const [timeRemaining, setTimeRemaining] = useState<number>(TOTAL_EXAM_SECONDS);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [result, setResult] = useState<AssessmentResult | null>(null);
-  const [customGroqKey, setCustomGroqKey] = useState<string>("");
-  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-
   // Examiner Role Auth States (io@maziz.me)
   const [examinerToken, setExaminerToken] = useState<string>("");
   const [examinerEmail, setExaminerEmail] = useState<string>("");
   const [isExaminerLoginOpen, setIsExaminerLoginOpen] = useState<boolean>(false);
 
-  // Load custom Groq API key and Examiner session from local/session storage
+  // Load Examiner session from session storage
   useEffect(() => {
     try {
-      const savedKey = localStorage.getItem("bq_custom_groq_key");
-      if (savedKey) {
-        setCustomGroqKey(savedKey);
-      }
-
       const savedToken = sessionStorage.getItem("bq_examiner_token");
       const savedEmail = sessionStorage.getItem("bq_examiner_email");
       if (savedToken && savedEmail === "io@maziz.me") {
@@ -75,7 +66,7 @@ export default function Home() {
         setExaminerEmail(savedEmail);
       }
     } catch {
-      // LocalStorage error catch
+      // SessionStorage error catch
     }
   }, []);
 
@@ -107,19 +98,6 @@ export default function Home() {
       }
     }
     setCurrentView(view);
-  };
-
-  const handleSaveGroqKey = (key: string) => {
-    setCustomGroqKey(key);
-    try {
-      if (key) {
-        localStorage.setItem("bq_custom_groq_key", key);
-      } else {
-        localStorage.removeItem("bq_custom_groq_key");
-      }
-    } catch {
-      // Catch error
-    }
   };
 
   // Timer reference
@@ -170,7 +148,6 @@ export default function Home() {
         body: JSON.stringify({
           student,
           answers,
-          customGroqKey,
         }),
       });
 
@@ -197,8 +174,6 @@ export default function Home() {
         onNavigate={handleNavigate}
         timeRemaining={currentView === "exam" ? timeRemaining : undefined}
         studentName={student?.name}
-        onOpenSettings={() => setIsSettingsOpen(true)}
-        hasCustomGroqKey={!!customGroqKey}
         isExaminer={!!examinerToken}
         onOpenExaminerLogin={() => setIsExaminerLoginOpen(true)}
       />
@@ -235,14 +210,6 @@ export default function Home() {
           />
         )}
       </main>
-
-      {/* Settings Modal (Groq API Key) */}
-      <SettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        apiKey={customGroqKey}
-        onSaveKey={handleSaveGroqKey}
-      />
 
       {/* Examiner Portal Login Modal (io@maziz.me) */}
       <ExaminerLoginModal
