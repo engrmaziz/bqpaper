@@ -4,31 +4,37 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { StudentInfo } from "@/types/exam";
 import { EXAM_INFO } from "@/data/examData";
+import { EXAM_INFO_UR } from "@/data/examDataUrdu";
+import { Language, TRANSLATIONS } from "@/data/translations";
 import { User, Mail, Hash, BookOpen, Clock, Award, ShieldAlert, ArrowRight, CheckCircle2, Sparkles, Quote } from "lucide-react";
 
 interface StudentRegistrationProps {
   onStartExam: (student: StudentInfo) => void;
+  language?: Language;
 }
 
-export default function StudentRegistration({ onStartExam }: StudentRegistrationProps) {
+export default function StudentRegistration({ onStartExam, language = "en" }: StudentRegistrationProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [rollNumber, setRollNumber] = useState("");
   const [section, setSection] = useState("Grade 8A");
   const [error, setError] = useState("");
 
+  const t = TRANSLATIONS[language].registration;
+  const examInfo = language === "ur" ? EXAM_INFO_UR : EXAM_INFO;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError("Please enter your full name.");
+      setError(language === "ur" ? "برائے مہربانی اپنا مکمل نام درج کریں۔" : "Please enter your full name.");
       return;
     }
     if (!email.trim() || !email.includes("@")) {
-      setError("Please enter a valid email address.");
+      setError(language === "ur" ? "برائے مہربانی درست ای میل ایڈریس درج کریں۔" : "Please enter a valid email address.");
       return;
     }
     if (!rollNumber.trim()) {
-      setError("Please enter your roll number.");
+      setError(language === "ur" ? "برائے مہربانی اپنا رول نمبر درج کریں۔" : "Please enter your roll number.");
       return;
     }
 
@@ -45,7 +51,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 sm:py-12">
+    <div className={`max-w-5xl mx-auto px-4 py-8 sm:py-12 ${language === "ur" ? "rtl text-right" : ""}`}>
       {/* Official Hero Banner with Bano Qabil Logo & Patron Hafiz Naeem ur Rehman */}
       <div className="text-center space-y-5 mb-10 bq-card p-6 sm:p-10 relative overflow-hidden bg-white border border-[#d4e7dc]">
         {/* Decorative Top Accent Bar */}
@@ -66,7 +72,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
               />
             </div>
             <span className="text-[11px] font-bold text-[#015b30] mt-1.5 block uppercase tracking-wider">
-              Bano Qabil Pakistan
+              {language === "ur" ? "بنو قابل پاکستان" : "Bano Qabil Pakistan"}
             </span>
           </div>
 
@@ -90,10 +96,10 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
               />
             </div>
             <span className="text-[11px] font-extrabold text-[#015b30] mt-1.5 block">
-              Hafiz Naeem ur Rehman
+              {language === "ur" ? "حافظ نعیم الرحمن" : "Hafiz Naeem ur Rehman"}
             </span>
             <span className="text-[10px] text-[#008b74] font-semibold block uppercase tracking-wider">
-              Patron-in-Chief
+              {language === "ur" ? "سرپرستِ اعلیٰ" : "Patron-in-Chief"}
             </span>
           </div>
         </div>
@@ -101,41 +107,41 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
         {/* Vision Pill */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#edf5f0] border border-[#a3cbb5] text-[#015b30] text-xs font-bold tracking-wide">
           <Sparkles className="w-3.5 h-3.5 text-[#c29b38]" />
-          <span>UNDER THE VISIONARY PATRONAGE OF HAFIZ NAEEM UR REHMAN</span>
+          <span>{t.underPatronage}</span>
           <span className="text-[#008b74] font-semibold font-nastaliq text-xs hidden md:inline">| اپنی دنیا آپ پیدا کر</span>
         </div>
 
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#015b30]">
-          {EXAM_INFO.title}
+          {examInfo.title}
         </h1>
 
         <p className="text-sm sm:text-base font-semibold text-[#516d5e] max-w-2xl mx-auto">
-          {EXAM_INFO.subtitle}
+          {examInfo.subtitle}
         </p>
 
         {/* Inspiring Patron Quote Card */}
         <div className="max-w-2xl mx-auto p-5 rounded-2xl bg-[#edf5f0]/90 border border-[#c8e0d2] text-center space-y-2">
           <div className="flex items-center justify-center gap-1.5 text-[#015b30] font-bold text-xs">
             <Quote className="w-3.5 h-3.5 text-[#008b74]" />
-            <span>Patron&apos;s Message to Pakistani Youth</span>
+            <span>{t.patronMessageTitle}</span>
           </div>
           <p className="text-sm sm:text-base text-[#014223] font-nastaliq leading-loose font-bold">
-            &ldquo;ہماری جدوجہد ہے کہ پاکستان کا ہر باصلاحیت بیٹا اور بیٹی جدید ترین آرٹیفیشل انٹیلیجنس اور آئی ٹی کا ماہر بن کر ملک و قوم کا نام روشن کرے۔&rdquo;
+            &ldquo;{t.patronQuote}&rdquo;
           </p>
           <p className="text-xs text-[#516d5e]">
-            — <strong className="font-nastaliq text-sm text-[#015b30]">حافظ نعیم الرحمن</strong> (بانی و سرپرستِ اعلیٰ، بنو قابل تحریک)
+            — <strong className="font-nastaliq text-sm text-[#015b30]">{t.patronQuoteAuthor}</strong>
           </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs text-[#516d5e]">
           <span className="px-3 py-1 rounded-lg bg-[#edf5f0] border border-[#d4e7dc]">
-            Patron-in-Chief: <strong className="text-[#015b30]">{EXAM_INFO.patron}</strong>
+            {language === "ur" ? "سرپرستِ اعلیٰ" : "Patron-in-Chief"}: <strong className="text-[#015b30]">{examInfo.patron}</strong>
           </span>
           <span className="px-3 py-1 rounded-lg bg-[#edf5f0] border border-[#d4e7dc]">
-            Instructors: <strong className="text-[#008b74]">{EXAM_INFO.instructors}</strong>
+            {language === "ur" ? "اساتذہ" : "Instructors"}: <strong className="text-[#008b74]">{examInfo.instructors}</strong>
           </span>
           <span className="px-3 py-1 rounded-lg bg-[#edf5f0] border border-[#d4e7dc]">
-            Target: <strong className="text-[#015b30]">{EXAM_INFO.targetGrade}</strong>
+            {language === "ur" ? "ہدف" : "Target"}: <strong className="text-[#015b30]">{examInfo.targetGrade}</strong>
           </span>
         </div>
       </div>
@@ -146,58 +152,58 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
           <div className="bq-card p-6 space-y-4 bg-white border border-[#d4e7dc]">
             <h3 className="text-base font-bold text-[#015b30] flex items-center gap-2 border-b border-[#edf5f0] pb-3">
               <Award className="w-5 h-5 text-[#008b74]" />
-              Official Examination Pattern
+              {t.examPattern}
             </h3>
 
             <div className="space-y-3 text-xs">
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc]">
                 <div>
-                  <p className="font-bold text-[#0d2317]">Section A: 20 MCQs</p>
-                  <p className="text-[#516d5e]">Core Concepts (Weeks 1 to 6)</p>
+                  <p className="font-bold text-[#0d2317]">{t.secA}</p>
+                  <p className="text-[#516d5e]">{t.secASub}</p>
                 </div>
-                <span className="font-bold text-[#015b30] text-sm">20 Marks</span>
+                <span className="font-bold text-[#015b30] text-sm">20 {language === "ur" ? "نمبر" : "Marks"}</span>
               </div>
 
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc]">
                 <div>
-                  <p className="font-bold text-[#0d2317]">Section B: Short Questions</p>
-                  <p className="text-[#516d5e]">2 Conceptual Problems (5 mks each)</p>
+                  <p className="font-bold text-[#0d2317]">{t.secB}</p>
+                  <p className="text-[#516d5e]">{t.secBSub}</p>
                 </div>
-                <span className="font-bold text-[#015b30] text-sm">10 Marks</span>
+                <span className="font-bold text-[#015b30] text-sm">10 {language === "ur" ? "نمبر" : "Marks"}</span>
               </div>
 
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc]">
                 <div>
-                  <p className="font-bold text-[#0d2317]">Section C: Long Scenario Q</p>
-                  <p className="text-[#516d5e]">Voice Assistant &amp; Ethics</p>
+                  <p className="font-bold text-[#0d2317]">{t.secC}</p>
+                  <p className="text-[#516d5e]">{t.secCSub}</p>
                 </div>
-                <span className="font-bold text-[#015b30] text-sm">20 Marks</span>
+                <span className="font-bold text-[#015b30] text-sm">20 {language === "ur" ? "نمبر" : "Marks"}</span>
               </div>
 
               <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#edf5f0] border border-[#a3cbb5]">
                 <div>
-                  <p className="font-bold text-[#015b30]">Section D: Practical Project</p>
-                  <p className="text-[#516d5e]">Karachi Traffic Vision (5 Milestones)</p>
+                  <p className="font-bold text-[#015b30]">{t.secD}</p>
+                  <p className="text-[#516d5e]">{t.secDSub}</p>
                 </div>
-                <span className="font-bold text-[#015b30] text-sm">50 Marks</span>
+                <span className="font-bold text-[#015b30] text-sm">50 {language === "ur" ? "نمبر" : "Marks"}</span>
               </div>
             </div>
 
             <div className="pt-2 border-t border-[#edf5f0] flex items-center justify-between text-xs text-[#516d5e]">
               <span className="flex items-center gap-1.5 font-semibold">
-                <Clock className="w-4 h-4 text-[#008b74]" /> 80 Minutes
+                <Clock className="w-4 h-4 text-[#008b74]" /> {t.timeAllowed}
               </span>
-              <span className="font-bold text-[#015b30]">Total: 100 Marks</span>
+              <span className="font-bold text-[#015b30]">{t.totalMarks}</span>
             </div>
           </div>
 
           <div className="bq-card p-6 space-y-3 bg-[#edf5f0] border border-[#a3cbb5]">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#015b30] flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-[#008b74]" />
-              Automated Groq AI Assessment
+              {t.aiAssessingTitle}
             </h4>
             <p className="text-xs text-[#516d5e] leading-relaxed">
-              Upon submission, your subjective responses and practical design will be automatically evaluated in seconds against the official Bano Qabil syllabus rubric.
+              {t.aiAssessingDesc}
             </p>
           </div>
         </div>
@@ -207,13 +213,13 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
           <div className="bq-card p-6 sm:p-8 space-y-6 bg-white border border-[#d4e7dc] shadow-sm">
             <div>
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold text-[#015b30]">Student Candidate Verification</h3>
+                <h3 className="text-lg font-bold text-[#015b30]">{t.candidateVerif}</h3>
                 <span className="text-[11px] font-bold text-[#008b74] px-2.5 py-0.5 rounded-full bg-[#edf5f0] border border-[#d4e7dc]">
-                  Midterm 2026
+                  2026
                 </span>
               </div>
               <p className="text-xs text-[#516d5e] mt-1">
-                Please enter your registered Bano Qabil student credentials to begin the exam.
+                {t.candidateSub}
               </p>
             </div>
 
@@ -227,7 +233,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
-                  Full Name (as registered in Bano Qabil)
+                  {t.fullNameLabel}
                 </label>
                 <div className="relative">
                   <input
@@ -235,7 +241,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Muhammad Bilal"
+                    placeholder={t.fullNamePlaceholder}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#7d9b89] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-sans"
                   />
                   <User className="absolute left-3 top-3 w-4 h-4 text-[#7d9b89]" />
@@ -244,7 +250,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
 
               <div>
                 <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
-                  Email Address
+                  {t.emailLabel}
                 </label>
                 <div className="relative">
                   <input
@@ -252,7 +258,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. student@banoqabil.pk"
+                    placeholder={t.emailPlaceholder}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#7d9b89] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-sans"
                   />
                   <Mail className="absolute left-3 top-3 w-4 h-4 text-[#7d9b89]" />
@@ -262,7 +268,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
-                    Roll Number
+                    {t.rollNoLabel}
                   </label>
                   <div className="relative">
                     <input
@@ -270,7 +276,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
                       required
                       value={rollNumber}
                       onChange={(e) => setRollNumber(e.target.value)}
-                      placeholder="e.g. BQ-801"
+                      placeholder={t.rollNoPlaceholder}
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#7d9b89] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-mono"
                     />
                     <Hash className="absolute left-3 top-3 w-4 h-4 text-[#7d9b89]" />
@@ -279,16 +285,16 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
 
                 <div>
                   <label className="block text-xs font-bold text-[#0d2317] mb-1.5">
-                    Batch / Section
+                    {t.batchLabel}
                   </label>
                   <select
                     value={section}
                     onChange={(e) => setSection(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-sans"
                   >
-                    <option value="Grade 8A">Grade 8A (Morning Lab)</option>
-                    <option value="Grade 8B">Grade 8B (Afternoon Lab)</option>
-                    <option value="Grade 8C">Grade 8C (Weekend Batch)</option>
+                    <option value="Grade 8A">{language === "ur" ? "گریڈ 8A (صبح کی لیب)" : "Grade 8A (Morning Lab)"}</option>
+                    <option value="Grade 8B">{language === "ur" ? "گریڈ 8B (دوپہر کی لیب)" : "Grade 8B (Afternoon Lab)"}</option>
+                    <option value="Grade 8C">{language === "ur" ? "گریڈ 8C (ویک اینڈ بیچ)" : "Grade 8C (Weekend Batch)"}</option>
                   </select>
                 </div>
               </div>
@@ -298,13 +304,13 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
                   type="submit"
                   className="w-full py-3.5 px-6 rounded-xl bg-[#015b30] hover:bg-[#014223] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer group"
                 >
-                  <span>Start Midterm Examination</span>
+                  <span>{t.startExamBtn}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-[#7cb342]" />
                 </button>
               </div>
 
               <p className="text-[11px] text-center text-[#516d5e] pt-1">
-                By starting, the 80-minute timer will activate automatically. Powered by Bano Qabil AI Lab.
+                {t.timerNotice}
               </p>
             </form>
           </div>

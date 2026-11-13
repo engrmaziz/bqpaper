@@ -2,7 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import { Clock, ShieldCheck, Lock, Award, BookOpen, Sparkles } from "lucide-react";
+import { Clock, ShieldCheck, Lock, Award, BookOpen, Sparkles, Languages } from "lucide-react";
+import { Language, TRANSLATIONS } from "@/data/translations";
 
 interface NavbarProps {
   currentView: "register" | "exam" | "result" | "admin";
@@ -11,6 +12,8 @@ interface NavbarProps {
   studentName?: string;
   isExaminer?: boolean;
   onOpenExaminerLogin: () => void;
+  language: Language;
+  onToggleLanguage: () => void;
 }
 
 export default function Navbar({
@@ -20,7 +23,11 @@ export default function Navbar({
   studentName,
   isExaminer = false,
   onOpenExaminerLogin,
+  language,
+  onToggleLanguage,
 }: NavbarProps) {
+  const t = TRANSLATIONS[language].navbar;
+
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60);
     const s = secs % 60;
@@ -51,19 +58,19 @@ export default function Navbar({
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-bold tracking-wide text-lg sm:text-xl text-[#015b30]">
-                  Bano Qabil
+                  {t.brandTitle}
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#008b74]/10 text-[#008b74] border border-[#008b74]/30">
-                  AI Lab
+                  {t.aiLab}
                 </span>
                 <span className="hidden sm:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#7cb342]/15 text-[#4e7d1d] border border-[#7cb342]/40">
-                  ★ Grade 8
+                  {t.grade}
                 </span>
               </div>
               <p className="text-xs text-[#516d5e] flex items-center gap-1.5">
-                <span>Essentials of AI (BQ-009)</span>
+                <span>{t.course}</span>
                 <span className="text-[#a3cbb5]">•</span>
-                <span className="text-[#008b74] font-semibold font-nastaliq text-sm leading-none inline-block">اپنی دنیا آپ پیدا کر</span>
+                <span className="text-[#008b74] font-semibold font-nastaliq text-sm leading-none inline-block">{t.motto}</span>
               </p>
             </div>
           </div>
@@ -82,10 +89,10 @@ export default function Navbar({
             </div>
             <div className="leading-tight">
               <span className="text-[10px] uppercase font-bold tracking-wider text-[#008b74] block">
-                Patron-in-Chief
+                {t.patronTitle}
               </span>
               <strong className="text-xs text-[#015b30] font-extrabold flex items-center gap-1">
-                Hafiz Naeem ur Rehman
+                {t.patronName}
                 <Sparkles className="w-3 h-3 text-[#c29b38]" />
               </strong>
             </div>
@@ -102,17 +109,29 @@ export default function Navbar({
             <Clock className={`w-4 h-4 ${isTimeCritical ? "text-red-500" : "text-[#008b74]"}`} />
             <span>{formatTime(timeRemaining)}</span>
             <span className="text-[10px] font-sans font-semibold text-[#516d5e] hidden sm:inline uppercase">
-              REMAINING
+              {t.timeRemaining}
             </span>
           </div>
         )}
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Right Actions: Language Switcher & Examiner Access */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Bilingual Language Switcher Toggle */}
+          <button
+            onClick={onToggleLanguage}
+            title={language === "en" ? "اردو نستعلیق میں تبدیل کریں (Switch to Urdu)" : "Switch to English"}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border-2 border-[#015b30] bg-white hover:bg-[#edf5f0] text-[#015b30] shadow-xs transition-all cursor-pointer group"
+          >
+            <Languages className="w-4 h-4 text-[#008b74] group-hover:rotate-12 transition-transform" />
+            <span className={language === "en" ? "font-nastaliq text-sm text-[#015b30] font-bold leading-none" : "font-serif text-xs font-bold text-[#015b30]"}>
+              {language === "en" ? "اردو Nastaliq" : "English"}
+            </span>
+          </button>
+
           {studentName && currentView === "exam" && (
             <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#edf5f0] border border-[#d4e7dc] text-xs text-[#516d5e]">
               <span className="w-2 h-2 rounded-full bg-[#7cb342] animate-pulse" />
-              <span>Student: <strong className="text-[#0d2317]">{studentName}</strong></span>
+              <span>{t.studentLabel}: <strong className="text-[#0d2317]">{studentName}</strong></span>
             </div>
           )}
 
@@ -127,7 +146,7 @@ export default function Navbar({
               }`}
             >
               <ShieldCheck className="w-4 h-4 text-[#7cb342]" />
-              <span>{currentView === "admin" ? "Back to Exam" : "io@maziz.me (Marksheet)"}</span>
+              <span>{currentView === "admin" ? t.backToExam : "io@maziz.me"}</span>
             </button>
           ) : (
             <button
@@ -136,9 +155,9 @@ export default function Navbar({
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#d4e7dc] hover:border-[#015b30] text-[#015b30] text-xs font-bold shadow-2xs hover:bg-[#edf5f0] transition-all cursor-pointer"
             >
               <Lock className="w-3.5 h-3.5 text-[#008b74]" />
-              <span className="hidden sm:inline">Teacher Marksheet</span>
+              <span className="hidden sm:inline">{t.teacherMarksheet}</span>
               <span className="text-[10px] font-bold text-[#c29b38] bg-[#c29b38]/10 px-1.5 py-0.2 rounded">
-                RESTRICTED
+                {t.restricted}
               </span>
             </button>
           )}

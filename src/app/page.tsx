@@ -9,6 +9,7 @@ import ExamForm from "@/components/ExamForm";
 import ResultView from "@/components/ResultView";
 import TeacherDashboard from "@/components/TeacherDashboard";
 import ExaminerLoginModal from "@/components/ExaminerLoginModal";
+import { Language } from "@/data/translations";
 
 const TOTAL_EXAM_SECONDS = 80 * 60; // 1 Hour 20 Minutes = 4800 seconds
 
@@ -52,10 +53,15 @@ export default function Home() {
   const [timeRemaining, setTimeRemaining] = useState<number>(TOTAL_EXAM_SECONDS);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [result, setResult] = useState<AssessmentResult | null>(null);
+  const [language, setLanguage] = useState<Language>("en");
   // Examiner Role Auth States (io@maziz.me)
   const [examinerToken, setExaminerToken] = useState<string>("");
   const [examinerEmail, setExaminerEmail] = useState<string>("");
   const [isExaminerLoginOpen, setIsExaminerLoginOpen] = useState<boolean>(false);
+
+  const handleToggleLanguage = () => {
+    setLanguage((prev) => (prev === "en" ? "ur" : "en"));
+  };
 
   // Load Examiner session from session storage
   useEffect(() => {
@@ -169,7 +175,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f4f8f5] text-[#0d2317] font-serif">
+    <div className={`min-h-screen flex flex-col bg-[#f4f8f5] text-[#0d2317] ${language === "ur" ? "font-nastaliq" : "font-serif"}`} dir={language === "ur" ? "rtl" : "ltr"}>
       <Navbar
         currentView={currentView}
         onNavigate={handleNavigate}
@@ -177,11 +183,13 @@ export default function Home() {
         studentName={student?.name}
         isExaminer={!!examinerToken}
         onOpenExaminerLogin={() => setIsExaminerLoginOpen(true)}
+        language={language}
+        onToggleLanguage={handleToggleLanguage}
       />
 
       <main className="flex-1 pb-16">
         {currentView === "register" && (
-          <StudentRegistration onStartExam={handleStartExam} />
+          <StudentRegistration onStartExam={handleStartExam} language={language} />
         )}
 
         {currentView === "exam" && student && (
@@ -191,6 +199,7 @@ export default function Home() {
             onUpdateAnswers={setAnswers}
             onSubmitExam={handleSubmitExam}
             isSubmitting={isSubmitting}
+            language={language}
           />
         )}
 
@@ -200,6 +209,7 @@ export default function Home() {
             onRetake={() => setCurrentView("register")}
             onViewMarksheet={() => handleNavigate("admin")}
             isExaminer={!!examinerToken}
+            language={language}
           />
         )}
 
