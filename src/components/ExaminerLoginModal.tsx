@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { Shield, Lock, AlertCircle, CheckCircle2, X, ArrowRight, Loader2 } from "lucide-react";
 
 interface ExaminerLoginModalProps {
@@ -59,54 +60,63 @@ export default function ExaminerLoginModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#050a14]/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-3xl bg-[#0a1224] border border-[#00d4ff]/40 p-6 sm:p-8 cyan-glow shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="relative w-full max-w-md rounded-3xl bg-white border border-[#d4e7dc] p-6 sm:p-8 bq-card shadow-2xl overflow-hidden">
+        {/* Top Accent Strip */}
+        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#015b30] via-[#008b74] to-[#7cb342]" />
+
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl text-[#8ba0b5] hover:text-[#e8eef7] hover:bg-[#1a2744] transition-all"
+          className="absolute top-5 right-5 p-2 rounded-xl text-[#516d5e] hover:text-[#0d2317] hover:bg-[#edf5f0] transition-all cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Header Icon */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#0e8f86] flex items-center justify-center text-[#050a14] shadow-[0_0_15px_rgba(0,212,255,0.4)]">
-            <Shield className="w-6 h-6 stroke-[2.5]" />
+        {/* Header with Official Logo */}
+        <div className="flex items-center gap-3.5 mb-6 pt-2">
+          <div className="relative w-14 h-14 rounded-2xl bg-[#f4f8f5] border border-[#d4e7dc] p-1.5 flex items-center justify-center shadow-xs">
+            <Image
+              src="/bano-qabil.png"
+              alt="Bano Qabil Official Logo"
+              width={48}
+              height={48}
+              className="object-contain"
+            />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold text-[#e8eef7]">Examiner Portal</h2>
-              <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-[#e8b86d]/10 text-[#e8b86d] border border-[#e8b86d]/30">
+              <h2 className="text-lg font-bold text-[#015b30]">Examiner Portal</h2>
+              <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-[#015b30]/10 text-[#015b30] border border-[#015b30]/30">
                 RESTRICTED
               </span>
             </div>
-            <p className="text-xs text-[#8ba0b5]">Class Marksheet &amp; Evaluation Access</p>
+            <p className="text-xs text-[#516d5e]">Class Marksheet &amp; Evaluation Access</p>
           </div>
         </div>
 
         {/* Security Warning Notice */}
-        <div className="p-3.5 mb-5 rounded-2xl bg-[#050a14] border border-[#1a2744] text-xs text-[#8ba0b5] space-y-1">
-          <p className="text-[#e8eef7] font-semibold flex items-center gap-1.5">
-            <Lock className="w-3.5 h-3.5 text-[#00d4ff]" />
+        <div className="p-3.5 mb-5 rounded-2xl bg-[#edf5f0] border border-[#d4e7dc] text-xs text-[#516d5e] space-y-1">
+          <p className="text-[#015b30] font-bold flex items-center gap-1.5">
+            <Lock className="w-3.5 h-3.5 text-[#008b74]" />
             Role-Based Confidential Access
           </p>
           <p className="text-[11px] leading-relaxed">
-            Students can only see their individual scorecards. Only <strong className="text-[#00d4ff]">io@maziz.me</strong> has authorization to view all student marks and export the class marksheet.
+            Students can only view their own scorecards. Only <strong className="text-[#015b30]">io@maziz.me</strong> has authorization to view all student marks and export the class marksheet.
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-2.5 text-xs text-red-400">
-            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2.5 text-xs text-red-700">
+            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600" />
             <p>{error}</p>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#e8eef7] mb-1.5">
+            <label className="block text-xs font-semibold text-[#0d2317] mb-1.5">
               Authorized Examiner Email
             </label>
             <input
@@ -115,12 +125,12 @@ export default function ExaminerLoginModal({
               onChange={(e) => setEmail(e.target.value)}
               placeholder="io@maziz.me"
               required
-              className="w-full px-4 py-2.5 rounded-xl bg-[#050a14] border border-[#1a2744] text-xs sm:text-sm text-[#e8eef7] focus:outline-none focus:border-[#00d4ff] transition-all font-mono"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-mono"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-[#e8eef7] mb-1.5">
+            <label className="block text-xs font-semibold text-[#0d2317] mb-1.5">
               Examiner Security Passcode
             </label>
             <input
@@ -130,10 +140,10 @@ export default function ExaminerLoginModal({
               placeholder="Enter examiner passcode"
               required
               autoFocus
-              className="w-full px-4 py-2.5 rounded-xl bg-[#050a14] border border-[#1a2744] text-xs sm:text-sm text-[#e8eef7] focus:outline-none focus:border-[#00d4ff] transition-all font-mono"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-mono"
             />
-            <p className="text-[10px] text-[#8ba0b5] mt-1 italic">
-              Default passcode: <code className="text-[#00d4ff]">maziz2026</code> (configured via EXAMINER_PASSCODE).
+            <p className="text-[10px] text-[#516d5e] mt-1 italic">
+              Default passcode: <code className="text-[#015b30] font-bold">maziz2026</code> (configured via EXAMINER_PASSCODE).
             </p>
           </div>
 
@@ -141,17 +151,17 @@ export default function ExaminerLoginModal({
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-[#00d4ff] to-[#0e8f86] text-[#050a14] text-xs sm:text-sm font-bold cyan-glow hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-[#015b30] hover:bg-[#014223] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin text-[#7cb342]" />
                   <span>Verifying Credentials...</span>
                 </>
               ) : (
                 <>
                   <span>Unlock Teacher Marksheet</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 text-[#7cb342]" />
                 </>
               )}
             </button>
@@ -161,4 +171,3 @@ export default function ExaminerLoginModal({
     </div>
   );
 }
-

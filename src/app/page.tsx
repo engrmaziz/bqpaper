@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { StudentInfo, StudentAnswers, AssessmentResult } from "@/types/exam";
 import Navbar from "@/components/Navbar";
 import StudentRegistration from "@/components/StudentRegistration";
@@ -168,7 +169,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#050a14] text-[#e8eef7]">
+    <div className="min-h-screen flex flex-col bg-[#f4f8f5] text-[#0d2317] font-serif">
       <Navbar
         currentView={currentView}
         onNavigate={handleNavigate}
@@ -218,18 +219,36 @@ export default function Home() {
         onSuccess={handleExaminerLoginSuccess}
       />
 
-      {/* Footer */}
-      <footer className="border-t border-[#1a2744] bg-[#050a14]/90 py-6 px-4 text-center text-xs text-[#8ba0b5]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>
-            © 2026 <strong className="text-[#e8eef7]">Bano Qabil Pakistan</strong> • Essentials of AI (BQ-009)
+      {/* Official Bano Qabil Footer */}
+      <footer className="border-t border-[#d4e7dc] bg-white py-6 px-4 text-xs text-[#516d5e]">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="relative w-8 h-8 flex-shrink-0 bg-[#f4f8f5] p-1 rounded-lg border border-[#d4e7dc] flex items-center justify-center">
+              <Image
+                src="/bano-qabil.png"
+                alt="Bano Qabil Logo"
+                width={28}
+                height={28}
+                className="object-contain"
+              />
+            </div>
+            <div>
+              <p className="font-bold text-[#015b30]">
+                © 2026 Bano Qabil Pakistan • Essentials of AI (BQ-009)
+              </p>
+              <p className="text-[11px] text-[#008b74] italic">
+                اپنی دنیا آپ پیدا کر — Empowering Youth through Artificial Intelligence
+              </p>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-center sm:text-left">
+            Patron: <strong className="text-[#015b30]">Hafiz Naeem ur Rehman</strong> • Instructors: <span className="text-[#008b74] font-semibold">Musharraf Aziz</span> &amp; <span className="text-[#008b74] font-semibold">Sir Usman Yaseen</span>
           </p>
-          <p className="text-[11px]">
-            Patron: <span className="text-[#e8b86d]">Hafiz Naeem ur Rehman</span> • Instructors: <span className="text-[#7df9ff]">Musharraf Aziz</span> &amp; <span className="text-[#7df9ff]">Sir Usman Yaseen</span>
-          </p>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#00d4ff] cyan-glow" />
-            <span className="text-[11px] text-[#00d4ff]">Vercel Deployable • Groq AI Integrated</span>
+
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#edf5f0] border border-[#d4e7dc]">
+            <span className="w-2 h-2 rounded-full bg-[#7cb342] animate-pulse" />
+            <span className="text-[11px] text-[#015b30] font-semibold">Vercel Deployable • Supabase &amp; Groq AI</span>
           </div>
         </div>
       </footer>

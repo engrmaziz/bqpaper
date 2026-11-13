@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Bano Qabil AI Lab • Midterm Exam & Instant Groq AI Assessment",
-  description: "Automated AI examination and grading platform for Bano Qabil Essentials of AI (Weeks 1 to 6). Instant evaluation powered by Groq Llama 3.3 70B.",
+  title: "Bano Qabil • Essentials of AI Midterm Examination & AI Lab",
+  description: "Official Bano Qabil Online Examination Platform with Instant AI Assessment & Marksheet. Powered by Bano Qabil AI Lab.",
+  icons: {
+    icon: "/bano-qabil.png",
+    shortcut: "/bano-qabil.png",
+    apple: "/bano-qabil.png",
+  },
 };
 
 export default function RootLayout({
@@ -12,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark h-full antialiased">
-      <body className="min-h-full flex flex-col bg-[#050a14] text-[#e8eef7]">
+    <html lang="en" className="h-full antialiased">
+      <body className="min-h-full flex flex-col bg-[#f4f8f5] text-[#0d2317]">
         {children}
       </body>
     </html>

@@ -1,61 +1,81 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050a14;
-  --foreground: #e8eef7;
-  --card-bg: #0a1224;
-  --card-border: #1a2744;
-  --accent-cyan: #00d4ff;
-  --accent-cyan-glow: #7df9ff;
-  --accent-gold: #e8b86d;
-  --muted-text: #8ba0b5;
+  --background: #f4f8f5;
+  --foreground: #0d2317;
+  --card-bg: #ffffff;
+  --card-border: #d4e7dc;
+  
+  /* Bano Qabil Official Logo Palette */
+  --bq-crescent-green: #015b30;
+  --bq-crescent-dark: #014223;
+  --bq-teal: #008b74;
+  --bq-teal-light: #00a88c;
+  --bq-lime-star: #7cb342;
+  --bq-lime-light: #9ccc65;
+  --bq-gold: #c29b38;
+  --bq-text-main: #0d2317;
+  --bq-text-muted: #516d5e;
+  --bq-surface-soft: #edf5f0;
 }
 
 body {
-  background-color: #050a14;
-  color: #e8eef7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: "Book Antiqua", Palatino, "Palatino Linotype", "URW Palladio L", Georgia, serif;
   overflow-x: hidden;
   min-height: 100vh;
 }
 
-/* maziz.me glass card utility */
-.glass-panel {
-  background: rgba(10, 18, 36, 0.75);
-  border: 1px solid rgba(26, 39, 68, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+/* Academic Paper Styling & Card Panels */
+.bq-card {
+  background-color: #ffffff;
+  border: 1px solid #d4e7dc;
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px -2px rgba(1, 91, 48, 0.06), 0 2px 6px -1px rgba(1, 91, 48, 0.04);
+  transition: all 0.2s ease-in-out;
 }
 
-.glass-panel-hover:hover {
-  border-color: rgba(0, 212, 255, 0.4);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+.bq-card:hover {
+  border-color: #9eccb3;
+  box-shadow: 0 8px 25px -4px rgba(1, 91, 48, 0.1), 0 4px 10px -2px rgba(0, 139, 116, 0.06);
 }
 
-.cyan-glow {
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.25);
+.bq-banner {
+  background: linear-gradient(135deg, #014223 0%, #015b30 50%, #00753f 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 25px -5px rgba(1, 91, 48, 0.25);
 }
 
-.cyan-glow-text {
-  text-shadow: 0 0 12px rgba(0, 212, 255, 0.45);
+.bq-banner-subtle {
+  background: linear-gradient(135deg, #f0f7f3 0%, #e6f2eb 100%);
+  border: 1px solid #c8e0d2;
 }
 
-.gold-glow {
-  box-shadow: 0 0 15px rgba(232, 184, 109, 0.25);
+.bq-teal-gradient {
+  background: linear-gradient(135deg, #008b74 0%, #015b30 100%);
 }
 
-/* Custom scrollbars */
+.bq-star-glow {
+  box-shadow: 0 0 16px rgba(124, 179, 66, 0.35);
+}
+
+.bq-green-glow {
+  box-shadow: 0 0 20px rgba(1, 91, 48, 0.2);
+}
+
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #070d1a;
+  background: #edf5f0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1c2b4a;
+  background: #a3cbb5;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00d4ff;
+  background: #015b30;
 }
