@@ -43,3 +43,4 @@ create policy "Allow backend updates" on student_submissions for update using (t
 
 drop policy if exists "Allow backend reads" on student_submissions;
 create policy "Allow backend reads" on student_submissions for select using (true);
+
