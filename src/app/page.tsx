@@ -248,7 +248,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs text-[#008b74] font-bold italic px-3 py-1 rounded-xl bg-white border border-[#d4e7dc]">
+              <span className="font-nastaliq text-sm sm:text-base text-[#015b30] font-bold px-3.5 py-1 rounded-xl bg-white border border-[#d4e7dc] shadow-xs">
                 اپنی دنیا آپ پیدا کر
               </span>
             </div>
@@ -276,13 +276,8 @@ export default function Home() {
             </div>
 
             <p className="text-[11px] text-center sm:text-left">
-              Patron: <strong className="text-[#015b30]">Hafiz Naeem ur Rehman</strong> • Instructors: <span className="text-[#008b74] font-semibold">Musharraf Aziz</span> &amp; <span className="text-[#008b74] font-semibold">Sir Usman Yaseen</span>
+              Patron-in-Chief: <strong className="text-[#015b30]">Hafiz Naeem ur Rehman</strong> • Instructors: <span className="text-[#008b74] font-semibold">Musharraf Aziz</span> &amp; <span className="text-[#008b74] font-semibold">Sir Usman Yaseen</span>
             </p>
-
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#edf5f0] border border-[#d4e7dc]">
-              <span className="w-2 h-2 rounded-full bg-[#7cb342] animate-pulse" />
-              <span className="text-[11px] text-[#015b30] font-semibold">Vercel Deployable • Supabase &amp; Groq AI</span>
-            </div>
           </div>
         </div>
       </footer>

@@ -63,7 +63,7 @@ export default function Navbar({
               <p className="text-xs text-[#516d5e] flex items-center gap-1.5">
                 <span>Essentials of AI (BQ-009)</span>
                 <span className="text-[#a3cbb5]">•</span>
-                <span className="text-[#008b74] font-semibold italic">اپنی دنیا آپ پیدا کر</span>
+                <span className="text-[#008b74] font-semibold font-nastaliq text-sm leading-none inline-block">اپنی دنیا آپ پیدا کر</span>
               </p>
             </div>
           </div>

@@ -134,7 +134,7 @@ export default function TeacherDashboard({
                 <span className="text-xs text-[#516d5e]">
                   • Examiner: <strong className="text-[#015b30]">io@maziz.me</strong>
                 </span>
-                <span className="text-xs text-[#008b74] font-semibold italic hidden sm:inline">
+                <span className="text-[#008b74] font-semibold font-nastaliq text-sm hidden sm:inline">
                   | بنو قابل • اپنی دنیا آپ پیدا کر
                 </span>
               </div>

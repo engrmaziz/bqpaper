@@ -87,7 +87,7 @@ export default function ExamForm({
               <span className="text-xs text-[#015b30] font-bold hidden sm:inline">
                 Patron: <strong>Hafiz Naeem ur Rehman</strong>
               </span>
-              <span className="text-xs text-[#008b74] font-semibold italic hidden md:inline">
+              <span className="text-[#008b74] font-semibold font-nastaliq text-sm hidden md:inline">
                 • بنو قابل • اپنی دنیا آپ پیدا کر
               </span>
             </div>

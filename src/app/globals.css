@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -22,9 +23,26 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Book Antiqua", Palatino, "Palatino Linotype", "URW Palladio L", Georgia, serif;
+  font-family: "Book Antiqua", Palatino, "Palatino Linotype", "URW Palladio L", "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", Georgia, serif;
   overflow-x: hidden;
   min-height: 100vh;
+}
+
+/* Nastaliq Urdu Typography Classes */
+.font-nastaliq,
+.nastaliq,
+[lang="ur"] {
+  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", "Nafees Nastaleeq", serif !important;
+  direction: rtl;
+  line-height: 2.2 !important;
+}
+
+.nastaliq-inline {
+  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", "Nafees Nastaleeq", serif !important;
+  display: inline-block;
+  direction: rtl;
+  line-height: 1.8;
+  vertical-align: baseline;
 }
 
 /* Academic Paper Styling & Card Panels */

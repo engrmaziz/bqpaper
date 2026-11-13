@@ -102,7 +102,7 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#edf5f0] border border-[#a3cbb5] text-[#015b30] text-xs font-bold tracking-wide">
           <Sparkles className="w-3.5 h-3.5 text-[#c29b38]" />
           <span>UNDER THE VISIONARY PATRONAGE OF HAFIZ NAEEM UR REHMAN</span>
-          <span className="text-[#008b74] font-semibold italic text-[11px] hidden md:inline">| اپنی دنیا آپ پیدا کر</span>
+          <span className="text-[#008b74] font-semibold font-nastaliq text-xs hidden md:inline">| اپنی دنیا آپ پیدا کر</span>
         </div>
 
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#015b30]">
@@ -114,16 +114,16 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
         </p>
 
         {/* Inspiring Patron Quote Card */}
-        <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-[#edf5f0]/80 border border-[#c8e0d2] text-center space-y-1.5">
+        <div className="max-w-2xl mx-auto p-5 rounded-2xl bg-[#edf5f0]/90 border border-[#c8e0d2] text-center space-y-2">
           <div className="flex items-center justify-center gap-1.5 text-[#015b30] font-bold text-xs">
             <Quote className="w-3.5 h-3.5 text-[#008b74]" />
             <span>Patron&apos;s Message to Pakistani Youth</span>
           </div>
-          <p className="text-xs sm:text-sm text-[#014223] font-semibold italic leading-relaxed">
+          <p className="text-sm sm:text-base text-[#014223] font-nastaliq leading-loose font-bold">
             &ldquo;ہماری جدوجہد ہے کہ پاکستان کا ہر باصلاحیت بیٹا اور بیٹی جدید ترین آرٹیفیشل انٹیلیجنس اور آئی ٹی کا ماہر بن کر ملک و قوم کا نام روشن کرے۔&rdquo;
           </p>
-          <p className="text-[11px] text-[#516d5e]">
-            — <strong>حافظ نعیم الرحمن</strong> (بانی و سرپرستِ اعلیٰ، بنو قابل تحریک)
+          <p className="text-xs text-[#516d5e]">
+            — <strong className="font-nastaliq text-sm text-[#015b30]">حافظ نعیم الرحمن</strong> (بانی و سرپرستِ اعلیٰ، بنو قابل تحریک)
           </p>
         </div>
 
