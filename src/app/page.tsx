@@ -8,6 +8,7 @@ import ExamForm from "@/components/ExamForm";
 import ResultView from "@/components/ResultView";
 import TeacherDashboard from "@/components/TeacherDashboard";
 import SettingsModal from "@/components/SettingsModal";
+import ExaminerLoginModal from "@/components/ExaminerLoginModal";
 
 const TOTAL_EXAM_SECONDS = 80 * 60; // 1 Hour 20 Minutes = 4800 seconds
 
@@ -54,17 +55,59 @@ export default function Home() {
   const [customGroqKey, setCustomGroqKey] = useState<string>("");
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
-  // Load custom Groq API key from local storage
+  // Examiner Role Auth States (io@maziz.me)
+  const [examinerToken, setExaminerToken] = useState<string>("");
+  const [examinerEmail, setExaminerEmail] = useState<string>("");
+  const [isExaminerLoginOpen, setIsExaminerLoginOpen] = useState<boolean>(false);
+
+  // Load custom Groq API key and Examiner session from local/session storage
   useEffect(() => {
     try {
       const savedKey = localStorage.getItem("bq_custom_groq_key");
       if (savedKey) {
         setCustomGroqKey(savedKey);
       }
+
+      const savedToken = sessionStorage.getItem("bq_examiner_token");
+      const savedEmail = sessionStorage.getItem("bq_examiner_email");
+      if (savedToken && savedEmail === "io@maziz.me") {
+        setExaminerToken(savedToken);
+        setExaminerEmail(savedEmail);
+      }
     } catch {
       // LocalStorage error catch
     }
   }, []);
+
+  const handleExaminerLoginSuccess = (token: string, email: string) => {
+    setExaminerToken(token);
+    setExaminerEmail(email);
+    try {
+      sessionStorage.setItem("bq_examiner_token", token);
+      sessionStorage.setItem("bq_examiner_email", email);
+    } catch {}
+    setCurrentView("admin");
+  };
+
+  const handleExaminerLogout = () => {
+    setExaminerToken("");
+    setExaminerEmail("");
+    try {
+      sessionStorage.removeItem("bq_examiner_token");
+      sessionStorage.removeItem("bq_examiner_email");
+    } catch {}
+    setCurrentView("register");
+  };
+
+  const handleNavigate = (view: "register" | "exam" | "result" | "admin") => {
+    if (view === "admin") {
+      if (!examinerToken) {
+        setIsExaminerLoginOpen(true);
+        return;
+      }
+    }
+    setCurrentView(view);
+  };
 
   const handleSaveGroqKey = (key: string) => {
     setCustomGroqKey(key);
@@ -151,11 +194,13 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-[#050a14] text-[#e8eef7]">
       <Navbar
         currentView={currentView}
-        onNavigate={(view) => setCurrentView(view)}
+        onNavigate={handleNavigate}
         timeRemaining={currentView === "exam" ? timeRemaining : undefined}
         studentName={student?.name}
         onOpenSettings={() => setIsSettingsOpen(true)}
         hasCustomGroqKey={!!customGroqKey}
+        isExaminer={!!examinerToken}
+        onOpenExaminerLogin={() => setIsExaminerLoginOpen(true)}
       />
 
       <main className="flex-1 pb-16">
@@ -177,21 +222,33 @@ export default function Home() {
           <ResultView
             result={result}
             onRetake={() => setCurrentView("register")}
-            onViewMarksheet={() => setCurrentView("admin")}
+            onViewMarksheet={() => handleNavigate("admin")}
+            isExaminer={!!examinerToken}
           />
         )}
 
         {currentView === "admin" && (
-          <TeacherDashboard onBackToExam={() => setCurrentView("register")} />
+          <TeacherDashboard 
+            onBackToExam={() => setCurrentView("register")} 
+            examinerToken={examinerToken}
+            onLogout={handleExaminerLogout}
+          />
         )}
       </main>
 
-      {/* Settings Modal */}
+      {/* Settings Modal (Groq API Key) */}
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         apiKey={customGroqKey}
         onSaveKey={handleSaveGroqKey}
+      />
+
+      {/* Examiner Portal Login Modal (io@maziz.me) */}
+      <ExaminerLoginModal
+        isOpen={isExaminerLoginOpen}
+        onClose={() => setIsExaminerLoginOpen(false)}
+        onSuccess={handleExaminerLoginSuccess}
       />
 
       {/* Footer */}

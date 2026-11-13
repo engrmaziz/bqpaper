@@ -14,29 +14,47 @@ import {
   Users, 
   GraduationCap, 
   Zap,
-  ArrowUpDown
+  ArrowUpDown,
+  ShieldCheck,
+  LogOut
 } from "lucide-react";
 
 interface TeacherDashboardProps {
   onBackToExam: () => void;
+  examinerToken?: string;
+  onLogout?: () => void;
 }
 
-export default function TeacherDashboard({ onBackToExam }: TeacherDashboardProps) {
+export default function TeacherDashboard({ 
+  onBackToExam, 
+  examinerToken = "", 
+  onLogout 
+}: TeacherDashboardProps) {
   const [submissions, setSubmissions] = useState<AssessmentResult[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSubmission, setSelectedSubmission] = useState<AssessmentResult | null>(null);
 
   const fetchSubmissions = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const res = await fetch("/api/submissions");
+      const res = await fetch("/api/submissions", {
+        headers: {
+          "Authorization": `Bearer ${examinerToken}`,
+        },
+      });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Access denied.");
+      }
       if (data.submissions) {
         setSubmissions(data.submissions);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to fetch submissions:", err);
+      setError(err.message || "Unauthorized access.");
     } finally {
       setLoading(false);
     }
@@ -44,7 +62,7 @@ export default function TeacherDashboard({ onBackToExam }: TeacherDashboardProps
 
   useEffect(() => {
     fetchSubmissions();
-  }, []);
+  }, [examinerToken]);
 
   const filtered = submissions.filter((s) => {
     const q = searchQuery.toLowerCase();
@@ -68,7 +86,7 @@ export default function TeacherDashboard({ onBackToExam }: TeacherDashboardProps
   const passRate = totalStudents > 0 ? Math.round((passCount / totalStudents) * 100) : 0;
 
   const handleDownloadCSV = () => {
-    window.location.href = "/api/submissions/export";
+    window.location.href = `/api/submissions/export?token=${encodeURIComponent(examinerToken)}`;
   };
 
   return (
@@ -76,25 +94,28 @@ export default function TeacherDashboard({ onBackToExam }: TeacherDashboardProps
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl glass-panel border border-[#00d4ff]/30 cyan-glow bg-[#0a1224]/90">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-[#00d4ff]/10 text-[#00d4ff] border border-[#00d4ff]/30">
-              TEACHER PORTAL
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-[#00d4ff]/10 text-[#00d4ff] border border-[#00d4ff]/30 flex items-center gap-1">
+              <ShieldCheck className="w-3 h-3 text-[#00d4ff]" />
+              EXAMINER PORTAL
             </span>
-            <span className="text-xs text-[#8ba0b5]">Confidential Examination Records</span>
+            <span className="text-xs text-[#8ba0b5]">
+              Verified: <strong className="text-[#00d4ff]">io@maziz.me</strong>
+            </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#e8eef7] mt-1">
             Midterm Marksheet &amp; Class Analytics
           </h1>
           <p className="text-xs text-[#8ba0b5] mt-0.5">
-            Real-time automatic grading powered by Groq Llama 3.3 70B &amp; BQ-009 Rubrics
+            Full class access restricted to <span className="text-[#e8b86d]">io@maziz.me</span> • Powered by Groq AI
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={fetchSubmissions}
             disabled={loading}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#1a2744] hover:bg-[#1a2744] text-xs font-semibold text-[#8ba0b5] hover:text-[#e8eef7] transition-all"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#1a2744] hover:bg-[#1a2744] text-xs font-semibold text-[#8ba0b5] hover:text-[#e8eef7] transition-all cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             <span>Refresh</span>
@@ -107,8 +128,30 @@ export default function TeacherDashboard({ onBackToExam }: TeacherDashboardProps
             <Download className="w-4 h-4 stroke-[2.5]" />
             <span>Download Marksheet (CSV)</span>
           </button>
+
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              title="Lock Examiner Portal"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-xs font-semibold text-red-400 transition-all cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Lock Portal</span>
+            </button>
+          )}
         </div>
       </div>
+
+      {error && (
+        <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-xs text-red-400 flex items-center justify-between">
+          <p>⚠️ {error}</p>
+          {onLogout && (
+            <button onClick={onLogout} className="underline font-bold ml-4">
+              Re-authenticate as io@maziz.me
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Analytics Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4">

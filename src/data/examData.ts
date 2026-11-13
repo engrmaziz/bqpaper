@@ -507,3 +507,4 @@ export const PRACTICAL_PROJECT_MILESTONES: PracticalMilestone[] = [
     ]
   }
 ];
+

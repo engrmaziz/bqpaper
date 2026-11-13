@@ -228,3 +228,4 @@ export default function StudentRegistration({ onStartExam }: StudentRegistration
     </div>
   );
 }
+

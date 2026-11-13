@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Key, GraduationCap, Clock, Award, ShieldAlert } from "lucide-react";
+import { Key, GraduationCap, Clock, Award, ShieldAlert, ShieldCheck, Lock } from "lucide-react";
 
 interface NavbarProps {
   currentView: "register" | "exam" | "result" | "admin";
@@ -10,6 +10,8 @@ interface NavbarProps {
   studentName?: string;
   onOpenSettings: () => void;
   hasCustomGroqKey: boolean;
+  isExaminer?: boolean;
+  onOpenExaminerLogin: () => void;
 }
 
 export default function Navbar({
@@ -19,6 +21,8 @@ export default function Navbar({
   studentName,
   onOpenSettings,
   hasCustomGroqKey,
+  isExaminer = false,
+  onOpenExaminerLogin,
 }: NavbarProps) {
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60);
@@ -93,20 +97,32 @@ export default function Navbar({
             )}
           </button>
 
-          {/* Marksheet / Admin View Toggle */}
-          <button
-            onClick={() => onNavigate(currentView === "admin" ? "register" : "admin")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-              currentView === "admin"
-                ? "bg-[#00d4ff] text-[#050a14] font-bold shadow-[0_0_15px_rgba(0,212,255,0.4)]"
-                : "bg-[#0a1224] border border-[#1a2744] text-[#8ba0b5] hover:text-[#e8eef7] hover:border-[#00d4ff]/30"
-            }`}
-          >
-            <Award className="w-3.5 h-3.5" />
-            <span>{currentView === "admin" ? "Back to Exam" : "Marksheet"}</span>
-          </button>
+          {/* Marksheet / Admin View Toggle (Role-Protected for io@maziz.me) */}
+          {isExaminer ? (
+            <button
+              onClick={() => onNavigate(currentView === "admin" ? "register" : "admin")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                currentView === "admin"
+                  ? "bg-[#00d4ff] text-[#050a14] font-bold shadow-[0_0_15px_rgba(0,212,255,0.4)]"
+                  : "bg-[#0a1224] border border-[#00d4ff]/40 text-[#00d4ff] hover:bg-[#00d4ff]/10"
+              }`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#00d4ff]" />
+              <span>{currentView === "admin" ? "Back to Exam" : "io@maziz.me (Marksheet)"}</span>
+            </button>
+          ) : (
+            <button
+              onClick={onOpenExaminerLogin}
+              title="Restricted Access: Only io@maziz.me can access the full mark sheet"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#0a1224] border border-[#1a2744] text-[#8ba0b5] hover:text-[#e8eef7] hover:border-[#00d4ff]/30 transition-all cursor-pointer"
+            >
+              <Lock className="w-3.5 h-3.5 text-[#e8b86d]" />
+              <span>Examiner Portal</span>
+            </button>
+          )}
         </div>
       </div>
     </header>
   );
 }
+

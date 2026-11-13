@@ -1,10 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllSubmissions } from "@/lib/storage";
+import { verifyExaminerToken } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
+    const authHeader = req.headers.get("authorization");
+    const customHeader = req.headers.get("x-examiner-token");
+    const { searchParams } = new URL(req.url);
+    const queryToken = searchParams.get("token");
+
+    const token = 
+      (authHeader && authHeader.startsWith("Bearer ") ? authHeader.substring(7) : null) ||
+      customHeader ||
+      queryToken;
+
+    if (!verifyExaminerToken(token)) {
+      return NextResponse.json(
+        { 
+          error: "Access Denied: Only io@maziz.me has authorization to download the class marksheet." 
+        },
+        { status: 403 }
+      );
+    }
+
     const list = getAllSubmissions();
 
     // CSV Headers
