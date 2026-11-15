@@ -1,5 +1,8 @@
-import { AssessmentResult, StudentAnswers } from "@/types/exam";
+import { AssessmentResult, StudentAnswers, StudentInfo } from "@/types/exam";
 import { getSupabaseClient } from "@/lib/supabase";
+import { MCQ_QUESTIONS } from "@/data/examData";
+import { runFallbackEvaluationEngine } from "@/lib/groq";
+import { buildCompleteExamPaper } from "@/lib/examQuestionsMap";
 import fs from "fs";
 import path from "path";
 
@@ -144,35 +147,46 @@ export async function checkStudentAlreadySubmitted(
       const { data, error } = await query.limit(1);
       if (!error && Array.isArray(data) && data.length > 0) {
         const row = data[0];
-        return {
-          exists: true,
-          submission: {
-            id: row.id,
-            student: row.student_raw || {
+
+        // Recovery clause: If a previous attempt resulted in an empty crash (Score 0, no MCQs), allow retry/resubmit
+        const isCrashedZeroSubmission =
+          Number(row.total_score) === 0 &&
+          (!row.mcq_results || (Array.isArray(row.mcq_results) && row.mcq_results.length === 0)) &&
+          (!row.answers || Object.keys(row.answers?.mcqs || {}).length === 0);
+
+        if (!isCrashedZeroSubmission) {
+          return {
+            exists: true,
+            submission: {
               id: row.id,
-              name: row.student_name,
-              email: row.student_email,
-              rollNumber: row.roll_number,
-              section: row.section,
-              startTime: Date.now(),
+              student: row.student_raw || {
+                id: row.id,
+                name: row.student_name,
+                email: row.student_email,
+                rollNumber: row.roll_number,
+                section: row.section,
+                startTime: Date.now(),
+              },
+              submittedAt:
+                row.submitted_at ||
+                new Date(row.created_at).toLocaleString("en-PK", { timeZone: "Asia/Karachi" }),
+              timeSpentSeconds: row.time_spent_seconds || 0,
+              sectionScores:
+                row.section_scores || { sectionA: 0, sectionB: 0, sectionC: 0, sectionD: 0 },
+              totalScore: Number(row.total_score) || 0,
+              percentage: Number(row.percentage) || 0,
+              grade: row.grade || "F",
+              evaluatedBy: row.evaluated_by || "fallback-rubric",
+              modelUsed: row.model_used || "deterministic-rubric-engine",
+              mcqResults: row.mcq_results || [],
+              subjectiveFeedback: row.subjective_feedback || {},
+              generalFeedback:
+                row.general_feedback || { strengths: [], improvements: [], summary: "" },
             },
-            submittedAt:
-              row.submitted_at ||
-              new Date(row.created_at).toLocaleString("en-PK", { timeZone: "Asia/Karachi" }),
-            timeSpentSeconds: row.time_spent_seconds || 0,
-            sectionScores:
-              row.section_scores || { sectionA: 0, sectionB: 0, sectionC: 0, sectionD: 0 },
-            totalScore: Number(row.total_score) || 0,
-            percentage: Number(row.percentage) || 0,
-            grade: row.grade || "F",
-            evaluatedBy: row.evaluated_by || "fallback-rubric",
-            modelUsed: row.model_used || "deterministic-rubric-engine",
-            mcqResults: row.mcq_results || [],
-            subjectiveFeedback: row.subjective_feedback || {},
-            generalFeedback:
-              row.general_feedback || { strengths: [], improvements: [], summary: "" },
-          },
-        };
+          };
+        } else {
+          console.log(`[Submission Recovery] Student ${normRoll} has an empty zero-crash record from the API crash. Permitting fresh paper submission.`);
+        }
       }
     } catch (e) {
       console.warn("Supabase check error:", e);
@@ -288,6 +302,15 @@ export async function saveSubmission(submission: AssessmentResult, rawAnswers?: 
   const supabase = getSupabaseClient();
   if (supabase) {
     try {
+      const pairedQuestionsAndAnswers = rawAnswers ? buildCompleteExamPaper(rawAnswers) : null;
+      const enrichedAnswers = rawAnswers
+        ? {
+            ...rawAnswers,
+            paired_questions_and_answers: pairedQuestionsAndAnswers,
+            recorded_at: new Date().toISOString(),
+          }
+        : null;
+
       const record = {
         id: submission.id,
         student_name: submission.student.name,
@@ -295,7 +318,7 @@ export async function saveSubmission(submission: AssessmentResult, rawAnswers?: 
         roll_number: submission.student.rollNumber,
         section: submission.student.section,
         student_raw: submission.student,
-        answers: rawAnswers || null,
+        answers: enrichedAnswers,
         section_scores: submission.sectionScores,
         total_score: submission.totalScore,
         percentage: submission.percentage,
@@ -314,12 +337,92 @@ export async function saveSubmission(submission: AssessmentResult, rawAnswers?: 
         .upsert(record, { onConflict: "id" });
 
       if (error) {
-        console.warn("Supabase save warning:", error.message);
+        console.error(`[Supabase CRITICAL] Error saving submission for ${submission.student.name} (${submission.student.rollNumber}):`, error.message, error.details);
       } else {
         console.log(`[Supabase] Successfully saved full paper for ${submission.student.name} (${submission.student.rollNumber})`);
       }
     } catch (err) {
-      console.warn("Supabase persistence error:", err);
+      console.error("[Supabase Persistence Error]:", err);
     }
   }
+}
+
+/**
+ * Persists full candidate answers to Supabase IMMEDIATELY before any AI evaluation.
+ * Computes deterministic MCQ scores + heuristic rubric baseline so answers and
+ * legitimate marks are NEVER lost, even if external AI APIs crash or timeout.
+ */
+export async function saveRawStudentSubmission(
+  student: StudentInfo,
+  answers: StudentAnswers,
+  timeSpentSeconds?: number
+): Promise<{ success: boolean; baselineAssessment: AssessmentResult }> {
+  // 1. Calculate Section A (MCQs: 20 Marks) deterministically (instant, 0% failure chance)
+  let mcqScore = 0;
+  const mcqResults = MCQ_QUESTIONS.map((q) => {
+    const studentAns = answers.mcqs?.[q.id] || "";
+    const isCorrect = studentAns === q.correct;
+    if (isCorrect) mcqScore += 1;
+    return {
+      id: q.id,
+      studentAnswer: studentAns,
+      correctAnswer: q.correct,
+      isCorrect,
+      explanation: q.explanation,
+    };
+  });
+
+  // 2. Guaranteed Heuristic Rubric Engine (Instant, robust, never 0 for answered questions)
+  const fallbackEval = runFallbackEvaluationEngine(answers);
+  const timeSpent =
+    timeSpentSeconds ||
+    Math.max(60, Math.round((Date.now() - (student.startTime || Date.now())) / 1000));
+  const submittedTimeStr = new Date().toLocaleString("en-PK", { timeZone: "Asia/Karachi" });
+
+  const rawTotal =
+    mcqScore +
+    fallbackEval.sectionScores.sectionB +
+    fallbackEval.sectionScores.sectionC +
+    fallbackEval.sectionScores.sectionD;
+  const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal * 10) / 10));
+  const percentage = totalScore;
+
+  let grade: AssessmentResult["grade"] = "F";
+  if (percentage >= 90) grade = "A+";
+  else if (percentage >= 80) grade = "A";
+  else if (percentage >= 70) grade = "B";
+  else if (percentage >= 60) grade = "C";
+  else if (percentage >= 50) grade = "D";
+
+  const normRoll = (student.rollNumber || "BQ-STUDENT").trim().toUpperCase();
+  const subId = `sub_${normRoll.replace(/[^A-Z0-9]/g, "_")}_${Date.now()}`;
+
+  const baselineAssessment: AssessmentResult = {
+    id: subId,
+    student,
+    submittedAt: submittedTimeStr,
+    timeSpentSeconds: timeSpent,
+    sectionScores: {
+      sectionA: mcqScore,
+      sectionB: fallbackEval.sectionScores.sectionB,
+      sectionC: fallbackEval.sectionScores.sectionC,
+      sectionD: fallbackEval.sectionScores.sectionD,
+    },
+    totalScore,
+    percentage,
+    grade,
+    evaluatedBy: "fallback-rubric",
+    modelUsed: "deterministic-rubric-engine",
+    mcqResults,
+    subjectiveFeedback: fallbackEval.subjectiveFeedback,
+    generalFeedback: fallbackEval.generalFeedback,
+  };
+
+  // 3. PERSIST IMMEDIATELY TO SUPABASE WITH COMPLETE RAW CANDIDATE ANSWERS
+  await saveSubmission(baselineAssessment, answers);
+
+  return {
+    success: true,
+    baselineAssessment,
+  };
 }

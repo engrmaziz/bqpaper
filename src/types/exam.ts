@@ -128,7 +128,7 @@ export interface AssessmentResult {
   totalScore: number; // /100
   percentage: number;
   grade: "A+" | "A" | "B" | "C" | "D" | "F";
-  evaluatedBy: "groq-ai" | "fallback-rubric";
+  evaluatedBy: "groq-ai" | "gemini-ai" | "openrouter-ai" | "fallback-rubric";
   modelUsed: string;
   mcqResults: {
     id: number;

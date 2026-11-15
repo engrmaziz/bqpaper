@@ -561,7 +561,13 @@ export default function ResultView({
           <div>
             <span className="text-[9pt] uppercase tracking-wider font-bold text-[#516d5e] block">Evaluation Method</span>
             <span className="text-xs font-bold text-[#0d2317] block">
-              {result.evaluatedBy === "groq-ai" ? "Groq AI Neural Assessment" : "Standard Rubric Assessment"}
+              {result.evaluatedBy === "groq-ai"
+                ? "Groq AI Neural Assessment"
+                : result.evaluatedBy === "gemini-ai"
+                ? "Google Gemini AI Neural Assessment"
+                : result.evaluatedBy === "openrouter-ai"
+                ? "OpenRouter AI Neural Assessment"
+                : "Standard Rubric Assessment"}
             </span>
             <span className="text-[8pt] text-[#516d5e]">{result.modelUsed}</span>
           </div>

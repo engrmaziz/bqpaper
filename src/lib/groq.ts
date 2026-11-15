@@ -1,7 +1,9 @@
 import { StudentAnswers, QuestionFeedback } from "@/types/exam";
 import { SHORT_QUESTIONS, LONG_QUESTION, PRACTICAL_PROJECT_MILESTONES } from "@/data/examData";
+import { evaluateSubjectiveAnswersWithGemini } from "@/lib/gemini";
+import { evaluateSubjectiveAnswersWithOpenRouter } from "@/lib/openrouter";
 
-interface EvaluationOutput {
+export interface EvaluationOutput {
   sectionScores: {
     sectionB: number; // max 10
     sectionC: number; // max 20
@@ -13,29 +15,74 @@ interface EvaluationOutput {
     improvements: string[];
     summary: string;
   };
-  evaluatedBy: "groq-ai" | "fallback-rubric";
+  evaluatedBy: "groq-ai" | "gemini-ai" | "openrouter-ai" | "fallback-rubric";
   modelUsed: string;
 }
 
+/**
+ * 4-Tier Multi-Provider Subjective Evaluator:
+ * Tier 1: Groq AI (Llama 3.3 70B / 3.1 8B)
+ * Tier 2: Google Gemini AI (Gemini 2.5 Flash / 2.0 Flash fallback)
+ * Tier 3: OpenRouter AI (Llama 3.3 70B / Gemini 2.0 Flash / GPT-4o-mini fallback)
+ * Tier 4: Deterministic Rubric Engine (guarantees fair marks, never 0)
+ */
+export async function evaluateSubjectiveAnswersWithCascade(
+  answers: StudentAnswers,
+  customApiKey?: string
+): Promise<EvaluationOutput> {
+  const groqApiKey = (
+    process.env.GROQ_API_KEY ||
+    process.env.GROQ_API ||
+    customApiKey ||
+    ""
+  ).trim();
+
+  // Tier 1: Try Groq AI
+  if (groqApiKey && groqApiKey.length > 10) {
+    try {
+      const groqResult = await callGroqAPI(answers, groqApiKey);
+      if (groqResult) {
+        console.log(`[Evaluation Cascade] Tier 1 Success: Graded with Groq (${groqResult.modelUsed})`);
+        return groqResult;
+      }
+    } catch (err) {
+      console.warn("[Evaluation Cascade] Groq API encountered an error, falling back to Gemini:", err);
+    }
+  }
+
+  // Tier 2: Try Google Gemini AI Fallback
+  try {
+    const geminiResult = await evaluateSubjectiveAnswersWithGemini(answers);
+    if (geminiResult) {
+      console.log(`[Evaluation Cascade] Tier 2 Success: Graded with Gemini fallback (${geminiResult.modelUsed})`);
+      return geminiResult;
+    }
+  } catch (err) {
+    console.warn("[Evaluation Cascade] Gemini API encountered an error, falling back to OpenRouter:", err);
+  }
+
+  // Tier 3: Try OpenRouter AI Fallback
+  try {
+    const openRouterResult = await evaluateSubjectiveAnswersWithOpenRouter(answers);
+    if (openRouterResult) {
+      console.log(`[Evaluation Cascade] Tier 3 Success: Graded with OpenRouter fallback (${openRouterResult.modelUsed})`);
+      return openRouterResult;
+    }
+  } catch (err) {
+    console.warn("[Evaluation Cascade] OpenRouter API encountered an error, falling back to Rubric Engine:", err);
+  }
+
+  // Tier 4: Guaranteed Heuristic Rubric Engine (never 0 for answered questions)
+  console.log("[Evaluation Cascade] Tier 4: Running Deterministic Rubric Engine baseline");
+  return runFallbackEvaluationEngine(answers);
+}
+
+// Backward compatible export
 export async function evaluateSubjectiveAnswersWithGroq(
   answers: StudentAnswers,
   customApiKey?: string
 ): Promise<EvaluationOutput> {
-  const apiKey = (process.env.GROQ_API_KEY || customApiKey || "").trim();
-
-  if (apiKey && apiKey.length > 10) {
-    try {
-      const groqResult = await callGroqAPI(answers, apiKey.trim());
-      if (groqResult) {
-        return groqResult;
-      }
-    } catch (err) {
-      console.warn("Groq API evaluation encountered an issue, running fallback engine:", err);
-    }
-  }
-
-  // Fallback Rule-Based Semantic Evaluator
-  return runFallbackEvaluationEngine(answers);
+  return evaluateSubjectiveAnswersWithCascade(answers, customApiKey);
 }
 
 async function callGroqAPI(answers: StudentAnswers, apiKey: string): Promise<EvaluationOutput | null> {
@@ -99,68 +146,17 @@ OUTPUT FORMAT: Return STRICT JSON ONLY with this exact structure:
 
   const userPayload = JSON.stringify(answers, null, 2);
 
-  // 1. Live dynamic discovery: Query Groq's official /v1/models endpoint with strict 2.5s timeout
-  let discoveredModels: string[] = [];
-  try {
-    const catalogRes = await fetch("https://api.groq.com/openai/v1/models", {
-      headers: { 
-        "Authorization": `Bearer ${apiKey}`,
-        "User-Agent": "BQ-Platform/1.0 (Bano Qabil Examination System)"
-      },
-      signal: AbortSignal.timeout(2500),
-    });
-    if (catalogRes.ok) {
-      const catalogData = await catalogRes.json();
-      if (Array.isArray(catalogData?.data)) {
-        discoveredModels = catalogData.data.map((m: any) => m.id);
-      }
-    }
-  } catch (err) {
-    console.warn("Dynamic Groq model catalog query skipped or timed out:", err);
-  }
-
-  // 2. Priority model candidates
-  const PREFERRED_MODELS = [
+  // Priority candidate models to evaluate with low latency
+  const candidates = [
     process.env.GROQ_MODEL,
-    "llama-3.3-70b-versatile",
-    "llama-3.1-8b-instant",
     "openai/gpt-oss-120b",
     "openai/gpt-oss-20b",
     "qwen/qwen3.8-27b",
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
   ].filter(Boolean) as string[];
 
-  // 3. Assemble active models to try
-  const modelsToTry: string[] = [];
-  if (discoveredModels.length > 0) {
-    // Priority preferred models that exist on this account
-    for (const pref of PREFERRED_MODELS) {
-      if (discoveredModels.includes(pref) && !modelsToTry.includes(pref)) {
-        modelsToTry.push(pref);
-      }
-    }
-    // Any other available chat models (llama, gpt, qwen, mixtral)
-    for (const id of discoveredModels) {
-      const lower = id.toLowerCase();
-      if (
-        (lower.includes("llama") || lower.includes("gpt") || lower.includes("qwen") || lower.includes("mixtral")) &&
-        !lower.includes("whisper") &&
-        !lower.includes("guard") &&
-        !modelsToTry.includes(id)
-      ) {
-        modelsToTry.push(id);
-      }
-    }
-  }
-
-  // Fallback to static preferred list if discovery was empty
-  if (modelsToTry.length === 0) {
-    modelsToTry.push(...PREFERRED_MODELS);
-  }
-
-  // Cap to top 2 models maximum to strictly avoid Vercel serverless timeouts
-  const candidates = modelsToTry.slice(0, 2);
-
-  for (const model of candidates) {
+  for (const model of candidates.slice(0, 2)) {
     try {
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",

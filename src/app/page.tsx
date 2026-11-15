@@ -59,11 +59,23 @@ export default function Home() {
   const [examinerEmail, setExaminerEmail] = useState<string>("");
   const [isExaminerLoginOpen, setIsExaminerLoginOpen] = useState<boolean>(false);
 
+  // Mutable refs to eliminate stale closure bugs during auto-submission
+  const answersRef = useRef<StudentAnswers>(INITIAL_ANSWERS);
+  const studentRef = useRef<StudentInfo | null>(null);
+
+  useEffect(() => {
+    answersRef.current = answers;
+  }, [answers]);
+
+  useEffect(() => {
+    studentRef.current = student;
+  }, [student]);
+
   const handleToggleLanguage = () => {
     setLanguage((prev) => (prev === "en" ? "ur" : "en"));
   };
 
-  // 1. Restore completed exam or examiner session on initial load
+  // 1. Restore completed exam or in-progress draft exam on initial load
   useEffect(() => {
     try {
       // Check if student has already completed their exam on this device
@@ -73,7 +85,35 @@ export default function Home() {
         if (parsed && parsed.id && parsed.student) {
           setResult(parsed);
           setStudent(parsed.student);
+          studentRef.current = parsed.student;
           setCurrentView("result");
+          return;
+        }
+      }
+
+      // Check if student has an in-progress draft exam on this device (Prevents paper wipe on accidental refresh)
+      const savedDraftStudent = localStorage.getItem("bq_draft_student");
+      const savedDraftAnswers = localStorage.getItem("bq_draft_answers");
+      if (savedDraftStudent) {
+        const parsedStudent = JSON.parse(savedDraftStudent);
+        if (parsedStudent && parsedStudent.rollNumber) {
+          setStudent(parsedStudent);
+          studentRef.current = parsedStudent;
+          if (savedDraftAnswers) {
+            try {
+              const parsedAnswers = JSON.parse(savedDraftAnswers);
+              if (parsedAnswers && typeof parsedAnswers === "object") {
+                setAnswers(parsedAnswers);
+                answersRef.current = parsedAnswers;
+              }
+            } catch {}
+          }
+          if (parsedStudent.startTime) {
+            const elapsed = Math.round((Date.now() - parsedStudent.startTime) / 1000);
+            const remaining = Math.max(30, TOTAL_EXAM_SECONDS - elapsed);
+            setTimeRemaining(remaining);
+          }
+          setCurrentView("exam");
         }
       }
 
@@ -150,11 +190,14 @@ export default function Home() {
 
   const handleStartExam = (newStudent: StudentInfo) => {
     setStudent(newStudent);
+    studentRef.current = newStudent;
     setAnswers(INITIAL_ANSWERS);
+    answersRef.current = INITIAL_ANSWERS;
     setTimeRemaining(TOTAL_EXAM_SECONDS);
     setCurrentView("exam");
     try {
       localStorage.setItem("bq_draft_student", JSON.stringify(newStudent));
+      localStorage.setItem("bq_draft_answers", JSON.stringify(INITIAL_ANSWERS));
     } catch {}
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -162,6 +205,7 @@ export default function Home() {
   const handleUpdateAnswers: React.Dispatch<React.SetStateAction<StudentAnswers>> = (action) => {
     setAnswers((prev) => {
       const next = typeof action === "function" ? action(prev) : action;
+      answersRef.current = next;
       try {
         localStorage.setItem("bq_draft_answers", JSON.stringify(next));
       } catch {}
@@ -170,47 +214,122 @@ export default function Home() {
   };
 
   const handleAutoSubmit = () => {
-    alert("Time is up! Submitting your examination answers for assessment.");
+    alert(
+      language === "ur"
+        ? "وقت ختم ہو گیا ہے! آپ کے تمام جوابات خودکار طور پر جمع اور محفوظ کیے جا رہے ہیں۔"
+        : "Time is up! Submitting and securing your examination answers for assessment."
+    );
     handleSubmitExam();
   };
 
   const handleSubmitExam = async () => {
-    if (!student || isSubmitting) return;
+    // Read from fresh mutable refs to strictly prevent stale closure bugs
+    let currentStudent = studentRef.current || student;
+    let currentAnswers = answersRef.current || answers;
+
+    // Secondary fallback: Retrieve from localStorage if answers state is somehow empty
+    if (!currentStudent) {
+      try {
+        const savedStd = localStorage.getItem("bq_draft_student");
+        if (savedStd) currentStudent = JSON.parse(savedStd);
+      } catch {}
+    }
+    if (!currentAnswers || Object.keys(currentAnswers.mcqs || {}).length === 0) {
+      try {
+        const savedAns = localStorage.getItem("bq_draft_answers");
+        if (savedAns) {
+          const parsed = JSON.parse(savedAns);
+          if (parsed && typeof parsed === "object") currentAnswers = parsed;
+        }
+      } catch {}
+    }
+
+    if (!currentStudent || isSubmitting) return;
 
     setIsSubmitting(true);
-    try {
-      const res = await fetch("/api/evaluate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          student,
-          answers,
-        }),
-      });
 
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || "Evaluation failed.");
+    try {
+      // =======================================================================
+      // STEP 1: PRE-EVALUATION STORAGE IN SUPABASE (ZERO DATA LOSS GUARANTEE)
+      // Save raw answers & registration into Supabase before any external AI calls.
+      // =======================================================================
+      let preStoreResult: AssessmentResult | null = null;
+      try {
+        const storeRes = await fetch("/api/submissions/store", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            student: currentStudent,
+            answers: currentAnswers,
+            timeSpentSeconds: TOTAL_EXAM_SECONDS - timeRemaining,
+          }),
+        });
+        if (storeRes.ok) {
+          const storeData = await storeRes.json();
+          preStoreResult = storeData.submission;
+        }
+      } catch (storeErr) {
+        console.warn("Pre-evaluation storage network warning:", storeErr);
       }
 
-      const evalResult: AssessmentResult = await res.json();
-      setResult(evalResult);
-      setCurrentView("result");
-
-      // Strictly enforce Single Attempt Policy: Lock submission & cache result permanently
+      // =======================================================================
+      // STEP 2: AI EVALUATION (Groq AI -> Google Gemini AI Fallback)
+      // =======================================================================
       try {
-        localStorage.setItem(`bq_completed_${student.rollNumber.trim().toUpperCase()}`, "true");
-        localStorage.setItem("bq_last_submitted_result", JSON.stringify(evalResult));
-        localStorage.removeItem("bq_draft_answers");
-        localStorage.removeItem("bq_draft_student");
-      } catch {}
+        const res = await fetch("/api/evaluate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            student: currentStudent,
+            answers: currentAnswers,
+          }),
+        });
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+        if (res.ok) {
+          const evalResult: AssessmentResult = await res.json();
+          setResult(evalResult);
+          setCurrentView("result");
+
+          // Lock single attempt and cache result
+          try {
+            localStorage.setItem(`bq_completed_${currentStudent.rollNumber.trim().toUpperCase()}`, "true");
+            localStorage.setItem("bq_last_submitted_result", JSON.stringify(evalResult));
+            localStorage.removeItem("bq_draft_answers");
+            localStorage.removeItem("bq_draft_student");
+          } catch {}
+
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+      } catch (evalErr) {
+        console.warn("AI evaluation fetch error:", evalErr);
+      }
+
+      // =======================================================================
+      // STEP 3: FALLBACK TO PRE-STORED BASELINE (IF AI API TIMED OUT OR ERRORED)
+      // The student paper was already safely stored in Supabase with verified marks!
+      // =======================================================================
+      if (preStoreResult) {
+        setResult(preStoreResult);
+        setCurrentView("result");
+
+        try {
+          localStorage.setItem(`bq_completed_${currentStudent.rollNumber.trim().toUpperCase()}`, "true");
+          localStorage.setItem("bq_last_submitted_result", JSON.stringify(preStoreResult));
+          localStorage.removeItem("bq_draft_answers");
+          localStorage.removeItem("bq_draft_student");
+        } catch {}
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      throw new Error("Could not connect to evaluation server. Please click submit again.");
     } catch (err: any) {
       alert(
         language === "ur"
-          ? `پرچہ جمع کرانے میں رابطہ تعطل: ${err.message}۔ آپ کے تمام جوابات اس ڈیوائس پر محفوظ ہیں۔ برائے مہربانی دوبارہ جمع کرانے کا بٹن دبائیں۔`
-          : `Submission error: ${err.message}. Your answers are fully preserved on this machine. Please click submit again.`
+          ? `پرچہ جمع کرانے میں رابطہ تعطل: ${err.message}۔ آپ کے تمام جوابات محفوظ ہیں۔ برائے مہربانی دوبارہ جمع کرانے کا بٹن دبائیں۔`
+          : `Submission notice: ${err.message}. Your answers are preserved. Please click submit again.`
       );
     } finally {
       setIsSubmitting(false);

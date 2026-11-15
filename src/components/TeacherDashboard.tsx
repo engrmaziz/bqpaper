@@ -37,6 +37,8 @@ export default function TeacherDashboard({
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSubmission, setSelectedSubmission] = useState<AssessmentResult | null>(null);
+  const [isReevaluating, setIsReevaluating] = useState(false);
+  const [reevalMessage, setReevalMessage] = useState<string | null>(null);
 
   const fetchSubmissions = async () => {
     setLoading(true);
@@ -89,6 +91,33 @@ export default function TeacherDashboard({
 
   const handleDownloadCSV = () => {
     window.location.href = `/api/submissions/export?token=${encodeURIComponent(examinerToken)}`;
+  };
+
+  const handleReevaluateSubmission = async (subId: string) => {
+    setIsReevaluating(true);
+    setReevalMessage(null);
+    try {
+      const res = await fetch("/api/submissions/reevaluate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${examinerToken}`,
+        },
+        body: JSON.stringify({ submissionId: subId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Re-evaluation failed.");
+      
+      setReevalMessage("Paper successfully re-graded with latest AI & rubric rules!");
+      await fetchSubmissions();
+      // Update selected submission
+      const updated = submissions.find((s) => s.id === subId);
+      if (updated) setSelectedSubmission(updated);
+    } catch (err: any) {
+      setReevalMessage(`Error: ${err.message}`);
+    } finally {
+      setIsReevaluating(false);
+    }
   };
 
   return (
@@ -426,13 +455,36 @@ export default function TeacherDashboard({
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-[#d4e7dc] bg-[#f4f8f5] flex justify-end">
-              <button
-                onClick={() => setSelectedSubmission(null)}
-                className="px-5 py-2.5 text-xs font-semibold rounded-xl bg-white border border-[#d4e7dc] text-[#015b30] hover:bg-[#edf5f0] transition-all cursor-pointer shadow-2xs"
-              >
-                Close Inspection
-              </button>
+            <div className="p-4 border-t border-[#d4e7dc] bg-[#f4f8f5] flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-[#516d5e]">
+                  Graded by: <strong className="text-[#015b30]">{selectedSubmission.evaluatedBy}</strong> ({selectedSubmission.modelUsed})
+                </span>
+                {reevalMessage && (
+                  <span className="text-[10px] font-bold text-[#008b74] bg-[#edf5f0] px-2 py-0.5 rounded-md">
+                    {reevalMessage}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleReevaluateSubmission(selectedSubmission.id)}
+                  disabled={isReevaluating}
+                  className="px-4 py-2 text-xs font-bold rounded-xl bg-[#015b30] hover:bg-[#014223] text-white transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs disabled:opacity-50"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 text-[#7cb342] ${isReevaluating ? "animate-spin" : ""}`} />
+                  <span>{isReevaluating ? "Re-grading..." : "Re-evaluate Paper"}</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedSubmission(null);
+                    setReevalMessage(null);
+                  }}
+                  className="px-5 py-2 text-xs font-semibold rounded-xl bg-white border border-[#d4e7dc] text-[#015b30] hover:bg-[#edf5f0] transition-all cursor-pointer shadow-2xs"
+                >
+                  Close Inspection
+                </button>
+              </div>
             </div>
           </div>
         </div>
