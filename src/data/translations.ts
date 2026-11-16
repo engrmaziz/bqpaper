@@ -117,7 +117,7 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
     navbar: {
       brandTitle: "Bano Qabil",
       aiLab: "AI Lab",
-      grade: "★ Midterm Exam",
+      grade: "Midterm Exam",
       course: "Essentials of AI (BQ-009)",
       motto: "اپنی دنیا آپ پیدا کر",
       patronTitle: "Patron-in-Chief",
@@ -228,7 +228,7 @@ export const TRANSLATIONS: Record<Language, TranslationDict> = {
     navbar: {
       brandTitle: "بنو قابل",
       aiLab: "اے آئی لیب",
-      grade: "★ مڈٹرم امتحان",
+      grade: "مڈٹرم امتحان",
       course: "ایسینشلز آف اے آئی (BQ-009)",
       motto: "اپنی دنیا آپ پیدا کر",
       patronTitle: "سرپرستِ اعلیٰ",

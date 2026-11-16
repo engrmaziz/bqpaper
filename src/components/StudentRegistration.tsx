@@ -6,7 +6,7 @@ import { StudentInfo } from "@/types/exam";
 import { EXAM_INFO } from "@/data/examData";
 import { EXAM_INFO_UR } from "@/data/examDataUrdu";
 import { Language, TRANSLATIONS } from "@/data/translations";
-import { User, Mail, Hash, BookOpen, Clock, Award, ShieldAlert, ArrowRight, CheckCircle2, Sparkles, Quote } from "lucide-react";
+import { User, Mail, Hash, BookOpen, Clock, Award, ShieldAlert, ArrowRight, CheckCircle2, Quote } from "lucide-react";
 
 interface StudentRegistrationProps {
   onStartExam: (student: StudentInfo) => void;
@@ -118,11 +118,9 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
             </span>
           </div>
 
-          {/* Plus / Connector */}
-          <div className="hidden sm:flex flex-col items-center">
-            <span className="w-8 h-8 rounded-full bg-[#edf5f0] border border-[#a3cbb5] text-[#015b30] flex items-center justify-center font-bold text-xs shadow-2xs">
-              ★
-            </span>
+          {/* Divider */}
+          <div className="hidden sm:flex flex-col items-center justify-center">
+            <div className="w-8 h-px bg-[#d8e9df]" />
           </div>
 
           {/* Patron Hafiz Naeem ur Rehman Card */}
@@ -148,7 +146,6 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
 
         {/* Vision Pill */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#edf5f0] border border-[#a3cbb5] text-[#015b30] text-xs font-bold shadow-2xs">
-          <Sparkles className="w-3.5 h-3.5 text-[#c29b38]" />
           <span>{t.underPatronage}</span>
           <span className="text-[#008b74] font-semibold text-xs hidden md:inline font-arabic-ui">| اپنی دنیا آپ پیدا کر</span>
         </div>

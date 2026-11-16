@@ -6,7 +6,6 @@ import { AssessmentResult } from "@/types/exam";
 import { MCQ_QUESTIONS, SHORT_QUESTIONS, LONG_QUESTION, PRACTICAL_PROJECT_MILESTONES } from "@/data/examData";
 import { MCQ_QUESTIONS_UR } from "@/data/examDataUrdu";
 import { Language, TRANSLATIONS } from "@/data/translations";
-import confetti from "canvas-confetti";
 import { 
   Award, 
   CheckCircle2, 
@@ -21,7 +20,6 @@ import {
   Lock,
   ShieldCheck,
   BookOpen,
-  Sparkles,
   FileCheck
 } from "lucide-react";
 
@@ -43,22 +41,6 @@ export default function ResultView({
   const [expandedQuestions, setExpandedQuestions] = useState<Record<string, boolean>>({});
 
   const t = TRANSLATIONS[language].result;
-
-  useEffect(() => {
-    // Launch celebratory confetti if student scored >= 70%
-    if (result.percentage >= 70) {
-      try {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ["#015b30", "#008b74", "#7cb342", "#c29b38"],
-        });
-      } catch {
-        // Safe catch if confetti fails
-      }
-    }
-  }, [result.percentage]);
 
   const toggleQuestion = (key: string) => {
     setExpandedQuestions((prev) => ({
@@ -123,7 +105,7 @@ export default function ResultView({
                   <ShieldCheck className="w-3.5 h-3.5 text-[#008b74]" />
                   <span>{t.scorecard}</span>
                 </div>
-                <h1 className={`text-2xl sm:text-3xl font-extrabold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+                <h1 className={`text-2xl sm:text-3xl font-extrabold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                   {t.paperAssessment}
                 </h1>
                 <p className="text-sm text-[#0d2317]">
@@ -344,7 +326,7 @@ export default function ResultView({
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="space-y-1.5 flex-1">
-                          <p className={`text-xs font-bold ${mcq.isCorrect ? "text-[#0d2317]" : "text-red-900"} ${language === "ur" ? "font-nastaliq" : ""}`}>
+                          <p className={`text-xs font-bold ${mcq.isCorrect ? "text-[#0d2317]" : "text-red-900"} ${language === "ur" ? "font-urdu" : ""}`}>
                             {idx + 1}. {questionObj?.question}
                           </p>
                           <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
@@ -358,8 +340,9 @@ export default function ResultView({
                             )}
                           </div>
                           {questionObj?.explanation && (
-                            <p className="text-[11px] text-[#516d5e] pt-1 italic">
-                              💡 {questionObj.explanation}
+                            <p className="text-[11px] text-[#516d5e] pt-1">
+                              <span className="font-semibold text-[#008b74]">{language === "ur" ? "وضاحت: " : "Note: "}</span>
+                              {questionObj.explanation}
                             </p>
                           )}
                         </div>
@@ -514,7 +497,7 @@ export default function ResultView({
             <div>
               <span className="text-[8pt] uppercase font-bold text-[#008b74] block">Patron-in-Chief</span>
               <strong className="text-[10pt] text-[#015b30] block">Hafiz Naeem ur Rehman</strong>
-              <span className="text-[8pt] text-[#516d5e] block font-nastaliq">الخدمت بنو قابل پاکستان</span>
+              <span className="text-[8pt] text-[#516d5e] block font-urdu">الخدمت بنو قابل پاکستان</span>
             </div>
             <Image
               src="/hafiz.png"

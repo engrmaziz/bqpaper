@@ -18,8 +18,7 @@ import {
   AlertTriangle,
   Loader2,
   BookOpen,
-  Award,
-  Sparkles
+  Award
 } from "lucide-react";
 
 interface ExamFormProps {
@@ -97,7 +96,7 @@ export default function ExamForm({
               <span className="text-xs text-[#015b30] font-bold hidden sm:inline">
                 {language === "ur" ? "سرپرستِ اعلیٰ: حافظ نعیم الرحمن" : "Patron: Hafiz Naeem ur Rehman"}
               </span>
-              <span className="text-[#008b74] font-semibold font-nastaliq text-sm hidden md:inline">
+              <span className="text-[#008b74] font-semibold font-urdu text-sm hidden md:inline">
                 • بنو قابل • اپنی دنیا آپ پیدا کر
               </span>
             </div>
@@ -327,12 +326,12 @@ export default function ExamForm({
           {/* Question 1 */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>{shortQuestions[0].title}</h3>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>{shortQuestions[0].title}</h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
                 5 {language === "ur" ? "نمبر" : "Marks"}
               </span>
             </div>
-            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d8e9df] ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d8e9df] ${language === "ur" ? "font-urdu leading-relaxed" : ""}`}>
               {shortQuestions[0].scenario}
             </p>
 
@@ -398,12 +397,12 @@ export default function ExamForm({
           {/* Question 2 */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>{shortQuestions[1].title}</h3>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>{shortQuestions[1].title}</h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
                 5 {language === "ur" ? "نمبر" : "Marks"}
               </span>
             </div>
-            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d8e9df] ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d8e9df] ${language === "ur" ? "font-urdu leading-relaxed" : ""}`}>
               {shortQuestions[1].scenario}
             </p>
 
@@ -472,13 +471,13 @@ export default function ExamForm({
         <div className="space-y-6 animate-in fade-in duration-150">
           <div className="p-5 rounded-2xl bq-card bg-white border border-[#d8e9df]">
             <h2 className="text-lg font-bold text-[#015b30]">{t.tabC}</h2>
-            <p className={`text-xs text-[#516d5e] ${language === "ur" ? "font-nastaliq" : ""}`}>{longQuestion.title}</p>
+            <p className={`text-xs text-[#516d5e] ${language === "ur" ? "font-urdu" : ""}`}>{longQuestion.title}</p>
           </div>
 
           {/* Part A */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>{longQuestion.parts[0].title}</h3>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>{longQuestion.parts[0].title}</h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
                 6 {language === "ur" ? "نمبر" : "Marks"}
               </span>
@@ -526,7 +525,7 @@ export default function ExamForm({
           {/* Part B */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {language === "ur" ? "حصہ (ب): نیچرل لینگویج پروسیسنگ اور جذباتی تجزیے کے چیلنجز (6 نمبر)" : "Part (b): NLP & Sentiment Traps (6 Marks)"}
               </h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -576,7 +575,7 @@ export default function ExamForm({
           {/* Part C */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {language === "ur" ? "حصہ (ج): ٹیسٹنگ اور ہسپتال کی طبی اخلاقیات (8 نمبر)" : "Part (c): Real-World Generalization & Hospital Ethics (8 Marks)"}
               </h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -654,7 +653,7 @@ export default function ExamForm({
               </span>
               <span className="text-xs text-[#7cb342] font-semibold">5 {language === "ur" ? "مراحل" : "Milestones"} $\times$ 10 = 50 {language === "ur" ? "نمبر" : "Marks"}</span>
             </div>
-            <h2 className={`text-xl sm:text-2xl font-extrabold mt-2 ${language === "ur" ? "font-nastaliq leading-loose" : ""}`}>
+            <h2 className={`text-xl sm:text-2xl font-extrabold mt-2 ${language === "ur" ? "font-urdu leading-loose" : ""}`}>
               {language === "ur" ? "اسمارٹ اسکول کینٹین AI سسٹم" : "Smart School Canteen AI System"}
             </h2>
             <p className="text-xs text-white/90 mt-1 max-w-3xl">
@@ -665,7 +664,7 @@ export default function ExamForm({
           {/* Milestone 1: Teachable Machine */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {practicalMilestones[0].title} (10 {language === "ur" ? "نمبر" : "Marks"})
               </h3>
               <span className="text-xs font-bold text-[#008b74] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -733,7 +732,7 @@ export default function ExamForm({
           {/* Milestone 2: Tabular Schema */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {practicalMilestones[1].title} (10 {language === "ur" ? "نمبر" : "Marks"})
               </h3>
               <span className="text-xs font-bold text-[#008b74] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -783,7 +782,7 @@ export default function ExamForm({
           {/* Milestone 3: Data Cleaning */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {practicalMilestones[2].title} (10 {language === "ur" ? "نمبر" : "Marks"})
               </h3>
               <span className="text-xs font-bold text-[#008b74] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -815,7 +814,7 @@ export default function ExamForm({
           {/* Milestone 4: Prompt Recipe */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {practicalMilestones[3].title} (10 {language === "ur" ? "نمبر" : "Marks"})
               </h3>
               <span className="text-xs font-bold text-[#008b74] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -883,7 +882,7 @@ export default function ExamForm({
           {/* Milestone 5: Accuracy & Model Card */}
           <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
-              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {practicalMilestones[4].title} (10 {language === "ur" ? "نمبر" : "Marks"})
               </h3>
               <span className="text-xs font-bold text-[#008b74] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -985,7 +984,7 @@ export default function ExamForm({
             </div>
 
             <div>
-              <h3 className={`text-xl font-extrabold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
+              <h3 className={`text-xl font-extrabold text-[#015b30] ${language === "ur" ? "font-urdu" : ""}`}>
                 {t.confirmSubmitTitle}
               </h3>
               <p className="text-xs text-[#516d5e] mt-1">

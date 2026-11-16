@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { Clock, ShieldCheck, Lock, Award, BookOpen, Sparkles, Languages } from "lucide-react";
+import { Clock, ShieldCheck, Lock, Award, BookOpen, Languages } from "lucide-react";
 import { Language, TRANSLATIONS } from "@/data/translations";
 
 interface NavbarProps {
@@ -91,9 +91,8 @@ export default function Navbar({
               <span className="text-[10px] uppercase font-bold tracking-wider text-[#008b74] block">
                 {t.patronTitle}
               </span>
-              <strong className="text-xs text-[#015b30] font-extrabold flex items-center gap-1">
+              <strong className="text-xs text-[#015b30] font-extrabold block">
                 {t.patronName}
-                <Sparkles className="w-3 h-3 text-[#c29b38]" />
               </strong>
             </div>
           </div>

@@ -38,7 +38,7 @@
 
 The **Bano Qabil AI Midterm Examination Platform** is an enterprise-grade academic assessment system engineered for students undertaking the nationwide "Essentials of AI" curriculum (Weeks 1 through 6).
 
-The platform pairs rigorous academic evaluation with cutting-edge web infrastructure, featuring real-time bilingual switching between English (Book Antiqua typography) and authentic Urdu (Noto Nastaliq script with complete RTL orientation), automated evaluation via Groq Cloud LLM acceleration (`llama-3.3-70b-versatile`), a zero-latency deterministic rubric fallback engine, persistent cloud storage via Supabase, single-attempt examination locking, and an official A4 printable certificate marksheet.
+The platform pairs rigorous academic evaluation with cutting-edge web infrastructure, featuring real-time bilingual switching between English (Plus Jakarta Sans typography) and high-legibility Urdu (Noto Sans Arabic script with complete RTL orientation), automated evaluation via Groq Cloud LLM acceleration (`llama-3.3-70b-versatile`), a zero-latency deterministic rubric fallback engine, persistent cloud storage via Supabase, single-attempt examination locking, and an official A4 printable certificate marksheet.
 
 ---
 
@@ -55,7 +55,7 @@ This platform exemplifies that vision by upholding strict examination integrity,
 ```
 [ Candidate Browser ]
         │
-        ├── Bilingual Interface (English Book Antiqua / Urdu Noto Nastaliq)
+        ├── Bilingual Interface (English Plus Jakarta Sans / Urdu Noto Sans Arabic)
         ├── Dynamic Local Storage Backup (Zero Progress Loss)
         └── Single Attempt State Locking
         │
@@ -80,9 +80,9 @@ This platform exemplifies that vision by upholding strict examination integrity,
 
 ## Key Platform Capabilities
 
-### 1. Bilingual Localization (English and Urdu Nastaliq)
+### 1. Bilingual Localization (English and Urdu Noto Sans Arabic)
 - **One-Click Instant Toggle:** A dedicated navbar switcher seamlessly alternates the application between standard English and Urdu.
-- **Authentic Noto Nastaliq Typography:** Full RTL rendering with calibrated line-height to ensure diacritics, nuqtas, and ligatures display with typographical elegance.
+- **High-Legibility Urdu Typography:** Full RTL rendering with Noto Sans Arabic to ensure maximum digital clarity, standard baseline alignment, and zero character clipping across all devices.
 - **Full Curriculum Translation:** All 20 Section A MCQs, Section B short questions, Section C scenarios, Section D practical milestones, instructions, and error notifications are authentically translated.
 - **State Preservation:** Toggling between languages mid-examination preserves every single typed answer and selected option without data loss.
 
@@ -254,7 +254,7 @@ The repository is directly integrated with Vercel for continuous deployment:
 - **AI Acceleration:** Groq Cloud OpenAI-compatible Chat Completions API
 - **Typography:**
   - Latin: Book Antiqua, Palatino, Georgia, serif
-  - Arabic / Urdu: Noto Nastaliq Urdu, Jameel Noori Nastaleeq, serif
+  - Arabic / Urdu: Noto Sans Arabic, 'Segoe UI', Tahoma, sans-serif
 - **Commit Authorship:** Strictly locked to `engrmaziz <io@maziz.me>`
 
 ---
