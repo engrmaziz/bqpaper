@@ -86,10 +86,10 @@ export async function evaluateSubjectiveAnswersWithGroq(
 }
 
 async function callGroqAPI(answers: StudentAnswers, apiKey: string): Promise<EvaluationOutput | null> {
-  const systemPrompt = `You are a Senior AI Examiner grading an 8th-grade Midterm Paper for "Essentials of AI" (Bano Qabil Pakistan).
+  const systemPrompt = `You are a Senior AI Examiner grading a Midterm Paper for "Essentials of AI" (Bano Qabil Pakistan).
 Your job is to assess the student's subjective answers strictly according to the official Marking Rubric.
 
-Be fair, encouraging, yet rigorous. The student is an 8th standard student in Pakistan.
+Be fair, encouraging, yet rigorous. The student is an AI student in Pakistan.
 Grade Section B (10 marks total), Section C (20 marks total), and Section D (50 marks total).
 
 MARKING RUBRIC REFERENCE:

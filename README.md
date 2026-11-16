@@ -13,7 +13,7 @@
 
   # BANO QABIL 2.0
   ## Directorate of Education and Artificial Intelligence Training
-  ### Essentials of AI — Midterm Examination Platform (Grade 8)
+  ### Essentials of AI — Midterm Examination Platform
 
   <p align="center">
     <strong>Patron-in-Chief: Hafiz Naeem ur Rehman</strong><br />
@@ -36,7 +36,7 @@
 
 ## Executive Summary
 
-The **Bano Qabil AI Midterm Examination Platform** is an enterprise-grade academic assessment system engineered for Grade 8 students undertaking the nationwide "Essentials of AI" curriculum (Weeks 1 through 6).
+The **Bano Qabil AI Midterm Examination Platform** is an enterprise-grade academic assessment system engineered for students undertaking the nationwide "Essentials of AI" curriculum (Weeks 1 through 6).
 
 The platform pairs rigorous academic evaluation with cutting-edge web infrastructure, featuring real-time bilingual switching between English (Book Antiqua typography) and authentic Urdu (Noto Nastaliq script with complete RTL orientation), automated evaluation via Groq Cloud LLM acceleration (`llama-3.3-70b-versatile`), a zero-latency deterministic rubric fallback engine, persistent cloud storage via Supabase, single-attempt examination locking, and an official A4 printable certificate marksheet.
 
@@ -262,5 +262,5 @@ The repository is directly integrated with Vercel for continuous deployment:
 ## Institutional License and Copyright
 
 Copyright 2026 Alkhidmat Bano Qabil Pakistan. All Rights Reserved.  
-Course Materials: Essentials of AI (Grade 8)  
+Course Materials: Essentials of AI  
 Technical Architecture and Assessment Platform maintained by Controller of Examinations (`io@maziz.me`).

@@ -505,7 +505,7 @@ export default function ResultView({
                 Official Midterm Examination Marksheet & Certificate of Assessment
               </p>
               <p className="text-[9pt] text-[#516d5e]">
-                Course: Essentials of AI (Grade 8) • Session: Midterm 2026
+                Course: Essentials of AI • Session: Midterm 2026
               </p>
             </div>
           </div>
@@ -532,7 +532,7 @@ export default function ResultView({
           <div>
             <p><strong>Candidate Name:</strong> {result.student.name}</p>
             <p><strong>Roll Number:</strong> {result.student.rollNumber}</p>
-            <p><strong>Batch / Class:</strong> {result.student.section}</p>
+            <p><strong>Batch / Section:</strong> {result.student.section}</p>
           </div>
           <div className="text-right">
             <p><strong>Candidate Email:</strong> {result.student.email}</p>

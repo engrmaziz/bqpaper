@@ -6,7 +6,7 @@ export const EXAM_INFO: ExamInfo = {
   courseCode: "BQ-009",
   patron: "Hafiz Naeem ur Rehman",
   instructors: "Musharraf Aziz & Adv. Sir Usman Yaseen Sb",
-  targetGrade: "8th Standard",
+  targetGrade: "Essentials of AI",
   timeAllowedMinutes: 80,
   totalMarks: 100,
 };

@@ -17,7 +17,7 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [rollNumber, setRollNumber] = useState("");
-  const [section, setSection] = useState("Grade 8A");
+  const [section, setSection] = useState("Batch A");
   const [error, setError] = useState("");
   const [isChecking, setIsChecking] = useState(false);
 
@@ -182,7 +182,7 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
             {language === "ur" ? "اساتذہ" : "Instructors"}: <strong className="text-[#008b74]">{examInfo.instructors}</strong>
           </span>
           <span className="px-3 py-1 rounded-lg bg-[#edf5f0] border border-[#d4e7dc]">
-            {language === "ur" ? "ہدف" : "Target"}: <strong className="text-[#015b30]">{examInfo.targetGrade}</strong>
+            {language === "ur" ? "کورس کوڈ" : "Course"}: <strong className="text-[#015b30]">{examInfo.courseCode}</strong>
           </span>
         </div>
       </div>
@@ -333,9 +333,9 @@ export default function StudentRegistration({ onStartExam, language = "en" }: St
                     onChange={(e) => setSection(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-sans"
                   >
-                    <option value="Grade 8A">{language === "ur" ? "گریڈ 8A (صبح کی لیب)" : "Grade 8A (Morning Lab)"}</option>
-                    <option value="Grade 8B">{language === "ur" ? "گریڈ 8B (دوپہر کی لیب)" : "Grade 8B (Afternoon Lab)"}</option>
-                    <option value="Grade 8C">{language === "ur" ? "گریڈ 8C (ویک اینڈ بیچ)" : "Grade 8C (Weekend Batch)"}</option>
+                    <option value="Batch A">{language === "ur" ? "بیچ A (صبح کی لیب)" : "Batch A (Morning Lab)"}</option>
+                    <option value="Batch B">{language === "ur" ? "بیچ B (دوپہر کی لیب)" : "Batch B (Afternoon Lab)"}</option>
+                    <option value="Batch C">{language === "ur" ? "بیچ C (ویک اینڈ بیچ)" : "Batch C (Weekend Batch)"}</option>
                   </select>
                 </div>
               </div>

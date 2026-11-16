@@ -6,7 +6,7 @@ export const EXAM_INFO_UR: ExamInfo = {
   courseCode: "BQ-009",
   patron: "حافظ نعیم الرحمن",
   instructors: "مشرف عزیز اور ایڈووکیٹ سر عثمان یاسین",
-  targetGrade: "آٹھویں جماعت (گریڈ 8)",
+  targetGrade: "بنیادی مصنوعی ذہانت",
   timeAllowedMinutes: 80,
   totalMarks: 100,
 };
