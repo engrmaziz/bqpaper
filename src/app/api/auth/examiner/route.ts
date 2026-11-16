@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     if (normalizedEmail !== AUTHORIZED_EXAMINER_EMAIL.toLowerCase()) {
       return NextResponse.json(
         { 
-          error: `Access Denied: Only ${AUTHORIZED_EXAMINER_EMAIL} is authorized to access the class marksheet and teacher dashboard.` 
+          error: `Access Denied: Only ${AUTHORIZED_EXAMINER_EMAIL} (Instructor of Applied AI, Bano Qabil Kasur) is authorized to access the class marksheet.` 
         },
         { status: 403 }
       );
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const isValid = verifyExaminerCredentials(email, passcode);
     if (!isValid) {
       return NextResponse.json(
-        { error: "Invalid examiner passcode. Please verify your credentials." },
+        { error: "Invalid instructor passcode. Please verify your credentials." },
         { status: 401 }
       );
     }
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       success: true,
       email: AUTHORIZED_EXAMINER_EMAIL,
       token,
-      message: "Examiner identity verified successfully.",
+      message: "Instructor identity verified successfully.",
     });
   } catch (error: any) {
     return NextResponse.json(

@@ -337,7 +337,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f4f8f5] text-[#0d2317] ${language === "ur" ? "font-nastaliq" : "font-serif"}`} dir={language === "ur" ? "rtl" : "ltr"}>
+    <div className={`min-h-screen flex flex-col bg-[#f6faf7] text-[#0d2317] ${language === "ur" ? "font-arabic-ui" : "font-sans-en"}`} dir={language === "ur" ? "rtl" : "ltr"}>
       <Navbar
         currentView={currentView}
         onNavigate={handleNavigate}
@@ -448,7 +448,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <span>Examiner: <strong>io@maziz.me</strong></span>
+              <span>{language === "ur" ? "انسٹرکٹر: " : "Instructor: "}<strong className="text-[#015b30]">Musharraf Aziz</strong> (Applied AI, Bano Qabil Kasur) • <strong className="text-[#015b30]">io@maziz.me</strong></span>
               <span className="text-[#a3cbb5]">•</span>
               <span>All Rights Reserved</span>
             </div>

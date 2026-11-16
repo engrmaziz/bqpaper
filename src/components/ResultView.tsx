@@ -420,7 +420,7 @@ export default function ResultView({
 
                     {expandedQuestions[qKey] && (
                       <div className="p-3.5 border-t border-[#d4e7dc] bg-white text-xs text-[#0d2317] space-y-1">
-                        <p className="text-[#516d5e] font-semibold">{language === "ur" ? "ممتحن کا تبصرہ:" : "Examiner Note:"}</p>
+                        <p className="text-[#516d5e] font-semibold">{language === "ur" ? "انسٹرکٹر کا تبصرہ:" : "Instructor Note:"}</p>
                         <p className="italic bg-[#f4f8f5] p-2 rounded-lg border border-[#d4e7dc]">{fb.feedback}</p>
                       </div>
                     )}
@@ -469,7 +469,7 @@ export default function ResultView({
                 ) : (
                   <>
                     <Lock className="w-3.5 h-3.5 text-[#008b74]" />
-                    <span>{language === "ur" ? "امتحانی پورٹل" : "Examiner Portal"}</span>
+                    <span>{language === "ur" ? "انسٹرکٹر پورٹل" : "Instructor Portal"}</span>
                   </>
                 )}
               </button>
@@ -621,10 +621,10 @@ export default function ResultView({
           </table>
         </div>
 
-        {/* Examiner Feedback & Performance Summary */}
+        {/* Instructor Feedback & Performance Summary */}
         <div className="space-y-2 text-[9pt] print-avoid-break">
           <h3 className="text-xs font-bold uppercase tracking-wider text-[#015b30]">
-            Examiner Observations & Academic Feedback
+            Instructor Observations & Academic Feedback
           </h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="p-3 rounded-lg border border-[#d4e7dc] bg-[#f4f8f5]">
@@ -668,15 +668,15 @@ export default function ResultView({
 
           <div>
             <div className="border-b border-[#0d2317] h-10 mb-1 flex items-end justify-center pb-1">
-              <span className="font-serif italic text-xs text-[#015b30] font-bold">io@maziz.me</span>
+              <span className="italic text-xs text-[#015b30] font-bold">Musharraf Aziz (io@maziz.me)</span>
             </div>
-            <p className="font-bold text-[#0d2317]">Controller of Examinations</p>
-            <p className="text-[#516d5e]">Bano Qabil Academic Examination Board</p>
+            <p className="font-bold text-[#0d2317]">{language === "ur" ? "مشرف عزیز" : "Musharraf Aziz"}</p>
+            <p className="text-[#015b30] font-semibold text-[7.5pt]">{language === "ur" ? "انسٹرکٹر \"اپلائیڈ اے آئی\"، بنو قابل قصور" : "Instructor of \"Applied AI\", Bano Qabil Kasur"}</p>
           </div>
         </div>
 
         <p className="text-[7.5pt] text-center text-[#516d5e] pt-2">
-          This document is an electronically verified examination marksheet issued by Alkhidmat Bano Qabil AI Portal. To verify authenticity, contact io@maziz.me.
+          This document is an electronically verified examination marksheet issued by Alkhidmat Bano Qabil AI Portal. Verified by Musharraf Aziz, Instructor of &ldquo;Applied AI&rdquo; at Bano Qabil Kasur (io@maziz.me).
         </p>
       </div>
 

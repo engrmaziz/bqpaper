@@ -86,7 +86,7 @@ export async function evaluateSubjectiveAnswersWithGroq(
 }
 
 async function callGroqAPI(answers: StudentAnswers, apiKey: string): Promise<EvaluationOutput | null> {
-  const systemPrompt = `You are a Senior AI Examiner grading a Midterm Paper for "Essentials of AI" (Bano Qabil Pakistan).
+  const systemPrompt = `You are an AI Assessment Assistant grading a Midterm Paper for "Essentials of AI" (Bano Qabil Pakistan), under Instructor Musharraf Aziz (Instructor of "Applied AI" at Bano Qabil Kasur).
 Your job is to assess the student's subjective answers strictly according to the official Marking Rubric.
 
 Be fair, encouraging, yet rigorous. The student is an AI student in Pakistan.

@@ -27,12 +27,12 @@ export default function ExaminerLoginModal({
     setError(null);
 
     if (email.trim().toLowerCase() !== "io@maziz.me") {
-      setError("Access Restricted: Only io@maziz.me has permission to access the teacher marksheet.");
+      setError("Access Restricted: Only io@maziz.me (Instructor of Applied AI, Bano Qabil Kasur) has authorization.");
       return;
     }
 
     if (!passcode) {
-      setError("Please enter the examiner passcode.");
+      setError("Please enter the instructor passcode.");
       return;
     }
 
@@ -61,7 +61,7 @@ export default function ExaminerLoginModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-3xl bg-white border border-[#d4e7dc] p-6 sm:p-8 bq-card shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-md rounded-3xl bg-white border border-[#d8e9df] p-6 sm:p-8 bq-card shadow-2xl overflow-hidden font-sans-en">
         {/* Top Accent Strip */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#015b30] via-[#008b74] to-[#7cb342]" />
 
@@ -76,7 +76,7 @@ export default function ExaminerLoginModal({
         {/* Header with Official Logo & Patron Portrait */}
         <div className="flex items-center gap-3.5 mb-6 pt-2">
           <div className="flex items-center -space-x-2.5">
-            <div className="relative w-14 h-14 rounded-2xl bg-[#f4f8f5] border border-[#d4e7dc] p-1.5 flex items-center justify-center shadow-xs z-10">
+            <div className="relative w-14 h-14 rounded-2xl bg-[#f6faf7] border border-[#d8e9df] p-1.5 flex items-center justify-center shadow-xs z-10">
               <Image
                 src="/bano-qabil.png"
                 alt="Bano Qabil Official Logo"
@@ -97,23 +97,23 @@ export default function ExaminerLoginModal({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold text-[#015b30]">Examiner Portal</h2>
+              <h2 className="text-lg font-bold text-[#015b30]">Instructor Portal</h2>
               <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-[#015b30]/10 text-[#015b30] border border-[#015b30]/30">
                 RESTRICTED
               </span>
             </div>
-            <p className="text-xs text-[#516d5e]">Patron: <strong>Hafiz Naeem ur Rehman</strong> • io@maziz.me</p>
+            <p className="text-xs text-[#516d5e]">Instructor: <strong>Musharraf Aziz</strong> (Applied AI, Bano Qabil Kasur)</p>
           </div>
         </div>
 
         {/* Security Warning Notice */}
-        <div className="p-3.5 mb-5 rounded-2xl bg-[#edf5f0] border border-[#d4e7dc] text-xs text-[#516d5e] space-y-1">
+        <div className="p-3.5 mb-5 rounded-2xl bg-[#edf5f0] border border-[#d8e9df] text-xs text-[#516d5e] space-y-1">
           <p className="text-[#015b30] font-bold flex items-center gap-1.5">
             <Lock className="w-3.5 h-3.5 text-[#008b74]" />
-            Role-Based Confidential Access
+            Role-Protected Instructor Access
           </p>
           <p className="text-[11px] leading-relaxed">
-            Students can only view their own scorecards. Only <strong className="text-[#015b30]">io@maziz.me</strong> has authorization to view all student marks and export the class marksheet.
+            Candidate scorecards are private. Access to master evaluation records and export tools is restricted to <strong className="text-[#015b30]">Musharraf Aziz</strong> (Instructor of Applied AI, Bano Qabil Kasur • io@maziz.me).
           </p>
         </div>
 
@@ -128,7 +128,7 @@ export default function ExaminerLoginModal({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-[#0d2317] mb-1.5">
-              Authorized Examiner Email
+              Authorized Instructor Email
             </label>
             <input
               type="email"
@@ -136,22 +136,22 @@ export default function ExaminerLoginModal({
               onChange={(e) => setEmail(e.target.value)}
               placeholder="io@maziz.me"
               required
-              className="w-full px-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-mono"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#f8faf8] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all font-mono"
             />
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-[#0d2317] mb-1.5">
-              Examiner Security Passcode
+              Instructor Security Passcode
             </label>
             <input
               type="password"
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
-              placeholder="Enter examiner passcode"
+              placeholder="Enter instructor passcode"
               required
               autoFocus
-              className="w-full px-4 py-2.5 rounded-xl bg-[#f4f8f5] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-mono"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#f8faf8] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all font-mono"
             />
             <p className="text-[10px] text-[#516d5e] mt-1 italic">
               Default passcode: <code className="text-[#015b30] font-bold">maziz2026</code> (configured via EXAMINER_PASSCODE).
@@ -171,7 +171,7 @@ export default function ExaminerLoginModal({
                 </>
               ) : (
                 <>
-                  <span>Unlock Teacher Marksheet</span>
+                  <span>Unlock Instructor Dashboard</span>
                   <ArrowRight className="w-4 h-4 text-[#7cb342]" />
                 </>
               )}

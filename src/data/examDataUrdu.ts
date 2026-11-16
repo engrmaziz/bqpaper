@@ -5,7 +5,7 @@ export const EXAM_INFO_UR: ExamInfo = {
   subtitle: "مڈٹرم امتحانی پرچہ (ہفتہ 1 تا 6)",
   courseCode: "BQ-009",
   patron: "حافظ نعیم الرحمن",
-  instructors: "مشرف عزیز اور ایڈووکیٹ سر عثمان یاسین",
+  instructors: "مشرف عزیز (انسٹرکٹر 'اپلائیڈ اے آئی'، بنو قابل قصور) و ایڈووکیٹ سر عثمان یاسین صاحب",
   targetGrade: "بنیادی مصنوعی ذہانت",
   timeAllowedMinutes: 80,
   totalMarks: 100,

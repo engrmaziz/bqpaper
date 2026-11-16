@@ -27,7 +27,7 @@
     <img src="https://img.shields.io/badge/Database-Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase" />
     <img src="https://img.shields.io/badge/Inference-Groq%20Cloud-F05A28?style=flat-square" alt="Groq Cloud" />
     <img src="https://img.shields.io/badge/Deployment-Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" />
-    <img src="https://img.shields.io/badge/Examiner-io%40maziz.me-015b30?style=flat-square" alt="Examiner" />
+    <img src="https://img.shields.io/badge/Instructor-Applied%20AI%20(Kasur)-015b30?style=flat-square" alt="Instructor" />
   </p>
 
 </div>
@@ -99,13 +99,13 @@ This platform exemplifies that vision by upholding strict examination integrity,
 ### 4. Official Printable Marksheet (A4 Format)
 - **High-Fidelity Print Engine:** Calibrated specifically for standard A4 portrait output with `-webkit-print-color-adjust: exact` enabled.
 - **Distraction-Free Output:** Automatically strips screen-only elements (navigation bars, timers, interactive tabs, action buttons) during print or PDF export.
-- **Comprehensive Academic Transcript:** Displays official institutional crests, student demographics, section-by-section breakdown, score percentages, evaluator qualitative feedback, verification reference codes, and signature lines for candidate and Controller of Examinations.
+- **Comprehensive Academic Transcript:** Displays official institutional crests, student demographics, section-by-section breakdown, score percentages, evaluator qualitative feedback, verification reference codes, and signature lines for candidate and Instructor of "Applied AI".
 
-### 5. Role-Protected Examiner Dashboard (`io@maziz.me`)
+### 5. Role-Protected Instructor Dashboard (`io@maziz.me`)
 - **Master Class Analytics:** Live aggregation of total submissions, class score average, top score, lowest score, and pass rate.
 - **Paper Auditing:** Full inspection of student submissions, raw answers, and question-level scoring rationale.
 - **CSV Data Export:** One-click generation of RFC-4180 compliant CSV marksheets for external administrative processing.
-- **Cryptographic Session Guard:** Access restricted strictly to authorized examiner identity (`io@maziz.me`).
+- **Cryptographic Session Guard:** Access restricted strictly to authorized instructor identity (`io@maziz.me`).
 
 ---
 
@@ -199,7 +199,7 @@ GROQ_MODEL=llama-3.3-70b-versatile
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
-# Examiner Security Access (io@maziz.me)
+# Instructor Security Access (io@maziz.me)
 EXAMINER_PASSCODE=your_secure_examiner_passcode
 ```
 
@@ -263,4 +263,4 @@ The repository is directly integrated with Vercel for continuous deployment:
 
 Copyright 2026 Alkhidmat Bano Qabil Pakistan. All Rights Reserved.  
 Course Materials: Essentials of AI  
-Technical Architecture and Assessment Platform maintained by Controller of Examinations (`io@maziz.me`).
+Technical Architecture and Assessment Platform developed and maintained by Musharraf Aziz, Instructor of "Applied AI" at Bano Qabil Kasur (`io@maziz.me`).

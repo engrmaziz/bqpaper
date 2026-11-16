@@ -63,12 +63,12 @@ export default function ExamForm({
   const mcqsAnsweredCount = Object.keys(answers.mcqs).length;
   
   return (
-    <div className={`max-w-6xl mx-auto px-4 py-6 space-y-6 ${language === "ur" ? "rtl text-right" : ""}`}>
+    <div className={`max-w-6xl mx-auto px-4 py-6 space-y-6 ${language === "ur" ? "rtl text-right font-arabic-ui" : "font-sans-en text-left"}`}>
       {/* Official Bano Qabil Examination Paper Header */}
-      <div className="bq-card p-6 bg-white border border-[#d4e7dc] shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bq-card p-6 bg-white border border-[#d8e9df] shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="flex items-center -space-x-3">
-            <div className="relative w-16 h-16 flex-shrink-0 bg-[#f4f8f5] p-1.5 rounded-2xl border border-[#d4e7dc] flex items-center justify-center shadow-xs z-10">
+            <div className="relative w-16 h-16 flex-shrink-0 bg-[#f4f8f5] p-1.5 rounded-2xl border border-[#d8e9df] flex items-center justify-center shadow-xs z-10">
               <Image
                 src="/bano-qabil.png"
                 alt="Bano Qabil Official Logo"
@@ -131,7 +131,7 @@ export default function ExamForm({
       </div>
 
       {/* Top Section Nav Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-2 p-2 rounded-2xl bg-white border border-[#d4e7dc] shadow-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 p-2 rounded-2xl bg-white border border-[#d8e9df] shadow-xs">
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           <button
             onClick={() => setActiveTab("A")}
@@ -209,7 +209,7 @@ export default function ExamForm({
       {activeTab === "A" && (
         <div className="space-y-6 animate-in fade-in duration-150">
           {/* Section banner */}
-          <div className="p-5 rounded-2xl bq-card bg-white border border-[#d4e7dc] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-5 rounded-2xl bq-card bg-white border border-[#d8e9df] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-[#015b30] uppercase tracking-wider px-2 py-0.5 rounded bg-[#edf5f0]">
@@ -254,7 +254,7 @@ export default function ExamForm({
                   id={`mcq_${q.id}`}
                   key={q.id}
                   className={`p-5 rounded-2xl bq-card bg-white border transition-all ${
-                    selectedOpt ? "border-[#015b30] shadow-sm bg-[#fafdfb]" : "border-[#d4e7dc]"
+                    selectedOpt ? "border-[#015b30] shadow-sm bg-[#fafdfb]" : "border-[#d8e9df]"
                   }`}
                 >
                   <div className="flex items-start gap-3 mb-3.5">
@@ -263,7 +263,7 @@ export default function ExamForm({
                     }`}>
                       {q.id}
                     </span>
-                    <p className={`text-sm font-semibold text-[#0d2317] leading-relaxed pt-1 ${language === "ur" ? "font-nastaliq text-base leading-loose" : ""}`}>
+                    <p className={`pt-1 ${language === "ur" ? "urdu-question text-[#0d2317]" : "text-sm font-semibold text-[#0d2317] leading-relaxed"}`}>
                       {q.question}
                     </p>
                   </div>
@@ -280,7 +280,7 @@ export default function ExamForm({
                           } ${
                             isChosen
                               ? "bg-[#edf5f0] border-[#015b30] text-[#015b30] font-bold shadow-xs"
-                              : "bg-[#fbfdfb] border-[#d4e7dc] text-[#0d2317] hover:border-[#015b30]/50 hover:bg-[#f4f8f5]"
+                              : "bg-[#fbfdfb] border-[#d8e9df] text-[#0d2317] hover:border-[#015b30]/50 hover:bg-[#f4f8f5]"
                           }`}
                         >
                           <span className={`w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center flex-shrink-0 ${
@@ -288,7 +288,7 @@ export default function ExamForm({
                           }`}>
                             {optKey}
                           </span>
-                          <span className={`flex-1 ${language === "ur" ? "font-nastaliq text-sm leading-relaxed" : ""}`}>
+                          <span className={`flex-1 ${language === "ur" ? "urdu-option text-[#0d2317]" : "text-xs sm:text-sm text-[#0d2317]"}`}>
                             {q.options[optKey]}
                           </span>
                         </button>
@@ -317,7 +317,7 @@ export default function ExamForm({
       {/* ========================================================================= */}
       {activeTab === "B" && (
         <div className="space-y-6 animate-in fade-in duration-150">
-          <div className="p-5 rounded-2xl bq-card bg-white border border-[#d4e7dc]">
+          <div className="p-5 rounded-2xl bq-card bg-white border border-[#d8e9df]">
             <h2 className="text-lg font-bold text-[#015b30]">{t.tabB}</h2>
             <p className="text-xs text-[#516d5e]">
               {language === "ur" ? "ہر سوال کے 5 نمبر ہیں۔ جامع اور تصوراتی جواب تحریر کریں۔" : "Two short conceptual questions (5 Marks each). Be concise, clear, and conceptual."}
@@ -325,20 +325,20 @@ export default function ExamForm({
           </div>
 
           {/* Question 1 */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>{shortQuestions[0].title}</h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
                 5 {language === "ur" ? "نمبر" : "Marks"}
               </span>
             </div>
-            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d4e7dc] ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d8e9df] ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
               {shortQuestions[0].scenario}
             </p>
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {shortQuestions[0].parts[0].prompt} ({shortQuestions[0].parts[0].marks} {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <textarea
@@ -351,13 +351,13 @@ export default function ExamForm({
                       shortQuestions: { ...prev.shortQuestions, q1_a: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                  <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                     {shortQuestions[0].parts[1].prompt} ({shortQuestions[0].parts[1].marks} {language === "ur" ? "نمبر" : "Marks"})
                   </label>
                   <input
@@ -370,12 +370,12 @@ export default function ExamForm({
                         shortQuestions: { ...prev.shortQuestions, q1_b_sup: e.target.value },
                       }))
                     }
-                    className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                    className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                   />
                 </div>
 
                 <div>
-                  <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                  <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                     {shortQuestions[0].parts[2].prompt} ({shortQuestions[0].parts[2].marks} {language === "ur" ? "نمبر" : "Marks"})
                   </label>
                   <input
@@ -388,7 +388,7 @@ export default function ExamForm({
                         shortQuestions: { ...prev.shortQuestions, q1_b_unsup: e.target.value },
                       }))
                     }
-                    className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                    className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                   />
                 </div>
               </div>
@@ -396,20 +396,20 @@ export default function ExamForm({
           </div>
 
           {/* Question 2 */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>{shortQuestions[1].title}</h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
                 5 {language === "ur" ? "نمبر" : "Marks"}
               </span>
             </div>
-            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d4e7dc] ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+            <p className={`text-xs text-[#516d5e] italic bg-[#f4f8f5] p-3 rounded-xl border border-[#d8e9df] ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
               {shortQuestions[1].scenario}
             </p>
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {shortQuestions[1].parts[0].prompt} ({shortQuestions[1].parts[0].marks} {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <textarea
@@ -422,12 +422,12 @@ export default function ExamForm({
                       shortQuestions: { ...prev.shortQuestions, q2_a: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {shortQuestions[1].parts[1].prompt} ({shortQuestions[1].parts[1].marks} {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <input
@@ -440,7 +440,7 @@ export default function ExamForm({
                       shortQuestions: { ...prev.shortQuestions, q2_b: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white transition-all font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
@@ -449,7 +449,7 @@ export default function ExamForm({
           <div className="flex justify-between pt-4">
             <button
               onClick={() => setActiveTab("A")}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#d4e7dc] bg-white text-xs text-[#516d5e] hover:text-[#015b30] font-bold cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#d8e9df] bg-white text-xs text-[#516d5e] hover:text-[#015b30] font-bold cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>{t.prev}: {t.tabA}</span>
@@ -470,13 +470,13 @@ export default function ExamForm({
       {/* ========================================================================= */}
       {activeTab === "C" && (
         <div className="space-y-6 animate-in fade-in duration-150">
-          <div className="p-5 rounded-2xl bq-card bg-white border border-[#d4e7dc]">
+          <div className="p-5 rounded-2xl bq-card bg-white border border-[#d8e9df]">
             <h2 className="text-lg font-bold text-[#015b30]">{t.tabC}</h2>
             <p className={`text-xs text-[#516d5e] ${language === "ur" ? "font-nastaliq" : ""}`}>{longQuestion.title}</p>
           </div>
 
           {/* Part A */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>{longQuestion.parts[0].title}</h3>
               <span className="text-xs font-bold text-[#015b30] px-3 py-1 rounded-full bg-[#edf5f0] border border-[#a3cbb5]">
@@ -486,7 +486,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {longQuestion.parts[0].prompt}
                 </label>
                 <input
@@ -499,12 +499,12 @@ export default function ExamForm({
                       longQuestion: { ...prev.longQuestion, part_a_chain: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {longQuestion.parts[1].prompt}
                 </label>
                 <textarea
@@ -517,14 +517,14 @@ export default function ExamForm({
                       longQuestion: { ...prev.longQuestion, part_a_error: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Part B */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
                 {language === "ur" ? "حصہ (ب): نیچرل لینگویج پروسیسنگ اور جذباتی تجزیے کے چیلنجز (6 نمبر)" : "Part (b): NLP & Sentiment Traps (6 Marks)"}
@@ -536,7 +536,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {longQuestion.parts[2].prompt}
                 </label>
                 <textarea
@@ -549,12 +549,12 @@ export default function ExamForm({
                       longQuestion: { ...prev.longQuestion, part_b_sarcasm: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {longQuestion.parts[3].prompt}
                 </label>
                 <textarea
@@ -567,14 +567,14 @@ export default function ExamForm({
                       longQuestion: { ...prev.longQuestion, part_b_slang: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Part C */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
                 {language === "ur" ? "حصہ (ج): ٹیسٹنگ اور ہسپتال کی طبی اخلاقیات (8 نمبر)" : "Part (c): Real-World Generalization & Hospital Ethics (8 Marks)"}
@@ -586,7 +586,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {longQuestion.parts[4].prompt}
                 </label>
                 <textarea
@@ -599,12 +599,12 @@ export default function ExamForm({
                       longQuestion: { ...prev.longQuestion, part_c_strangers: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {longQuestion.parts[5].prompt}
                 </label>
                 <textarea
@@ -617,7 +617,7 @@ export default function ExamForm({
                       longQuestion: { ...prev.longQuestion, part_c_doctor_ethics: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
@@ -626,7 +626,7 @@ export default function ExamForm({
           <div className="flex justify-between pt-4">
             <button
               onClick={() => setActiveTab("B")}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#d4e7dc] bg-white text-xs text-[#516d5e] hover:text-[#015b30] font-bold cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#d8e9df] bg-white text-xs text-[#516d5e] hover:text-[#015b30] font-bold cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>{t.prev}: {t.tabB}</span>
@@ -663,7 +663,7 @@ export default function ExamForm({
           </div>
 
           {/* Milestone 1: Teachable Machine */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
                 {practicalMilestones[0].title} (10 {language === "ur" ? "نمبر" : "Marks"})
@@ -675,7 +675,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[0].tasks[0].prompt} (3 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <input
@@ -688,12 +688,12 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m1_classes: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[0].tasks[1].prompt} (4 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <textarea
@@ -706,12 +706,12 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m1_variations: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[0].tasks[2].prompt} (3 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <input
@@ -724,14 +724,14 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m1_privacy: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Milestone 2: Tabular Schema */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
                 {practicalMilestones[1].title} (10 {language === "ur" ? "نمبر" : "Marks"})
@@ -743,7 +743,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[1].tasks[0].prompt} (8 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <textarea
@@ -756,12 +756,12 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m2_table_types: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-mono ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm font-mono leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[1].tasks[1].prompt} (2 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <input
@@ -774,14 +774,14 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m2_privacy_removal: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Milestone 3: Data Cleaning */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
                 {practicalMilestones[2].title} (10 {language === "ur" ? "نمبر" : "Marks"})
@@ -793,7 +793,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[2].tasks[0].prompt}
                 </label>
                 <textarea
@@ -806,14 +806,14 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m3_cleaning_fixes: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Milestone 4: Prompt Recipe */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
                 {practicalMilestones[3].title} (10 {language === "ur" ? "نمبر" : "Marks"})
@@ -825,7 +825,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[3].tasks[0].prompt} (3 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <input
@@ -838,12 +838,12 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m4_buttons: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[3].tasks[1].prompt} (5 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <textarea
@@ -856,12 +856,12 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m4_prompt: e.target.value },
                     }))
                   }
-                  className="w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium"
+                  className="w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium"
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[3].tasks[2].prompt} (2 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <input
@@ -874,14 +874,14 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m4_safety: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
           </div>
 
           {/* Milestone 5: Accuracy & Model Card */}
-          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d4e7dc] space-y-4">
+          <div className="bq-card bg-white rounded-2xl p-6 border border-[#d8e9df] space-y-4">
             <div className="flex items-center justify-between border-b border-[#edf5f0] pb-3">
               <h3 className={`text-base font-bold text-[#015b30] ${language === "ur" ? "font-nastaliq" : ""}`}>
                 {practicalMilestones[4].title} (10 {language === "ur" ? "نمبر" : "Marks"})
@@ -893,7 +893,7 @@ export default function ExamForm({
 
             <div className="space-y-3.5">
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[4].tasks[0].prompt} (3 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <input
@@ -906,12 +906,12 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m5_accuracy_math: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[4].tasks[1].prompt} (4 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <textarea
@@ -924,12 +924,12 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m5_insight: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
 
               <div>
-                <label className={`block text-xs font-bold text-[#015b30] mb-1.5 ${language === "ur" ? "font-nastaliq leading-relaxed" : ""}`}>
+                <label className={`block mb-1.5 ${language === "ur" ? "urdu-label text-[#015b30]" : "text-xs font-bold text-[#015b30]"}`}>
                   {practicalMilestones[4].tasks[2].prompt} (3 {language === "ur" ? "نمبر" : "Marks"})
                 </label>
                 <textarea
@@ -942,16 +942,16 @@ export default function ExamForm({
                       practicalProject: { ...prev.practicalProject, m5_model_card: e.target.value },
                     }))
                   }
-                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d4e7dc] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:border-[#015b30] focus:bg-white font-medium ${language === "ur" ? "font-nastaliq" : ""}`}
+                  className={`w-full p-3.5 rounded-xl bg-[#fbfdfb] border border-[#d8e9df] text-xs sm:text-sm text-[#0d2317] placeholder-[#8ba395] focus:outline-none focus:ring-2 focus:ring-[#015b30]/15 focus:border-[#015b30] focus:bg-white transition-all ${language === "ur" ? "urdu-textarea" : "text-sm leading-relaxed"}`}
                 />
               </div>
             </div>
           </div>
 
-          <div className="flex justify-between items-center pt-4 border-t border-[#d4e7dc]">
+          <div className="flex justify-between items-center pt-4 border-t border-[#d8e9df]">
             <button
               onClick={() => setActiveTab("C")}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#d4e7dc] bg-white text-xs text-[#516d5e] hover:text-[#015b30] font-bold cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#d8e9df] bg-white text-xs text-[#516d5e] hover:text-[#015b30] font-bold cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>{t.prev}: {t.tabC}</span>
@@ -971,9 +971,9 @@ export default function ExamForm({
       {/* Confirmation Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="relative w-full max-w-md rounded-3xl bg-white border border-[#d4e7dc] p-6 sm:p-8 shadow-2xl text-center space-y-4">
+          <div className="relative w-full max-w-md rounded-3xl bg-white border border-[#d8e9df] p-6 sm:p-8 shadow-2xl text-center space-y-4">
             <div className="flex justify-center">
-              <div className="w-16 h-16 rounded-3xl bg-[#f4f8f5] border border-[#d4e7dc] flex items-center justify-center p-2">
+              <div className="w-16 h-16 rounded-3xl bg-[#f4f8f5] border border-[#d8e9df] flex items-center justify-center p-2">
                 <Image
                   src="/bano-qabil.png"
                   alt="Bano Qabil"
@@ -995,7 +995,7 @@ export default function ExamForm({
               </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#edf5f0] border border-[#d4e7dc] text-xs text-[#015b30] text-left space-y-1 font-medium">
+            <div className="p-3.5 rounded-xl bg-[#edf5f0] border border-[#d8e9df] text-xs text-[#015b30] text-left space-y-1 font-medium">
               <p>• {language === "ur" ? "طالب علم" : "Student"}: <strong>{student.name}</strong></p>
               <p>• {language === "ur" ? "رول نمبر" : "Roll Number"}: <strong>{student.rollNumber}</strong></p>
               <p>• {language === "ur" ? "کل نمبر" : "Total Marks"}: <strong>100 {language === "ur" ? "نمبر" : "Marks"}</strong></p>
@@ -1004,7 +1004,7 @@ export default function ExamForm({
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={() => setShowConfirmModal(false)}
-                className="flex-1 py-2.5 rounded-xl border border-[#d4e7dc] bg-white text-xs font-bold text-[#516d5e] hover:bg-[#edf5f0] transition-all cursor-pointer"
+                className="flex-1 py-2.5 rounded-xl border border-[#d8e9df] bg-white text-xs font-bold text-[#516d5e] hover:bg-[#edf5f0] transition-all cursor-pointer"
               >
                 {t.confirmCancel}
               </button>

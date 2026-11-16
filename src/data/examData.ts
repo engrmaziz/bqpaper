@@ -5,7 +5,7 @@ export const EXAM_INFO: ExamInfo = {
   subtitle: "Midterm Examination (Weeks 1 to 6)",
   courseCode: "BQ-009",
   patron: "Hafiz Naeem ur Rehman",
-  instructors: "Musharraf Aziz & Adv. Sir Usman Yaseen Sb",
+  instructors: "Musharraf Aziz (Instructor of 'Applied AI', Bano Qabil Kasur) & Adv. Sir Usman Yaseen Sb",
   targetGrade: "Essentials of AI",
   timeAllowedMinutes: 80,
   totalMarks: 100,
